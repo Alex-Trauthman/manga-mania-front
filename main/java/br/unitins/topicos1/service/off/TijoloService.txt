@@ -1,0 +1,31 @@
+package br.unitins.topicos1.service;
+
+import java.util.List;
+
+import br.unitins.topicos1.dto.TijoloDTO;
+import br.unitins.topicos1.dto.TijoloResponseDTO;
+import jakarta.validation.Valid;
+
+public interface TijoloService {
+    public TijoloResponseDTO create(@Valid TijoloDTO tijoloDto);
+
+    public void update(Long id, TijoloDTO dto);
+
+    public void deleteById(Long id);
+
+    public TijoloResponseDTO findById(Long id);
+
+    public List<TijoloResponseDTO> findAll();
+
+    public List<TijoloResponseDTO> findByNome(String nome);
+
+    public List<TijoloResponseDTO> findByCategoria(String categoria);
+
+    public List<TijoloResponseDTO> findByDescricao(String descricao);
+
+    public List<TijoloResponseDTO> findByTags(String tag);
+
+    public List<TijoloResponseDTO> findByEstoque(Integer quantidade);
+
+    public List<TijoloResponseDTO> findByImagem(String imagemUrl);
+}
