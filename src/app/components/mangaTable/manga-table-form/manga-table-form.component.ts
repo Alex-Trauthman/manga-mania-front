@@ -42,7 +42,7 @@ export class MangaTableFormComponent implements OnInit {
             sinopse: ['',[Validators.required,Validators.minLength(30)]],
             lancamento: [null,[Validators.required,Validators.min(1000),Validators.max(9999)]], // anoPublicação -> modelo java
             estoque: [null,Validators.required],
-            colorido: [null,Validators.required],
+            color: [null,Validators.required],
             idAutor: [null,Validators.required],
             genero: [null,Validators.required],
         });

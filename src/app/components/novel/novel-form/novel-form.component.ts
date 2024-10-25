@@ -26,7 +26,7 @@ export class NovelFormComponent {
         sinopse: "",
         anoPublicacao: 0,
         estoque: 0,
-        colorido: false,
+        color: "",
         autor: 0,
         generoManga: 0,
     };
