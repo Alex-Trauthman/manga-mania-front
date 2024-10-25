@@ -11,30 +11,20 @@ import { HeaderComponent } from '../../../header/header.component';
     styleUrl: './autor-form.component.css'
 })
 export class AutorFormComponent {
-    paciente: any = {
-        nome: '',
-        cpf: '',
-        email: '',
-        nomeMae: '',
-        anotacao: '',
-        dataNascimento: '',
-        cartaoSus: '',
-        obs: '',
-        sexo: true,
-        telefone: { numero: '' },
-        endereco: '',
-        dataUltimaConsulta: '',
-        condicaoIds: []
+    autor: any = {
+        nome: "", 
+        lancamento: "", 
+        nacionalidade: "", 
+        sexo: "", 
+        mangas: []
     };
 
-    condicoes = [
-        { id: 1,descricao: 'Grávidas' },
-        { id: 2,descricao: 'Fumantes' },
-        { id: 3,descricao: 'Idosos' },
-        { id: 4,descricao: 'Diabéticos' }
+    sexoIds = [
+        { id: 1,descricao: 'Feminino' },
+        { id: 2,descricao: 'Masculino' }
     ];
 
     onSubmit() {
-        console.log(this.paciente);
+        console.log(this.autor);
     }
 }

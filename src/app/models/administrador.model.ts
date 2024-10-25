@@ -1,8 +1,3 @@
-
-
-
-
-
 export class Administrador {
     username!: string;
     email!: string;
@@ -10,9 +5,9 @@ export class Administrador {
     cpf!: string;
 
     constructor(
-        username: string, 
-        email: string, 
-        senha: string, 
+        username: string,
+        email: string,
+        senha: string,
         cpf: string
     ) {
         this.username = username;

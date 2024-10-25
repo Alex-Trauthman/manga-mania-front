@@ -1,45 +1,75 @@
-div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    
-  }
-  html, body {
-    height: 100%;
-    margin: 0;
-    background-color: #000000;
-  }
-  
-  mat-card {
-    width: 100%;
-    max-width: 600px;
-    margin: 20px;
+.novel-form-container {
+    max-width: 1200px;
+    margin: 0 auto;
     padding: 20px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  mat-form-field {
-    width: 100%;
-    margin-top: 20px;
-  }
-  
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    margin-bottom: 100px;
+}
 
-  mat-card-actions {
+.novel-form-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.novel-form-container form {
     display: flex;
-    justify-content: space-between;
-    padding: 10px 0;
-  }
-  
+    flex-direction: column;
+}
 
-  button {
-    min-width: 100px;
-  }
-  
-  button[mat-raised-button] {
-    margin-right: 10px;
-  }
-  
-  button[mat-raised-button]:last-child {
-    margin-right: 0;
-  }
+.novel-form-container .form-group {
+    margin-bottom: 35px;
+}
+
+.novel-form-container label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+.novel-form-container input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.novel-form-container button {
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 100px;
+}
+
+.novel-form-container button:hover {
+    background-color: #0056b3;
+}
+
+.novel-form-container textarea {
+    width: 100%;
+    padding: 10px 10px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    font-size: 16px;
+}
+
+.novel-form-container select {
+    width: 100%;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    font-size: 16px;
+}

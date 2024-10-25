@@ -11,17 +11,17 @@ import { HeaderComponent } from '../../../header/header.component';
     imports: [CommonModule,HeaderComponent]
 })
 export class MangaListComponent implements OnInit {
-    pacientes: any[] = [];
+    autores: any[] = [];
 
     constructor(@Inject(PacienteService) private pacienteService: PacienteService) { }
 
     ngOnInit(): void {
         this.pacienteService.findAll().subscribe(
             (data: any[]) => {
-                this.pacientes = data;
+                this.autores = data;
             },
             (error: any) => {
-                console.error('Erro ao buscar pacientes',error);
+                console.error('Erro ao buscar autores',error);
             }
         );
     }

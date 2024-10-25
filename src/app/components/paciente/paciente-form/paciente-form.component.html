@@ -2,7 +2,7 @@
 <div class="paciente-form-container">
     <h2>Registro de paciente</h2>
     <form (ngSubmit)="onSubmit()">
-        <div class="form-group">
+        <!--        <div class="form-group">
             <label for="nome">Nome:</label>
             <input type="text" id="nome" [(ngModel)]="paciente.nome" name="nome" required>
         </div>
@@ -59,7 +59,7 @@
             <select id="condicoes" [(ngModel)]="paciente.condicaoIds" name="condicoes" multiple required>
                 <option *ngFor="let condicao of condicoes" [value]="condicao.id">{{condicao.descricao}}</option>
             </select>
-        </div>
+        </div> -->
         <button type="submit">Salvar</button>
     </form>
 </div>

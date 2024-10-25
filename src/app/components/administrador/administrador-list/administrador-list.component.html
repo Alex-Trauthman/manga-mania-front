@@ -1,43 +1,28 @@
 <app-header></app-header>
-<div class="paciente-list-container">
-    <h2>Lista de Pacientes</h2>
+<div class="administrador-list-container">
+    <h2>Lista de Administradores</h2>
     <table>
         <thead>
             <tr>
-                <th>Nome</th>
-                <th>CPF</th>
+                <th>Username</th>
                 <th>Email</th>
-                <th>Nome da Mãe</th>
-                <th>Data de Nascimento</th>
-                <th>Cartão SUS</th>
+                <th>Senha</th>
+                <th>Cpf</th>
+                <th>Endereco</th>
+                <th>ListaTelefone</th>
                 <th>Sexo</th>
-                <th>Data da Última Consulta</th>
-                <th>Observações</th>
-                <th>Condições</th>
-                <th>Tarefas</th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let paciente of pacientes">
-                <td>{{ paciente.nome }}</td>
-                <td>{{ paciente.cpf }}</td>
-                <td>{{ paciente.email }}</td>
-                <td>{{ paciente.nomeMae }}</td>
-                <td>{{ paciente.dataNascimento }}</td>
-                <td>{{ paciente.cartaoSus }}</td>
-                <td>{{ paciente.sexo ? 'Masculino' : 'Feminino' }}</td>
-                <td>{{ paciente.dataUltimaConsulta }}</td>
-                <td>{{ paciente.obs }}</td>
-                <td>
-                    <ul>
-                        <li *ngFor="let condicao of paciente.condicoes">{{ condicao.descricao }}</li>
-                    </ul>
-                </td>
-                <td>
-                    <ul>
-                        <li *ngFor="let tarefa of paciente.tarefas">{{ tarefa.nome }}</li>
-                    </ul>
-                </td>
+            <tr *ngFor="let administrador of administradores">
+                <td>{{ administrador.username }}</td>
+                <td>{{ administrador.email }}</td>
+                <!-- <td>{{ administrador.senha }}</td> -->
+                <td> **** </td>
+                <td>{{ administrador.cpf }}</td>
+                <td>{{ administrador.endereco }}</td>
+                <td>{{ administrador.listaTelefone.length }}</td>
+                <td>{{ administrador.sexo }}</td>
             </tr>
         </tbody>
     </table>

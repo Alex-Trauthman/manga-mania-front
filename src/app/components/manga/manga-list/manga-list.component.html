@@ -1,43 +1,32 @@
 <app-header></app-header>
-<div class="paciente-list-container">
-    <h2>Lista de Pacientes</h2>
+<div class="manga-list-container">
+    <h2>Lista de Autores</h2>
     <table>
         <thead>
             <tr>
                 <th>Nome</th>
-                <th>CPF</th>
-                <th>Email</th>
-                <th>Nome da Mãe</th>
-                <th>Data de Nascimento</th>
-                <th>Cartão SUS</th>
+                <th>Ano lançamento</th>
+                <th>Nacionalidade</th>
                 <th>Sexo</th>
-                <th>Data da Última Consulta</th>
-                <th>Observações</th>
-                <th>Condições</th>
-                <th>Tarefas</th>
+                <th>Mangas</th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let paciente of pacientes">
-                <td>{{ paciente.nome }}</td>
-                <td>{{ paciente.cpf }}</td>
-                <td>{{ paciente.email }}</td>
-                <td>{{ paciente.nomeMae }}</td>
-                <td>{{ paciente.dataNascimento }}</td>
-                <td>{{ paciente.cartaoSus }}</td>
-                <td>{{ paciente.sexo ? 'Masculino' : 'Feminino' }}</td>
-                <td>{{ paciente.dataUltimaConsulta }}</td>
-                <td>{{ paciente.obs }}</td>
-                <td>
+            <tr *ngFor="let autor of autores">
+                <td>{{ autor.nome }}</td>
+                <td>{{ autor.lancamento }}</td>
+                <td>{{ autor.nacionalidade }}</td>
+                <td>{{ autor.mangas.length }}</td>
+<!--                 <td>
                     <ul>
-                        <li *ngFor="let condicao of paciente.condicoes">{{ condicao.descricao }}</li>
+                        <li *ngFor="let condicao of autor.condicoes">{{ condicao.descricao }}</li>
                     </ul>
                 </td>
                 <td>
                     <ul>
-                        <li *ngFor="let tarefa of paciente.tarefas">{{ tarefa.nome }}</li>
+                        <li *ngFor="let tarefa of autor.tarefas">{{ tarefa.nome }}</li>
                     </ul>
-                </td>
+                </td> -->
             </tr>
         </tbody>
     </table>
