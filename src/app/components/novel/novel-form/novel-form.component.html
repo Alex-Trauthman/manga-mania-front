@@ -1,3 +1,4 @@
+<form [formGroup]="formGroup" (ngSubmit)="salvar()">
 <mat-toolbar color="primary">
     <div class="toolbar-title">Cadastro de Novel</div>
 </mat-toolbar>
@@ -5,7 +6,7 @@
 <div class="form-container">
     <mat-card>
         <mat-card-content>
-            <form [formGroup]="formGroup">
+          
 
                 <mat-form-field appearance="fill" class="full-width-input">
                     <mat-label>Nome</mat-label>
@@ -15,7 +16,6 @@
                     </mat-error>
                 </mat-form-field>
 
-
                 <mat-form-field appearance="fill" class="full-width-input">
                     <mat-label>Sinopse</mat-label>
                     <textarea matInput rows="5" formControlName="sinopse"></textarea>
@@ -23,7 +23,6 @@
                         {{ getErrorMessage('sinopse') }}
                     </mat-error>
                 </mat-form-field>
-
 
                 <mat-form-field appearance="fill">
                     <mat-label>Gênero</mat-label>
@@ -34,7 +33,6 @@
                         {{ getErrorMessage('genero') }}
                     </mat-error>
                 </mat-form-field>
-
 
                 <mat-form-field appearance="fill">
                     <mat-label>Autor</mat-label>
@@ -48,7 +46,6 @@
                     </mat-error>
                 </mat-form-field>
 
-
                 <mat-form-field appearance="fill" class="full-width-input">
                     <mat-label>Ano de Lançamento</mat-label>
                     <input matInput type="number" formControlName="lancamento" />
@@ -56,7 +53,6 @@
                         {{ getErrorMessage('lancamento') }}
                     </mat-error>
                 </mat-form-field>
-
 
                 <mat-form-field appearance="fill" class="full-width-input">
                     <mat-label>Preço</mat-label>
@@ -66,34 +62,32 @@
                     </mat-error>
                 </mat-form-field>
 
-
                 <mat-form-field appearance="fill" class="full-width-input">
                     <mat-label>Estoque</mat-label>
                     <input matInput type="number" formControlName="estoque" />
                 </mat-form-field>
-
 
                 <mat-form-field appearance="fill" class="full-width-input">
                     <mat-label>Páginas</mat-label>
                     <input matInput type="number" formControlName="paginas" />
                 </mat-form-field>
 
-
                 <mat-form-field appearance="fill" class="full-width-input">
                     <mat-label>Capítulos</mat-label>
                     <input matInput type="number" formControlName="capitulos" />
                 </mat-form-field>
-            </form>
-        </mat-card-content>
 
-        <mat-card-actions>
-            <button mat-raised-button routerLink="/novels">Cancelar</button>
-            <button mat-raised-button color="warn" *ngIf="formGroup.get('id')?.value" (click)="excluir()">
-                Excluir
-            </button>
-            <button mat-raised-button color="primary" (click)="salvar()">
-                Salvar
-            </button>
-        </mat-card-actions>
+                <mat-card-actions>
+                    <button mat-raised-button routerLink="/novel">Cancelar</button>
+                    <button mat-raised-button color="warn" *ngIf="formGroup.get('id')?.value" (click)="excluir()">
+                        Excluir
+                    </button>
+                    <button mat-raised-button color="primary" type="submit">
+                        Salvar
+                    </button>
+                </mat-card-actions>
+            
+        </mat-card-content>
     </mat-card>
 </div>
+</form>

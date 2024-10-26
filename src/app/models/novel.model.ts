@@ -12,13 +12,13 @@ export class Novel {
     estoque!: number;
     genero!: GeneroNovel;
     capitulos!: number;
-    idEscritor!: EscritorNovel;
+    idAutor!: EscritorNovel;
 
     constructor(
         id: number,
         nome: string,
         sinopse: string,
-        idEscritor: EscritorNovel,
+        idAutor: EscritorNovel,
         lancamento: number,
         preco: number,
         estoque: number,
@@ -29,7 +29,7 @@ export class Novel {
         this.id = id;
         this.nome = nome;
         this.sinopse = sinopse;
-        this.idEscritor = idEscritor;
+        this.idAutor = idAutor;
         this.lancamento = lancamento;
         this.preco = preco;
         this.estoque = estoque;

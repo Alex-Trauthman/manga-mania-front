@@ -11,15 +11,15 @@ export class NovelService {
 
     constructor(private httpClient: HttpClient) { }
 
-    findAll(page?: number,pageSize?: number): Observable<Novel[]> {
+    findAll(page?: number, pageSize?: number): Observable<Novel[]> {
         let params = {};
-        if(page !== undefined && pageSize !== undefined) {
+        if (page !== undefined && pageSize !== undefined) {
             params = {
                 page: page.toString(),
                 pageSize: pageSize.toString()
             }
         }
-        return this.httpClient.get<Novel[]>(this.baseUrl, {params});
+        return this.httpClient.get<Novel[]>(this.baseUrl, { params });
     }
 
     count(): Observable<number> {
@@ -33,35 +33,34 @@ export class NovelService {
     insert(novel: Novel): Observable<Novel> {
         const data = {
             nome: novel.nome,
-            escritor: novel.idEscritor,
+            idAutor: novel.idAutor, // Ensure this matches the form control name
             genero: novel.genero,
             sinopse: novel.sinopse,
-            anoPublicacao: novel.lancamento,
+            lancamento: novel.lancamento,
             estoque: novel.estoque,
             preco: novel.preco,
             paginas: novel.paginas,
             capitulos: novel.capitulos
         };
-        return this.httpClient.post<Novel>(this.baseUrl,data);
+        return this.httpClient.post<Novel>(this.baseUrl, data);
     }
 
     update(novel: Novel): Observable<Novel> {
         const data = {
             nome: novel.nome,
-            escritor: novel.idEscritor,
+            idAutor: novel.idAutor, // Ensure this matches the form control name
             genero: novel.genero,
             sinopse: novel.sinopse,
-            anoPublicacao: novel.lancamento,
+            lancamento: novel.lancamento,
             estoque: novel.estoque,
             preco: novel.preco,
             paginas: novel.paginas,
             capitulos: novel.capitulos
         };
-        return this.httpClient.put<Novel>(`${this.baseUrl}/${novel.id}`,data);
+        return this.httpClient.put<Novel>(`${this.baseUrl}/${novel.id}`, data);
     }
 
     delete(id: number): Observable<void> {
         return this.httpClient.delete<void>(`${this.baseUrl}/${id}`);
     }
-
 }
