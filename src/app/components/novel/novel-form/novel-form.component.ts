@@ -89,6 +89,7 @@ export class NovelFormComponent implements OnInit {
                 this.novelService.update(novel).subscribe(() => {
                     alert('Novel atualizado com sucesso!'); // Debugging: Log success
                     console.log('Update successful'); // Debugging: Log success
+                    this.router.navigateByUrl('/novel');
                 }, error => {
                     alert('Erro ao atualizar o novel!'); // Debugging: Log error
                     console.error('Update error:', error); // Debugging: Log error
@@ -97,6 +98,7 @@ export class NovelFormComponent implements OnInit {
                 this.novelService.insert(novel).subscribe(() => {
                     alert('Novel cadastrado com sucesso!'); // Debugging: Log success
                     console.log('Insert successful'); // Debugging: Log success
+                    this.router.navigateByUrl('/novel');
                 }, error => {
                     alert('Erro ao cadastrar o novel!'); // Debugging: Log error
                     console.error('Insert error:', error); // Debugging: Log error
