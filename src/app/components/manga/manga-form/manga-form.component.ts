@@ -1,6 +1,17 @@
+<<<<<<< HEAD
 import { CommonModule,NgIf } from '@angular/common';
 import { Component,OnInit } from '@angular/core';
 import { FormBuilder,FormGroup,ReactiveFormsModule,Validators } from '@angular/forms';
+=======
+import { CommonModule, NgIf } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { GeneroManga, GeneroMangaMap } from '../../../models/generoManga.model';
+import { AutorService } from '../../../services/autorManga.service';
+import { MangaService } from '../../../services/manga.service';
+import { MatFormFieldModule } from '@angular/material/form-field';
+>>>>>>> 21ba5d8bf9e775ebee4f62862ffb57829b241728
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
