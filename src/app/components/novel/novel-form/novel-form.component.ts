@@ -1,7 +1,7 @@
 import { CommonModule, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
 import { GeneroNovel, GeneroNovelMap } from '../../../models/generoNovel.model';
 import { EscritorNovelService } from '../../../services/escritor.service';
 import { NovelService } from '../../../services/novel.service';
@@ -11,6 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { Observable } from 'rxjs/internal/Observable';
 
 @Component({
     selector: 'app-novel-form',
@@ -25,6 +26,7 @@ export class NovelFormComponent implements OnInit {
     formGroup: FormGroup;
     autores: any[] = [];
     generos = Object.entries(GeneroNovelMap);
+    novelId: number | null = null;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -49,7 +51,13 @@ export class NovelFormComponent implements OnInit {
 
     ngOnInit(): void {
         this.escritorService.findAll().subscribe((data) => (this.autores = data));
-        this.initializeForm();
+        this.activatedRoute.params.subscribe(params => {
+            this.novelId = params['id'] ? +params['id'] : null;
+            if (this.novelId) {
+                this.loadNovel(this.novelId);
+            }
+        });
+        
     }
 
     initializeForm(): void {
@@ -57,6 +65,12 @@ export class NovelFormComponent implements OnInit {
         if (novel) {
             this.formGroup.patchValue(novel);
         }
+    }
+    loadNovel(id: number): void {
+        this.novelService.findById(id).subscribe(novel => {
+            this.formGroup.patchValue(novel);
+        });
+        this.formGroup.markAllAsTouched();
     }
 
     salvar(): void {
@@ -71,16 +85,20 @@ export class NovelFormComponent implements OnInit {
             console.log('Form Data:', novel); // Debugging: Log form data
             if (novel.id) {
                 this.novelService.update(novel).subscribe(() => {
+                    alert('Novel atualizado com sucesso!'); // Debugging: Log success
                     console.log('Update successful'); // Debugging: Log success
                     this.router.navigateByUrl('/novels');
                 }, error => {
+                    alert('Erro ao atualizar o novel!'); // Debugging: Log error
                     console.error('Update error:', error); // Debugging: Log error
                 });
             } else {
                 this.novelService.insert(novel).subscribe(() => {
+                    alert('Novel cadastrado com sucesso!'); // Debugging: Log success
                     console.log('Insert successful'); // Debugging: Log success
                     this.router.navigateByUrl('/novels');
                 }, error => {
+                    alert('Erro ao cadastrar o novel!'); // Debugging: Log error
                     console.error('Insert error:', error); // Debugging: Log error
                 });
             }
@@ -91,8 +109,9 @@ export class NovelFormComponent implements OnInit {
         const id = this.formGroup.get('id')?.value;
         if (id) {
             this.novelService.delete(id).subscribe(() => {
+                alert('Novel excluído com sucesso!'); // Debugging: Log success
                 console.log('Delete successful'); // Debugging: Log success
-                this.router.navigateByUrl('/novels');
+                this.router.navigateByUrl('/novel');
             }, error => {
                 console.error('Delete error:', error); // Debugging: Log error
             });
@@ -108,4 +127,5 @@ export class NovelFormComponent implements OnInit {
             return `${controlName} deve ter no máximo ${control.errors?.['maxlength'].requiredLength} caracteres.`;
         return '';
     }
+    
 }
