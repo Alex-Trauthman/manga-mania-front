@@ -10,7 +10,7 @@ export class AdministradorService {
 
     constructor(private httpClient: HttpClient) { }
 
-    findAll(page?: number,pageSize?: number): Observable<Administrador[]> {
+    findAll(page?: number, pageSize?: number): Observable<Administrador[]> {
         let params = {};
         if(page !== undefined && pageSize !== undefined) {
             params = {
@@ -18,7 +18,7 @@ export class AdministradorService {
                 pageSize: pageSize.toString()
             }
         }
-        return this.httpClient.get<Administrador[]>(this.baseUrl, {params});
+        return this.httpClient.get<Administrador[]>(this.baseUrl, { params });
     }
 
     count(): Observable<number> {
@@ -32,7 +32,7 @@ export class AdministradorService {
             senha: administrador.senha,
             cpf: administrador.cpf
         };
-        return this.httpClient.post<Administrador>(this.baseUrl,data);
+        return this.httpClient.post<Administrador>(this.baseUrl, data);
     }
 
     update(administrador: Administrador): Observable<Administrador> {
@@ -42,7 +42,7 @@ export class AdministradorService {
             senha: administrador.senha,
             cpf: administrador.cpf
         };
-        return this.httpClient.put<Administrador>(`${this.baseUrl}/${administrador.id}`,data);
+        return this.httpClient.put<Administrador>(`${this.baseUrl}/${administrador.id}`, data);
     }
 
     delete(id: number): Observable<void> {

@@ -1,27 +1,41 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
+import { AdministradorService } from '../services/administrador.service';
 
 @Component({
     selector: 'app-login',
     standalone: true,
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.css'],
-    imports: [CommonModule,FormsModule]
+    imports: [CommonModule, FormsModule]
 })
 export class LoginComponent {
-    username: string = '';
-    password: string = '';
+    formGroup: FormGroup;
+    username: string = 'adminadmin';
+    password: string = '123456789123456789';
     errorMessage: string = '';
 
-    constructor(private authService: AuthService,private router: Router) { }
+    constructor(private authService: AuthService, private router: Router, private formBuilder: FormBuilder,private administradorService: AdministradorService) {
+        this.formGroup = this.formBuilder.group({
+            username: ['', Validators.required], 
+            senha: ['', Validators.required]
+        })
+    };
 
     onLogin() {
-console.log({username: this.username, password: this.password});
-
-        this.authService.login(this.username,this.password).subscribe(
+/* 
+        this.authService.login(this.username, this.password).then((response: any) => {
+            if(response) {
+                localStorage.setItem('usuario', btoa(JSON.stringify(response)));
+                this.router.navigateByUrl('/');
+            } else {
+                this.errorMessage = 'Usuário ou senha inválidos.';
+            }
+        })
+        return this.authService.login(this.username, this.password).subscribe(
             response => {
                 if(response) {
                     this.router.navigateByUrl('/');
@@ -35,5 +49,6 @@ console.log({username: this.username, password: this.password});
                 console.log(error);
             }
         )
+ */
     }
 }
