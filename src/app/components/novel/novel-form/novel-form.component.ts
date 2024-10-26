@@ -36,14 +36,12 @@ export class NovelFormComponent implements OnInit {
         this.formGroup = this.formBuilder.group({
             id: [null],
             nome: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(40)]],
-            nomeImagem: [''],
             paginas: [null, Validators.required],
             preco: [null, Validators.required],
             sinopse: ['',[Validators.required, Validators.minLength(30)]],
             lancamento: [null, [Validators.required, Validators.min(1000), Validators.max(9999)]], // anoPublicação -> modelo java
             estoque: [null, Validators.required],
-            color: [null, Validators.required],
-            idAutor: [null, Validators.required],
+            idAutor: [null, Validators.required], // Ensure this matches the service method
             genero: [null, Validators.required],
             capitulos: [null, Validators.required]
         });
@@ -62,12 +60,29 @@ export class NovelFormComponent implements OnInit {
     }
 
     salvar(): void {
+        if (this.formGroup.invalid) {
+            console.log(this.formGroup.controls); // Logs each control's status and errors
+            this.formGroup.markAllAsTouched(); // Ensure all errors are shown in the UI
+            return;
+        }
+        console.log('Salvar method called'); // Debugging: Log method call
         if (this.formGroup.valid) {
             const novel = this.formGroup.value;
+            console.log('Form Data:', novel); // Debugging: Log form data
             if (novel.id) {
-                this.novelService.update(novel).subscribe(() => this.router.navigateByUrl('/novels'));
+                this.novelService.update(novel).subscribe(() => {
+                    console.log('Update successful'); // Debugging: Log success
+                    this.router.navigateByUrl('/novels');
+                }, error => {
+                    console.error('Update error:', error); // Debugging: Log error
+                });
             } else {
-                this.novelService.insert(novel).subscribe(() => this.router.navigateByUrl('/novels'));
+                this.novelService.insert(novel).subscribe(() => {
+                    console.log('Insert successful'); // Debugging: Log success
+                    this.router.navigateByUrl('/novels');
+                }, error => {
+                    console.error('Insert error:', error); // Debugging: Log error
+                });
             }
         }
     }
@@ -75,7 +90,12 @@ export class NovelFormComponent implements OnInit {
     excluir(): void {
         const id = this.formGroup.get('id')?.value;
         if (id) {
-            this.novelService.delete(id).subscribe(() => this.router.navigateByUrl('/novels'));
+            this.novelService.delete(id).subscribe(() => {
+                console.log('Delete successful'); // Debugging: Log success
+                this.router.navigateByUrl('/novels');
+            }, error => {
+                console.error('Delete error:', error); // Debugging: Log error
+            });
         }
     }
 

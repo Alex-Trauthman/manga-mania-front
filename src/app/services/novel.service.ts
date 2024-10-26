@@ -13,7 +13,7 @@ export class NovelService {
 
     findAll(page?: number, pageSize?: number): Observable<Novel[]> {
         let params = {};
-        if(page !== undefined && pageSize !== undefined) {
+        if (page !== undefined && pageSize !== undefined) {
             params = {
                 page: page.toString(),
                 pageSize: pageSize.toString()
@@ -33,10 +33,10 @@ export class NovelService {
     insert(novel: Novel): Observable<Novel> {
         const data = {
             nome: novel.nome,
-            escritor: novel.idEscritor,
+            idAutor: novel.idAutor, // Ensure this matches the form control name
             genero: novel.genero,
             sinopse: novel.sinopse,
-            anoPublicacao: novel.lancamento,
+            lancamento: novel.lancamento,
             estoque: novel.estoque,
             preco: novel.preco,
             paginas: novel.paginas,
@@ -48,10 +48,10 @@ export class NovelService {
     update(novel: Novel): Observable<Novel> {
         const data = {
             nome: novel.nome,
-            escritor: novel.idEscritor,
+            idAutor: novel.idAutor, // Ensure this matches the form control name
             genero: novel.genero,
             sinopse: novel.sinopse,
-            anoPublicacao: novel.lancamento,
+            lancamento: novel.lancamento,
             estoque: novel.estoque,
             preco: novel.preco,
             paginas: novel.paginas,
@@ -63,5 +63,4 @@ export class NovelService {
     delete(id: number): Observable<void> {
         return this.httpClient.delete<void>(`${this.baseUrl}/${id}`);
     }
-
 }
