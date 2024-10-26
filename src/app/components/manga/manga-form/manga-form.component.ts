@@ -1,6 +1,6 @@
 import { CommonModule, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, NgModel, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { GeneroManga, GeneroMangaMap } from '../../../models/generoManga.model';
 import { AutorService } from '../../../services/autorManga.service';
@@ -23,7 +23,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 })
 export class MangaFormComponent implements OnInit {
     formGroup: FormGroup;
-    manga: any = {};
     autores: any[] = [];
     generos = Object.entries(GeneroMangaMap);
     mangaId: number | null = null;
@@ -44,7 +43,7 @@ export class MangaFormComponent implements OnInit {
             sinopse: ['',[Validators.required, Validators.minLength(30)]],
             lancamento: [null, [Validators.required, Validators.min(1000), Validators.max(9999)]], // anoPublicação -> modelo java
             estoque: [null, Validators.required],
-            color: [''],
+            color: [null, Validators.required], // Atualizado para boolean
             idAutor: [null, Validators.required],
             genero: [null, Validators.required],
             capitulos: [null, Validators.required]
@@ -52,7 +51,7 @@ export class MangaFormComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.autorMangaService.findAll().subscribe((data: any[]) => (this.autores = data));
+        this.autorMangaService.findAll().subscribe((data) => (this.autores = data));
         this.activatedRoute.params.subscribe(params => {
             this.mangaId = params['id'] ? +params['id'] : null;
             if (this.mangaId) {
@@ -65,6 +64,7 @@ export class MangaFormComponent implements OnInit {
         this.mangaService.findById(id).subscribe(manga => {
             this.formGroup.patchValue(manga);
         });
+        this.formGroup.markAllAsTouched();
     }
 
     salvar(): void {
@@ -78,22 +78,20 @@ export class MangaFormComponent implements OnInit {
             const manga = this.formGroup.value;
             console.log('Form Data:', manga); // Debugging: Log form data
             console.log('Genero Value:', manga.genero); // Debugging: Log genero value
-            if (this.mangaId) {
-                console.log('Updating manga with ID:', this.mangaId); // Debugging: Log update action
+            if (manga.id) {
                 this.mangaService.update(manga).subscribe(() => {
                     alert('Manga atualizado com sucesso!'); // Debugging: Log success
                     console.log('Update successful'); // Debugging: Log success
-                    this.router.navigateByUrl('/mangas');
+                    this.router.navigateByUrl('/manga');
                 }, error => {
                     alert('Erro ao atualizar o manga!'); // Debugging: Log error
                     console.error('Update error:', error); // Debugging: Log error
                 });
             } else {
-                console.log('Inserting new manga'); // Debugging: Log insert action
                 this.mangaService.insert(manga).subscribe(() => {
                     alert('Manga cadastrado com sucesso!'); // Debugging: Log success
                     console.log('Insert successful'); // Debugging: Log success
-                    this.router.navigateByUrl('/mangas');
+                    this.router.navigateByUrl('/manga');
                 }, error => {
                     alert('Erro ao cadastrar o manga!'); // Debugging: Log error
                     console.error('Insert error:', error); // Debugging: Log error
