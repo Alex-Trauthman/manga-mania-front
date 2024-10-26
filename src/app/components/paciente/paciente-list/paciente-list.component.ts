@@ -12,11 +12,14 @@ import { HeaderComponent } from '../../../header/header.component';
 })
 export class PacienteListComponent implements OnInit {
     pacientes: any[] = [];
+  totalRecords = 0;
+  pageSize = 2;
+  page = 0;
 
     constructor(@Inject(PacienteService) private pacienteService: PacienteService) { }
 
     ngOnInit(): void {
-        this.pacienteService.findAll().subscribe(
+        this.pacienteService.findAll(this.page, this.pageSize).subscribe(
             (data: any[]) => {
                 this.pacientes = data;
             },

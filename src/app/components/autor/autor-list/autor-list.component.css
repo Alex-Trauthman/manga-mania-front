@@ -1,5 +1,4 @@
-.paciente-list-container {
-
+.autor-list-container {
     margin: 0 auto;
     padding: 20px;
     border: 1px solid #ccc;
@@ -8,34 +7,34 @@
     background-color: #fff;
 }
 
-.paciente-list-container h2 {
+.autor-list-container h2 {
     text-align: center;
     margin-bottom: 20px;
     color: #333;
 }
 
-.paciente-list-container table {
+.autor-list-container table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
 }
 
-.paciente-list-container th,
-.paciente-list-container td {
+.autor-list-container th,
+.autor-list-container td {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
 }
 
-.paciente-list-container th {
+.autor-list-container th {
     background-color: #f2f2f2;
     font-weight: bold;
 }
 
-.paciente-list-container tr:nth-child(even) {
+.autor-list-container tr:nth-child(even) {
     background-color: #f9f9f9;
 }
 
-.paciente-list-container tr:hover {
+.autor-list-container tr:hover {
     background-color: #f1f1f1;
 }

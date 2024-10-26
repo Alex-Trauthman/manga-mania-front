@@ -4,14 +4,15 @@ import { GeneroNovel } from "./generoNovel.model";
 export class Novel {
     id!: number;
     nome!: string;
-    sinopse!: string;
-    idEscritor!: EscritorNovel;
-    lancamento!: number;
-    preco!: number;
-    estoque!: number;
+    nomeImagem!: string;
     paginas!: number;
+    preco!: number;
+    sinopse!: string;
+    lancamento!: number;
+    estoque!: number;
     genero!: GeneroNovel;
     capitulos!: number;
+    idEscritor!: EscritorNovel;
 
     constructor(
         id: number,

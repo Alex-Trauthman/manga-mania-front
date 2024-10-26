@@ -10,8 +10,19 @@ export class EscritorNovelService {
 
     constructor(private httpClient: HttpClient) { }
 
-    findAll(): Observable<EscritorNovel[]> {
-        return this.httpClient.get<EscritorNovel[]>(this.baseUrl);
+    findAll(page?: number,pageSize?: number): Observable<EscritorNovel[]> {
+        let params = {};
+        if(page !== undefined && pageSize !== undefined) {
+            params = {
+                page: page.toString(),
+                pageSize: pageSize.toString()
+            }
+        }
+        return this.httpClient.get<EscritorNovel[]>(this.baseUrl, {params});
+    }
+
+    count(): Observable<number> {
+        return this.httpClient.get<number>(`${this.baseUrl}/count`);
     }
 
     findById(id: number): Observable<EscritorNovel> {
@@ -19,23 +30,11 @@ export class EscritorNovelService {
     }
 
     insert(escritor: EscritorNovel): Observable<EscritorNovel> {
-        const data = {
-            nome: escritor.nome,
-            anoNascimento: escritor.anoNascimento,
-            nacionalidade: escritor.nacionalidade,
-            sexo: escritor.sexo
-        };
-        return this.httpClient.post<EscritorNovel>(this.baseUrl,data);
+        return this.httpClient.post<EscritorNovel>(this.baseUrl,escritor);
     }
 
     update(escritor: EscritorNovel): Observable<EscritorNovel> {
-        const data = {
-            nome: escritor.nome,
-            anoNascimento: escritor.anoNascimento,
-            nacionalidade: escritor.nacionalidade,
-            sexo: escritor.sexo
-        };
-        return this.httpClient.put<EscritorNovel>(`${this.baseUrl}/${escritor.id}`,data);
+        return this.httpClient.put<EscritorNovel>(`${this.baseUrl}/${escritor.id}`,escritor);
     }
 
     delete(id: number): Observable<void> {

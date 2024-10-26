@@ -3,7 +3,7 @@ export class Telefone {
     numero!: string;
 
     constructor(
-        codigoArea: string, 
+        codigoArea: string,
         numero: string
     ) {
         this.codigoArea = codigoArea;

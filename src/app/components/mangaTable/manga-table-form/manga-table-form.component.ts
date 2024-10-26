@@ -25,6 +25,9 @@ export class MangaTableFormComponent implements OnInit {
     formGroup: FormGroup;
     autores: any[] = [];
     generos = Object.entries(GeneroNovel);
+    totalRecords = 0;
+    pageSize = 2;
+    page = 0;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -49,7 +52,7 @@ export class MangaTableFormComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.escritorService.findAll().subscribe((data) => (this.autores = data));
+        this.escritorService.findAll(this.page, this.pageSize).subscribe((data) => (this.autores = data));
         this.initializeForm();
     }
 

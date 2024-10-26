@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ProfissionalService } from '../services/profissional.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
     selector: 'app-login',
@@ -16,20 +16,24 @@ export class LoginComponent {
     password: string = '';
     errorMessage: string = '';
 
-    constructor(private authService: ProfissionalService,private router: Router) { }
+    constructor(private authService: AuthService,private router: Router) { }
 
     onLogin() {
-        this.authService.findByCpfAndSenha(this.username,this.password).subscribe(
+console.log({username: this.username, password: this.password});
+
+        this.authService.login(this.username,this.password).subscribe(
             response => {
                 if(response) {
-                    this.router.navigateByUrl('/pacientes');
+                    this.router.navigateByUrl('/');
                 } else {
                     this.errorMessage = 'Usuário ou senha inválidos.';
                 }
             },
             error => {
-                this.errorMessage = 'Ocorreu um erro ao realizar login.';
+                if(error.status == 404) this.errorMessage = "Usuário não encontrado.";
+                else this.errorMessage = 'Ocorreu um erro ao realizar login.';
+                console.log(error);
             }
-        );
+        )
     }
 }

@@ -1,6 +1,6 @@
 import { Component,OnInit,Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PacienteService } from '../../../services/paciente.service';
+import { AdministradorService } from '../../../services/administrador.service';
 import { HeaderComponent } from '../../../header/header.component';
 
 @Component({
@@ -12,11 +12,14 @@ import { HeaderComponent } from '../../../header/header.component';
 })
 export class AdministradorListComponent implements OnInit {
     administradores: any[] = [];
+    totalRecords = 0;
+    pageSize = 2;
+    page = 0;
 
-    constructor(@Inject(PacienteService) private pacienteService: PacienteService) { }
+    constructor(@Inject(AdministradorService) private administradorService: AdministradorService) { }
 
     ngOnInit(): void {
-        this.pacienteService.findAll().subscribe(
+        this.administradorService.findAll(this.page,this.pageSize).subscribe(
             (data: any[]) => {
                 this.administradores = data;
             },

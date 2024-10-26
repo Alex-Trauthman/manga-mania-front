@@ -10,8 +10,19 @@ export class TarefaService {
 
     constructor(private httpClient: HttpClient) {
     }
-    findAll() {
-        return this.httpClient.get(this.baseUrl);
+    findAll(page?: number,pageSize?: number): Observable<Tarefa[]> {
+        let params = {};
+        if(page !== undefined && pageSize !== undefined) {
+            params = {
+                page: page.toString(),
+                pageSize: pageSize.toString()
+            }
+        }
+        return this.httpClient.get<Tarefa[]>(this.baseUrl, {params});
+    }
+
+    count(): Observable<number> {
+        return this.httpClient.get<number>(`${this.baseUrl}/count`);
     }
     findById(id: number) {
         return this.httpClient.get(`${this.baseUrl}/${id}`);
@@ -28,5 +39,4 @@ export class TarefaService {
     findByStatus(status: StatusTarefa) {
         return this.httpClient.get(`${this.baseUrl}/search/status/${status}`);
     }
-
 }

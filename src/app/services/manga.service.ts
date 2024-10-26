@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Novel } from '../models/novel.model';
+import { Manga } from '../models/manga.model';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -11,42 +11,51 @@ export class MangaService {
 
     constructor(private httpClient: HttpClient) { }
 
-    findAll(): Observable<Novel[]> {
-        return this.httpClient.get<Novel[]>(this.baseUrl);
+    findAll(page?: number,pageSize?: number): Observable<Manga[]> {
+        let params = {};
+        if(page !== undefined && pageSize !== undefined) {
+            params = {
+                page: page.toString(),
+                pageSize: pageSize.toString()
+            }
+        }
+        return this.httpClient.get<Manga[]>(this.baseUrl, {params});
     }
 
-    findById(id: number): Observable<Novel> {
-        return this.httpClient.get<Novel>(`${this.baseUrl}/${id}`);
+    count(): Observable<number> {
+        return this.httpClient.get<number>(`${this.baseUrl}/count`);
     }
 
-    insert(novel: Novel): Observable<Novel> {
+    findById(id: number): Observable<Manga> {
+        return this.httpClient.get<Manga>(`${this.baseUrl}/${id}`);
+    }
+
+    insert(manga: Manga): Observable<Manga> {
         const data = {
-            nome: novel.nome,
-            escritor: novel.idEscritor,
-            genero: novel.genero,
-            sinopse: novel.sinopse,
-            anoPublicacao: novel.lancamento,
-            estoque: novel.estoque,
-            preco: novel.preco,
-            paginas: novel.paginas,
-            capitulos: novel.capitulos
+            nome: manga.nome,
+            escritor: manga.idAutor,
+            genero: manga.genero,
+            sinopse: manga.sinopse,
+            anoPublicacao: manga.lancamento,
+            estoque: manga.estoque,
+            preco: manga.preco,
+            paginas: manga.paginas
         };
-        return this.httpClient.post<Novel>(this.baseUrl,data);
+        return this.httpClient.post<Manga>(this.baseUrl,data);
     }
 
-    update(novel: Novel): Observable<Novel> {
+    update(manga: Manga): Observable<Manga> {
         const data = {
-            nome: novel.nome,
-            escritor: novel.idEscritor,
-            genero: novel.genero,
-            sinopse: novel.sinopse,
-            anoPublicacao: novel.lancamento,
-            estoque: novel.estoque,
-            preco: novel.preco,
-            paginas: novel.paginas,
-            capitulos: novel.capitulos
+            nome: manga.nome,
+            escritor: manga.idAutor,
+            genero: manga.genero,
+            sinopse: manga.sinopse,
+            anoPublicacao: manga.lancamento,
+            estoque: manga.estoque,
+            preco: manga.preco,
+            paginas: manga.paginas
         };
-        return this.httpClient.put<Novel>(`${this.baseUrl}/${novel.id}`,data);
+        return this.httpClient.put<Manga>(`${this.baseUrl}/${manga.id}`,data);
     }
 
     delete(id: number): Observable<void> {

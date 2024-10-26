@@ -2,7 +2,7 @@ import { Pessoa } from './pessoa.model';
 import { Exame } from './exame.model';
 import { Telefone } from './telefone.model';
 import { Endereco } from './endereco.model';
-// import { Condicao } from './condicao.model';
+import { Condicao } from './condicao.model';
 
 export class Paciente extends Pessoa {
     nomeMae: string;
@@ -13,7 +13,7 @@ export class Paciente extends Pessoa {
     dataUltimaConsulta: Date;
     obs: string;
     exames: Exame[] = [];
-    // condicoes: Condicao[] = [];
+    condicoes: Condicao[] = [];
 
     constructor(
         nome: string,
@@ -28,7 +28,7 @@ export class Paciente extends Pessoa {
         sexo: boolean,
         dataUltimaConsulta: Date,
         obs: string,
-        // condicoes: Condicao[]
+        condicoes: Condicao[]
     ) {
         super(nome,cpf,email,telefone,endereco);
         this.nomeMae = nomeMae;
@@ -38,6 +38,6 @@ export class Paciente extends Pessoa {
         this.sexo = sexo;
         this.dataUltimaConsulta = dataUltimaConsulta;
         this.obs = obs;
-        // this.condicoes = condicoes;
+        this.condicoes = condicoes;
     }
 }

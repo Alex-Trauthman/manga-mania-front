@@ -12,13 +12,11 @@ import { MangaTableFormComponent } from './components/mangaTable/manga-table-for
 import { MangaTableListComponent } from './components/mangaTable/manga-table-list/manga-table-list.component';
 import { NovelFormComponent } from './components/novel/novel-form/novel-form.component';
 import { NovelListComponent } from './components/novel/novel-list/novel-list.component';
-import { TarefaFormComponent } from './components/tarefa/tarefa-form/tarefa-form.component';
-import { TarefaListComponent } from './components/tarefa/tarefa-list/tarefa-list.component';
 import { UsuarioFormComponent } from './components/usuario/usuario-form/usuario-form.component';
 import { UsuarioListComponent } from './components/usuario/usuario-list/usuario-list.component';
 
 export const routes: Routes = [
-    // { path: '',redirectTo: '/login',pathMatch: 'full' }, 
+    { path: '',redirectTo: '/login',pathMatch: 'full' }, 
     { path: 'administrador',component: AdministradorListComponent}, 
     { path: 'administrador/new',component: AdministradorFormComponent}, 
     { path: 'autor',component: AutorListComponent}, 

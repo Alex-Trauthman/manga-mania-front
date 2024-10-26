@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { EscritorNovel } from "../models/escritorNovel.model";
+import { AutorManga } from "../models/autorManga.model";
 import { HttpClient } from "@angular/common/http";
 
 @Injectable({ providedIn: "root" })
@@ -10,32 +10,39 @@ export class AutorService {
 
     constructor(private httpClient: HttpClient) { }
 
-    findAll(): Observable<EscritorNovel[]> {
-        return this.httpClient.get<EscritorNovel[]>(this.baseUrl);
+    findAll(page?: number,pageSize?: number): Observable<AutorManga[]> {
+        let params = {};
+        if(page !== undefined && pageSize !== undefined) {
+            params = {
+                page: page.toString(),
+                pageSize: pageSize.toString()
+            }
+        }
+        return this.httpClient.get<AutorManga[]>(this.baseUrl, {params});
     }
 
-    findById(id: number): Observable<EscritorNovel> {
-        return this.httpClient.get<EscritorNovel>(`${this.baseUrl}/${id}`);
+    count(): Observable<number> {
+        return this.httpClient.get<number>(`${this.baseUrl}/count`);
     }
 
-    insert(escritor: EscritorNovel): Observable<EscritorNovel> {
+    insert(autorManga: AutorManga): Observable<AutorManga> {
         const data = {
-            nome: escritor.nome,
-            anoNascimento: escritor.anoNascimento,
-            nacionalidade: escritor.nacionalidade,
-            sexo: escritor.sexo
+            nome: autorManga.nome,
+            anoNascimento: autorManga.anoNascimento,
+            nacionalidade: autorManga.nacionalidade,
+            sexo: autorManga.sexo
         };
-        return this.httpClient.post<EscritorNovel>(this.baseUrl,data);
+        return this.httpClient.post<AutorManga>(this.baseUrl, data);
     }
 
-    update(escritor: EscritorNovel): Observable<EscritorNovel> {
+    update(autorManga: AutorManga): Observable<AutorManga> {
         const data = {
-            nome: escritor.nome,
-            anoNascimento: escritor.anoNascimento,
-            nacionalidade: escritor.nacionalidade,
-            sexo: escritor.sexo
+            nome: autorManga.nome,
+            anoNascimento: autorManga.anoNascimento,
+            nacionalidade: autorManga.nacionalidade,
+            sexo: autorManga.sexo
         };
-        return this.httpClient.put<EscritorNovel>(`${this.baseUrl}/${escritor.id}`,data);
+        return this.httpClient.put<AutorManga>(`${this.baseUrl}/${autorManga.id}`, data);
     }
 
     delete(id: number): Observable<void> {
