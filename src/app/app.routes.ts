@@ -8,8 +8,6 @@ import { EscritorListComponent } from './components/escritor/escritor-list/escri
 import { LoginComponent } from './login/login.component';
 import { MangaFormComponent } from './components/manga/manga-form/manga-form.component';
 import { MangaListComponent } from './components/manga/manga-list/manga-list.component';
-import { MangaTableFormComponent } from './components/mangaTable/mangaTable-form/mangaTable-form.component';
-import { MangaTableListComponent } from './components/mangaTable/mangaTable-list/mangaTable-list.component';
 import { NovelFormComponent } from './components/novel/novel-form/novel-form.component';
 import { NovelListComponent } from './components/novel/novel-list/novel-list.component';
 import { UsuarioFormComponent } from './components/usuario/usuario-form/usuario-form.component';
@@ -28,8 +26,6 @@ export const routes: Routes = [
     { path: 'login',component: LoginComponent },
     { path: 'manga',component: MangaListComponent}, 
     { path: 'manga/new',component: MangaFormComponent}, 
-    { path: 'mangaTable',component: MangaTableListComponent}, 
-    { path: 'mangaTable/new',component: MangaTableFormComponent}, 
     { path: 'novel',component: NovelListComponent}, 
     { path: 'novel/new',component: NovelFormComponent}, 
     { path: 'usuario',component: UsuarioListComponent}, 
