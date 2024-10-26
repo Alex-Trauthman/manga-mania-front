@@ -11,7 +11,7 @@ export class NovelService {
 
     constructor(private httpClient: HttpClient) { }
 
-    findAll(page?: number,pageSize?: number): Observable<Novel[]> {
+    findAll(page?: number, pageSize?: number): Observable<Novel[]> {
         let params = {};
         if(page !== undefined && pageSize !== undefined) {
             params = {
@@ -19,7 +19,7 @@ export class NovelService {
                 pageSize: pageSize.toString()
             }
         }
-        return this.httpClient.get<Novel[]>(this.baseUrl, {params});
+        return this.httpClient.get<Novel[]>(this.baseUrl, { params });
     }
 
     count(): Observable<number> {
@@ -42,7 +42,7 @@ export class NovelService {
             paginas: novel.paginas,
             capitulos: novel.capitulos
         };
-        return this.httpClient.post<Novel>(this.baseUrl,data);
+        return this.httpClient.post<Novel>(this.baseUrl, data);
     }
 
     update(novel: Novel): Observable<Novel> {
@@ -57,7 +57,7 @@ export class NovelService {
             paginas: novel.paginas,
             capitulos: novel.capitulos
         };
-        return this.httpClient.put<Novel>(`${this.baseUrl}/${novel.id}`,data);
+        return this.httpClient.put<Novel>(`${this.baseUrl}/${novel.id}`, data);
     }
 
     delete(id: number): Observable<void> {
