@@ -1,33 +1,61 @@
-<app-header></app-header>
-<div class="novel-list-container">
-    <h2>Lista de Autores</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Nome</th>
-                <th>Ano lançamento</th>
-                <th>Nacionalidade</th>
-                <th>Sexo</th>
-                <th>Mangas</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let autor of autores">
-                <td>{{ autor.nome }}</td>
-                <td>{{ autor.lancamento }}</td>
-                <td>{{ autor.nacionalidade }}</td>
-                <td>{{ autor.mangas.length }}</td>
-<!--                 <td>
-                    <ul>
-                        <li *ngFor="let condicao of autor.condicoes">{{ condicao.descricao }}</li>
-                    </ul>
-                </td>
-                <td>
-                    <ul>
-                        <li *ngFor="let tarefa of autor.tarefas">{{ tarefa.nome }}</li>
-                    </ul>
-                </td> -->
-            </tr>
-        </tbody>
-    </table>
-</div>
+<mat-toolbar color="primary">
+    <div class="flex-container">
+      <span class="toolbar-title">Controle de Romances</span>
+      <button mat-fab color="accent" routerLink="/novels/new">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+  </mat-toolbar>
+  
+  <table mat-table [dataSource]="novels" class="mat-elevation-z8">
+  
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> No. </th>
+      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="nome">
+      <th mat-header-cell *matHeaderCellDef> Nome </th>
+      <td mat-cell *matCellDef="let element"> {{element.nome}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="genero">
+      <th mat-header-cell *matHeaderCellDef> Gênero </th>
+      <td mat-cell *matCellDef="let element"> {{element.genero}} </td> 
+    </ng-container>
+  
+
+    <ng-container matColumnDef="lancamento">
+      <th mat-header-cell *matHeaderCellDef> Lançamento </th>
+      <td mat-cell *matCellDef="let element"> {{element.lancamento}} </td>
+    </ng-container>
+      
+    <ng-container matColumnDef="preco">
+      <th mat-header-cell *matHeaderCellDef> Preço </th>
+      <td mat-cell *matCellDef="let element"> {{element.preco }} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="estoque">
+      <th mat-header-cell *matHeaderCellDef> Estoque </th>
+      <td mat-cell *matCellDef="let element"> {{element.estoque}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="acao">
+      <th mat-header-cell *matHeaderCellDef> Ação </th>
+      <td mat-cell *matCellDef="let element"> 
+        <button mat-icon-button 
+                color="primary"
+                routerLink="/novels/edit/{{element.id}}">
+                <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button 
+                color="warn">
+                <mat-icon>delete</mat-icon>
+        </button>        
+      </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  
