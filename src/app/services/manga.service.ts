@@ -39,6 +39,7 @@ export class MangaService {
             anoPublicacao: manga.lancamento,
             estoque: manga.estoque,
             preco: manga.preco,
+            colorido: manga.color,
             paginas: manga.paginas
         };
         return this.httpClient.post<Manga>(this.baseUrl,data);
@@ -52,6 +53,7 @@ export class MangaService {
             sinopse: manga.sinopse,
             anoPublicacao: manga.lancamento,
             estoque: manga.estoque,
+            colorido: manga.color,
             preco: manga.preco,
             paginas: manga.paginas
         };
