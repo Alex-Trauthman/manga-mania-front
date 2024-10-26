@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { HeaderComponent } from '../../../header/header.component';
+import { AutorMangaService } from '../../../services/autor.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-autor-form',
@@ -11,11 +13,19 @@ import { HeaderComponent } from '../../../header/header.component';
     styleUrl: './autor-form.component.css'
 })
 export class AutorFormComponent {
+    formGroup: FormGroup;
+
+    constructor(private formBuilder: FormBuilder,private autorService: AutorMangaService,private router: Router) {
+        this.formGroup = this.formBuilder.group({
+            nome: ['',Validators.required],
+            sigla: ['',Validators.required]
+        })
+    }
     autor: any = {
-        nome: "", 
-        lancamento: "", 
-        nacionalidade: "", 
-        sexo: "", 
+        nome: "",
+        lancamento: "",
+        nacionalidade: "",
+        sexo: "",
         mangas: []
     };
 
