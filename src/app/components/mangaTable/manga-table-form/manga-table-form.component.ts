@@ -29,15 +29,9 @@ export class MangaTableFormComponent implements OnInit {
     pageSize = 2;
     page = 0;
 
-    constructor(
-        private formBuilder: FormBuilder,
-        private novelService: NovelService,
-        private escritorService: EscritorNovelService,
-        private router: Router,
-        private activatedRoute: ActivatedRoute
-    ) {
+    constructor(private formBuilder: FormBuilder, private novelService: NovelService, private escritorService: EscritorNovelService, private router: Router, private activatedRoute: ActivatedRoute) {
         this.formGroup = this.formBuilder.group({
-            id: [null],
+            // id: [null],
             nome: [null,[Validators.required,Validators.minLength(3),Validators.maxLength(40)]],
             nomeImagem: [''],
             paginas: [null,Validators.required],

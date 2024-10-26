@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { HeaderComponent } from '../../../header/header.component';
-import { AutorMangaService } from '../../../services/autor.service';
+import { AutorService } from '../../../services/autorManga.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -14,19 +14,21 @@ import { Router } from '@angular/router';
 })
 export class AutorFormComponent {
     formGroup: FormGroup;
-
-    constructor(private formBuilder: FormBuilder,private autorService: AutorMangaService,private router: Router) {
-        this.formGroup = this.formBuilder.group({
-            nome: ['',Validators.required],
-            sigla: ['',Validators.required]
-        })
-    }
     autor: any = {
         nome: "",
         lancamento: "",
         nacionalidade: "",
         sexo: "",
         mangas: []
+    };
+
+    constructor(private formBuilder: FormBuilder,private autorService: AutorService,private router: Router) {
+        this.formGroup = this.formBuilder.group({
+            nome: ['', Validators.required], 
+            lancamento: ['', Validators.required], 
+            nacionalidade: ['', Validators.required], 
+            sexo: ['', Validators.required]
+        })
     };
 
     sexoIds = [

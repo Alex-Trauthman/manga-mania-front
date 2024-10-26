@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder,FormGroup,FormsModule,Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { HeaderComponent } from '../../../header/header.component';
+import { UsuarioService } from '../../../services/usuario.service';
 
 @Component({
     selector: 'app-usuario-form',
@@ -11,6 +13,7 @@ import { HeaderComponent } from '../../../header/header.component';
     styleUrl: './usuario-form.component.css'
 })
 export class UsuarioFormComponent {
+    formGroup: FormGroup;
     usuario: any = {
         username: "", 
         email: "", 
@@ -19,6 +22,18 @@ export class UsuarioFormComponent {
         endereco: "", 
         listaTelefone: [], 
         sexo: 0
+    };
+
+    constructor(private formBuilder: FormBuilder,private usuarioService: UsuarioService,private router: Router) {
+        this.formGroup = this.formBuilder.group({
+            username: ['', Validators.required], 
+            email: ['', Validators.required], 
+            senha: ['', Validators.required], 
+            cpf: [0, Validators.required], 
+            endereco: ['', Validators.required], 
+            // listaTelefone: ['', Validators.required], 
+            sexo: [0, Validators.required], 
+        })
     };
 
     onSubmit() {

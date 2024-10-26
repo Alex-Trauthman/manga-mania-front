@@ -1,14 +1,15 @@
 import { CommonModule,NgIf } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormsModule,ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule,ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { HeaderComponent } from '../../../header/header.component';
+import { MangaService } from '../../../services/manga.service';
 
 @Component({
     selector: 'app-manga-form',
@@ -18,6 +19,7 @@ import { HeaderComponent } from '../../../header/header.component';
     styleUrl: './manga-form.component.css'
 })
 export class MangaFormComponent {
+    formGroup: FormGroup;
     manga: any = {
         nome: "",
         nomeImagem: "",
@@ -26,11 +28,10 @@ export class MangaFormComponent {
         sinopse: "",
         anoPublicacao: 0,
         estoque: 0,
-        color: "", 
+        color: "",
         autor: 0,
         generoManga: 0,
     };
-
     generoIds = [
         { id: 2,descricao: 'Shoujo' },
         { id: 3,descricao: 'Seinen' },
@@ -48,6 +49,21 @@ export class MangaFormComponent {
         { id: 15,descricao: 'Psicologico' },
         { id: 16,descricao: 'Kodomuke' }
     ];
+
+    constructor(private formBuilder: FormBuilder,private mangaService: MangaService,private router: Router) {
+        this.formGroup = this.formBuilder.group({
+            nome: ['', Validators.required], 
+            nomeImagem: ['', Validators.required], 
+            paginas: ['', Validators.required], 
+            preco: ['', Validators.required], 
+            sinopse: ['', Validators.required], 
+            anoPublicacao: ['', Validators.required], 
+            estoque: ['', Validators.required], 
+            color: ['', Validators.required], 
+            autor: ['', Validators.required], 
+            generoManga: ['', Validators.required], 
+        })
+    };
 
     onSubmit() {
         console.log(this.manga);

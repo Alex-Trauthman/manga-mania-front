@@ -30,7 +30,7 @@ console.log({username: this.username, password: this.password});
                 }
             },
             error => {
-                if(error.status == 404) this.errorMessage = "Usuário não encontrado.";
+                if(error.status === 404) this.errorMessage = "Usuário não encontrado.";
                 else this.errorMessage = 'Ocorreu um erro ao realizar login.';
                 console.log(error);
             }

@@ -1,8 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { HeaderComponent } from '../../../header/header.component';
 import { FooterComponent } from '../../../footer/footer.component';
+import { Router } from '@angular/router';
+import { AutorService } from '../../../services/autorManga.service';
+import { AdministradorService } from '../../../services/administrador.service';
 
 @Component({
     selector: 'app-administrador-form',
@@ -12,11 +15,21 @@ import { FooterComponent } from '../../../footer/footer.component';
     styleUrl: './administrador-form.component.css'
 })
 export class AdministradorFormComponent {
+    formGroup: FormGroup;
     administrador: any = {
         username: "", 
         email: "", 
         senha: "", 
         cpf: "", 
+    };
+
+    constructor(private formBuilder: FormBuilder,private administradorService: AdministradorService,private router: Router) {
+        this.formGroup = this.formBuilder.group({
+            username: ['', Validators.required], 
+            email: ['', Validators.required], 
+            senha: ['', Validators.required], 
+            cpf: ['', Validators.required], 
+        })
     };
 
     onSubmit() {
