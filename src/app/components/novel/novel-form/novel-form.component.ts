@@ -43,7 +43,6 @@ export class NovelFormComponent implements OnInit {
             sinopse: ['',[Validators.required, Validators.minLength(30)]],
             lancamento: [null, [Validators.required, Validators.min(1000), Validators.max(9999)]], // anoPublicação -> modelo java
             estoque: [null, Validators.required],
-            color: [null, Validators.required],
             idAutor: [null, Validators.required], // Ensure this matches the service method
             genero: [null, Validators.required],
             capitulos: [null, Validators.required]
