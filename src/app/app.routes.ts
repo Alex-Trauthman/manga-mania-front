@@ -5,7 +5,7 @@ import { AutorFormComponent } from './components/autor/autor-form/autor-form.com
 import { AutorListComponent } from './components/autor/autor-list/autor-list.component';
 import { EscritorFormComponent } from './components/escritor/escritor-form/escritor-form.component';
 import { EscritorListComponent } from './components/escritor/escritor-list/escritor-list.component';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './components/login/login.component';
 import { MangaFormComponent } from './components/manga/manga-form/manga-form.component';
 import { MangaListComponent } from './components/manga/manga-list/manga-list.component';
 import { NovelFormComponent } from './components/novel/novel-form/novel-form.component';

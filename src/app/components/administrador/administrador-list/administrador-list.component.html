@@ -1,6 +1,6 @@
 <app-header></app-header>
-<div class="administrador-list-container">
-    <h2>Lista de Administradores</h2>
+<div class="usuario-list-container">
+    <h2>Lista de usuários</h2>
     <table>
         <thead>
             <tr>
@@ -14,16 +14,17 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let administrador of administradores">
-                <td>{{ administrador.username }}</td>
-                <td>{{ administrador.email }}</td>
-                <!-- <td>{{ administrador.senha }}</td> -->
+            <tr *ngFor="let usuario of usuarios">
+                <td>{{ usuario.username }}</td>
+                <td>{{ usuario.email }}</td>
+                <!-- <td>{{ usuario.senha }}</td> -->
                 <td> **** </td>
-                <td>{{ administrador.cpf }}</td>
-                <td>{{ administrador.endereco }}</td>
-                <td>{{ administrador.listaTelefone.length }}</td>
-                <td>{{ administrador.sexo }}</td>
+                <td>{{ usuario.cpf }}</td>
+                <td>{{ usuario.endereco }}</td>
+                <td>{{ usuario.listaTelefone.length }}</td>
+                <td>{{ usuario.sexo }}</td>
             </tr>
         </tbody>
     </table>
 </div>
+<app-footer></app-footer>

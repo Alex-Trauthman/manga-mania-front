@@ -25,6 +25,10 @@ export class AdministradorService {
         return this.httpClient.get<number>(`${this.baseUrl}/count`);
     }
 
+    findById(id: number): Observable<Administrador> {
+        return this.httpClient.get<Administrador>(`${this.baseUrl}/${id}`);
+    }
+
     insert(administrador: Administrador): Observable<Administrador> {
         const data = {
             username: administrador.username,

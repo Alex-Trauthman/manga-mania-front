@@ -1,40 +1,20 @@
-.escritor-list-container {
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
+.example-container {
+    display: flex;
+    flex-direction: column;
+    min-width: 300px;
 }
 
-.escritor-list-container h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #333;
+.example-header {
+    min-height: 64px;
+    padding: 8px 24px 0;
 }
 
-.escritor-list-container table {
+.mat-form-field {
+    font-size: 14px;
     width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
 }
 
-.escritor-list-container th,
-.escritor-list-container td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-}
-
-.escritor-list-container th {
-    background-color: #f2f2f2;
-    font-weight: bold;
-}
-
-.escritor-list-container tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-.escritor-list-container tr:hover {
-    background-color: #f1f1f1;
+.mat-table {
+    overflow: auto;
+    max-height: 500px;
 }

@@ -12,6 +12,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Observable } from 'rxjs/internal/Observable';
+import { HeaderComponent } from '../../header/header.component';
+import { FooterComponent } from '../../footer/footer.component';
 
 @Component({
     selector: 'app-novel-form',
@@ -20,7 +22,7 @@ import { Observable } from 'rxjs/internal/Observable';
     styleUrls: ['./novel-form.component.css'],
     imports: [NgIf, ReactiveFormsModule, MatFormFieldModule,
         MatInputModule, MatButtonModule, MatCardModule, MatToolbarModule,
-        RouterModule, MatSelectModule, CommonModule]
+        RouterModule, MatSelectModule, CommonModule,HeaderComponent,FooterComponent]
 })
 export class NovelFormComponent implements OnInit {
     formGroup: FormGroup;

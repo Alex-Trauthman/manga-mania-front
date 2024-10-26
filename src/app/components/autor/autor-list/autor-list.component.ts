@@ -1,31 +1,31 @@
-import { Component,OnInit,Inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { AutorService } from '../../../services/autorManga.service';
-import { HeaderComponent } from '../../../header/header.component';
+import { Component, OnInit } from '@angular/core';
+import { Novel } from '../../../models/novel.model';
+import { NovelService } from '../../../services/novel.service';
+import { NgFor } from '@angular/common';
+import { MatTableModule } from '@angular/material/table';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { RouterModule } from '@angular/router';
+import { HeaderComponent } from '../../header/header.component';
+import { FooterComponent } from '../../footer/footer.component';
 
 @Component({
-    selector: 'app-autor-list',
-    templateUrl: './autor-list.component.html',
-    styleUrls: ['./autor-list.component.css'],
-    standalone: true,
-    imports: [CommonModule,HeaderComponent]
+  selector: 'app-autor-list',
+  standalone: true,
+  imports: [NgFor, MatTableModule, MatToolbarModule, MatIconModule, MatButtonModule, RouterModule,HeaderComponent,FooterComponent],
+  templateUrl: './autor-list.component.html',
+  styleUrls: ['./autor-list.component.css']
 })
 export class AutorListComponent implements OnInit {
-    autores: any[] = [];
-    totalRecords = 0;
-    pageSize = 2;
-    page = 0;
+  displayedColumns: string[] = ['id', 'nome', 'genero', 'lancamento', 'preco', 'estoque', 'acao'];
+  novels: Novel[] = []; 
 
-    constructor(@Inject(AutorService) private autorService: AutorService) { }
+  constructor(private novelService: NovelService) {}
 
-    ngOnInit(): void {
-        this.autorService.findAll(this.page,this.pageSize).subscribe(
-            (data: any[]) => {
-                this.autores = data;
-            },
-            (error: any) => {
-                console.error('Erro ao buscar autores',error);
-            }
-        );
-    }
+  ngOnInit(): void {
+    this.novelService.findAll().subscribe(data => {
+      this.novels = data;
+    });
+  }
 }

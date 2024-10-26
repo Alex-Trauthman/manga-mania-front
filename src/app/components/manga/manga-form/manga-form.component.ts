@@ -1,16 +1,18 @@
-import { CommonModule, NgIf } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, NgModel, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { GeneroManga, GeneroMangaMap } from '../../../models/generoManga.model';
-import { AutorService } from '../../../services/autorManga.service';
-import { MangaService } from '../../../services/manga.service';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { CommonModule,NgIf } from '@angular/common';
+import { Component,OnInit } from '@angular/core';
+import { FormBuilder,FormGroup,ReactiveFormsModule,Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { ActivatedRoute,Router,RouterModule } from '@angular/router';
+import { GeneroNovelMap } from '../../../models/generoNovel.model';
+import { EscritorNovelService } from '../../../services/escritor.service';
+import { FooterComponent } from '../../footer/footer.component';
+import { HeaderComponent } from '../../header/header.component';
+import { MangaService } from '../../../services/manga.service';
 
 @Component({
     selector: 'app-manga-form',
@@ -19,84 +21,86 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     styleUrls: ['./manga-form.component.css'],
     imports: [NgIf, ReactiveFormsModule, MatFormFieldModule,
         MatInputModule, MatButtonModule, MatCardModule, MatToolbarModule,
-        RouterModule, MatSelectModule, CommonModule, FormsModule]
+        RouterModule, MatSelectModule, CommonModule,HeaderComponent,FooterComponent]
 })
 export class MangaFormComponent implements OnInit {
     formGroup: FormGroup;
-    manga: any = {};
     autores: any[] = [];
-    generos = Object.entries(GeneroMangaMap);
-    mangaId: number | null = null;
+    generos = Object.entries(GeneroNovelMap);
+    novelId: number | null = null;
 
     constructor(
         private formBuilder: FormBuilder,
         private mangaService: MangaService,
-        private autorMangaService: AutorService,
+        private escritorService: EscritorNovelService,
         private router: Router,
         private activatedRoute: ActivatedRoute
     ) {
         this.formGroup = this.formBuilder.group({
             id: [null],
             nome: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(40)]],
-            nomeImagem: [''],
             paginas: [null, Validators.required],
             preco: [null, Validators.required],
             sinopse: ['',[Validators.required, Validators.minLength(30)]],
-            lancamento: [null, [Validators.required, Validators.min(1000), Validators.max(9999)]], // anoPublicação -> modelo java
+            lancamento: [null, [Validators.required, Validators.min(1000), Validators.max(9999)]],
             estoque: [null, Validators.required],
-            color: [''],
-            idAutor: [null, Validators.required],
+            idEscritr: [null, Validators.required],
             genero: [null, Validators.required],
             capitulos: [null, Validators.required]
         });
     }
 
     ngOnInit(): void {
-        this.autorMangaService.findAll().subscribe((data: any[]) => (this.autores = data));
+        this.escritorService.findAll().subscribe((data) => (this.autores = data));
         this.activatedRoute.params.subscribe(params => {
-            this.mangaId = params['id'] ? +params['id'] : null;
-            if (this.mangaId) {
-                this.loadManga(this.mangaId);
+            this.novelId = params['id'] ? +params['id'] : null;
+            if (this.novelId) {
+                this.loadNovel(this.novelId);
             }
         });
+        
     }
 
-    loadManga(id: number): void {
+    initializeForm(): void {
+        const manga = this.activatedRoute.snapshot.data['manga'];
+        if (manga) {
+            this.formGroup.patchValue(manga);
+        }
+    }
+    loadNovel(id: number): void {
         this.mangaService.findById(id).subscribe(manga => {
             this.formGroup.patchValue(manga);
         });
+        this.formGroup.markAllAsTouched();
     }
 
     salvar(): void {
         if (this.formGroup.invalid) {
-            console.log(this.formGroup.controls); // Logs each control's status and errors
-            this.formGroup.markAllAsTouched(); // Ensure all errors are shown in the UI
+            console.log(this.formGroup.controls);
+            this.formGroup.markAllAsTouched();
             return;
         }
-        console.log('Salvar method called'); // Debugging: Log method call
+        console.log('Salvar method called');
         if (this.formGroup.valid) {
             const manga = this.formGroup.value;
-            console.log('Form Data:', manga); // Debugging: Log form data
-            console.log('Genero Value:', manga.genero); // Debugging: Log genero value
-            if (this.mangaId) {
-                console.log('Updating manga with ID:', this.mangaId); // Debugging: Log update action
+            console.log('Form Data:', manga);
+            if (manga.id) {
                 this.mangaService.update(manga).subscribe(() => {
-                    alert('Manga atualizado com sucesso!'); // Debugging: Log success
-                    console.log('Update successful'); // Debugging: Log success
-                    this.router.navigateByUrl('/mangas');
+                    alert('Novel atualizado com sucesso!');
+                    console.log('Update successful');
+                    this.router.navigateByUrl('/manga');
                 }, error => {
-                    alert('Erro ao atualizar o manga!'); // Debugging: Log error
-                    console.error('Update error:', error); // Debugging: Log error
+                    alert('Erro ao atualizar o manga!');
+                    console.error('Update error:', error);
                 });
             } else {
-                console.log('Inserting new manga'); // Debugging: Log insert action
                 this.mangaService.insert(manga).subscribe(() => {
-                    alert('Manga cadastrado com sucesso!'); // Debugging: Log success
-                    console.log('Insert successful'); // Debugging: Log success
-                    this.router.navigateByUrl('/mangas');
+                    alert('Novel cadastrado com sucesso!');
+                    console.log('Insert successful');
+                    this.router.navigateByUrl('/manga');
                 }, error => {
-                    alert('Erro ao cadastrar o manga!'); // Debugging: Log error
-                    console.error('Insert error:', error); // Debugging: Log error
+                    alert('Erro ao cadastrar o manga!');
+                    console.error('Insert error:', error);
                 });
             }
         }
@@ -106,11 +110,11 @@ export class MangaFormComponent implements OnInit {
         const id = this.formGroup.get('id')?.value;
         if (id) {
             this.mangaService.delete(id).subscribe(() => {
-                alert('Manga excluído com sucesso!'); // Debugging: Log success
-                console.log('Delete successful'); // Debugging: Log success
-                this.router.navigateByUrl('/mangas');
+                alert('Novel excluído com sucesso!');
+                console.log('Delete successful');
+                this.router.navigateByUrl('/manga');
             }, error => {
-                console.error('Delete error:', error); // Debugging: Log error
+                console.error('Delete error:', error);
             });
         }
     }
@@ -124,4 +128,5 @@ export class MangaFormComponent implements OnInit {
             return `${controlName} deve ter no máximo ${control.errors?.['maxlength'].requiredLength} caracteres.`;
         return '';
     }
+    
 }
