@@ -1,17 +1,6 @@
-<<<<<<< HEAD
 import { CommonModule,NgIf } from '@angular/common';
 import { Component,OnInit } from '@angular/core';
 import { FormBuilder,FormGroup,ReactiveFormsModule,Validators } from '@angular/forms';
-=======
-import { CommonModule, NgIf } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { GeneroManga, GeneroMangaMap } from '../../../models/generoManga.model';
-import { AutorService } from '../../../services/autorManga.service';
-import { MangaService } from '../../../services/manga.service';
-import { MatFormFieldModule } from '@angular/material/form-field';
->>>>>>> 21ba5d8bf9e775ebee4f62862ffb57829b241728
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -55,23 +44,14 @@ export class MangaFormComponent implements OnInit {
             sinopse: ['',[Validators.required, Validators.minLength(30)]],
             lancamento: [null, [Validators.required, Validators.min(1000), Validators.max(9999)]],
             estoque: [null, Validators.required],
-<<<<<<< HEAD
             idEscritr: [null, Validators.required],
-=======
-            color: [null, Validators.required], // Atualizado para boolean
-            idAutor: [null, Validators.required],
->>>>>>> 21ba5d8bf9e775ebee4f62862ffb57829b241728
             genero: [null, Validators.required],
             capitulos: [null, Validators.required]
         });
     }
 
     ngOnInit(): void {
-<<<<<<< HEAD
         this.escritorService.findAll().subscribe((data) => (this.autores = data));
-=======
-        this.autorMangaService.findAll().subscribe((data) => (this.autores = data));
->>>>>>> 21ba5d8bf9e775ebee4f62862ffb57829b241728
         this.activatedRoute.params.subscribe(params => {
             this.novelId = params['id'] ? +params['id'] : null;
             if (this.novelId) {
@@ -103,20 +83,11 @@ export class MangaFormComponent implements OnInit {
         console.log('Salvar method called');
         if (this.formGroup.valid) {
             const manga = this.formGroup.value;
-<<<<<<< HEAD
             console.log('Form Data:', manga);
             if (manga.id) {
                 this.mangaService.update(manga).subscribe(() => {
                     alert('Novel atualizado com sucesso!');
                     console.log('Update successful');
-=======
-            console.log('Form Data:', manga); // Debugging: Log form data
-            console.log('Genero Value:', manga.genero); // Debugging: Log genero value
-            if (manga.id) {
-                this.mangaService.update(manga).subscribe(() => {
-                    alert('Manga atualizado com sucesso!'); // Debugging: Log success
-                    console.log('Update successful'); // Debugging: Log success
->>>>>>> 21ba5d8bf9e775ebee4f62862ffb57829b241728
                     this.router.navigateByUrl('/manga');
                 }, error => {
                     alert('Erro ao atualizar o manga!');
@@ -124,13 +95,8 @@ export class MangaFormComponent implements OnInit {
                 });
             } else {
                 this.mangaService.insert(manga).subscribe(() => {
-<<<<<<< HEAD
                     alert('Novel cadastrado com sucesso!');
                     console.log('Insert successful');
-=======
-                    alert('Manga cadastrado com sucesso!'); // Debugging: Log success
-                    console.log('Insert successful'); // Debugging: Log success
->>>>>>> 21ba5d8bf9e775ebee4f62862ffb57829b241728
                     this.router.navigateByUrl('/manga');
                 }, error => {
                     alert('Erro ao cadastrar o manga!');

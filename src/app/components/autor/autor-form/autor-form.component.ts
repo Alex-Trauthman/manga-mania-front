@@ -1,78 +1,56 @@
-import { CommonModule, NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
-import { GeneroNovel, GeneroNovelMap } from '../../../models/generoNovel.model';
-import { EscritorNovelService } from '../../../services/escritor.service';
-import { NovelService } from '../../../services/novel.service';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { AutorService } from '../../../services/autorManga.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { Observable } from 'rxjs/internal/Observable';
-import { HeaderComponent } from '../../header/header.component';
-import { FooterComponent } from '../../footer/footer.component';
+import { HeaderComponent } from "../../header/header.component";
+import { FooterComponent } from "../../footer/footer.component";
 
 @Component({
     selector: 'app-autor-form',
     standalone: true,
     templateUrl: './autor-form.component.html',
     styleUrls: ['./autor-form.component.css'],
-    imports: [NgIf, ReactiveFormsModule, MatFormFieldModule,
-        MatInputModule, MatButtonModule, MatCardModule, MatToolbarModule,
-        RouterModule, MatSelectModule, CommonModule,HeaderComponent,FooterComponent]
+    imports: [CommonModule, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatCardModule, MatToolbarModule, MatSelectModule, RouterModule, HeaderComponent, FooterComponent]
 })
 export class AutorFormComponent implements OnInit {
     formGroup: FormGroup;
-    autores: any[] = [];
-    generos = Object.entries(GeneroNovelMap);
-    novelId: number | null = null;
+    autorId: number | null = null;
 
     constructor(
         private formBuilder: FormBuilder,
-        private novelService: NovelService,
-        private escritorService: EscritorNovelService,
+        private autorService: AutorService,
         private router: Router,
         private activatedRoute: ActivatedRoute
     ) {
         this.formGroup = this.formBuilder.group({
             id: [null],
             nome: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(40)]],
-            paginas: [null, Validators.required],
-            preco: [null, Validators.required],
-            sinopse: ['',[Validators.required, Validators.minLength(30)]],
-            lancamento: [null, [Validators.required, Validators.min(1000), Validators.max(9999)]], // anoPublicação -> modelo java
-            estoque: [null, Validators.required],
-            idAutor: [null, Validators.required], // Ensure this matches the service method
-            genero: [null, Validators.required],
-            capitulos: [null, Validators.required]
+            anoNascimento: [null, [Validators.required, Validators.min(1900), Validators.max(new Date().getFullYear())]],
+            nacionalidade: [null, Validators.required],
+            sexo: [null, Validators.required]
         });
     }
 
     ngOnInit(): void {
-        this.escritorService.findAll().subscribe((data) => (this.autores = data));
         this.activatedRoute.params.subscribe(params => {
-            this.novelId = params['id'] ? +params['id'] : null;
-            if (this.novelId) {
-                this.loadNovel(this.novelId);
+            this.autorId = params['id'] ? +params['id'] : null;
+            if (this.autorId) {
+                this.loadAutor(this.autorId);
             }
         });
-        
     }
 
-    initializeForm(): void {
-        const novel = this.activatedRoute.snapshot.data['novel'];
-        if (novel) {
-            this.formGroup.patchValue(novel);
-        }
-    }
-    loadNovel(id: number): void {
-        this.novelService.findById(id).subscribe(novel => {
-            this.formGroup.patchValue(novel);
+    loadAutor(id: number): void {
+        this.autorService.findById(id).subscribe(autor => {
+            this.formGroup.patchValue(autor);
         });
-        this.formGroup.markAllAsTouched();
     }
 
     salvar(): void {
@@ -83,24 +61,26 @@ export class AutorFormComponent implements OnInit {
         }
         console.log('Salvar method called'); // Debugging: Log method call
         if (this.formGroup.valid) {
-            const novel = this.formGroup.value;
-            console.log('Form Data:', novel); // Debugging: Log form data
-            if (novel.id) {
-                this.novelService.update(novel).subscribe(() => {
-                    alert('Novel atualizado com sucesso!'); // Debugging: Log success
+            const autor = this.formGroup.value;
+            console.log('Form Data:', autor); // Debugging: Log form data
+            if (this.autorId) {
+                console.log('Updating autor with ID:', this.autorId); // Debugging: Log update action
+                this.autorService.update(autor).subscribe(() => {
+                    alert('Autor atualizado com sucesso!'); // Debugging: Log success
                     console.log('Update successful'); // Debugging: Log success
-                    this.router.navigateByUrl('/novels');
+                    this.router.navigateByUrl('/autores');
                 }, error => {
-                    alert('Erro ao atualizar o novel!'); // Debugging: Log error
+                    alert('Erro ao atualizar o autor!'); // Debugging: Log error
                     console.error('Update error:', error); // Debugging: Log error
                 });
             } else {
-                this.novelService.insert(novel).subscribe(() => {
-                    alert('Novel cadastrado com sucesso!'); // Debugging: Log success
+                console.log('Inserting new autor'); // Debugging: Log insert action
+                this.autorService.insert(autor).subscribe(() => {
+                    alert('Autor cadastrado com sucesso!'); // Debugging: Log success
                     console.log('Insert successful'); // Debugging: Log success
-                    this.router.navigateByUrl('/novels');
+                    this.router.navigateByUrl('/autores');
                 }, error => {
-                    alert('Erro ao cadastrar o novel!'); // Debugging: Log error
+                    alert('Erro ao cadastrar o autor!'); // Debugging: Log error
                     console.error('Insert error:', error); // Debugging: Log error
                 });
             }
@@ -110,10 +90,10 @@ export class AutorFormComponent implements OnInit {
     excluir(): void {
         const id = this.formGroup.get('id')?.value;
         if (id) {
-            this.novelService.delete(id).subscribe(() => {
-                alert('Novel excluído com sucesso!'); // Debugging: Log success
+            this.autorService.delete(id).subscribe(() => {
+                alert('Autor excluído com sucesso!'); // Debugging: Log success
                 console.log('Delete successful'); // Debugging: Log success
-                this.router.navigateByUrl('/novel');
+                this.router.navigateByUrl('/autores');
             }, error => {
                 console.error('Delete error:', error); // Debugging: Log error
             });
@@ -127,7 +107,10 @@ export class AutorFormComponent implements OnInit {
             return `${controlName} deve ter no mínimo ${control.errors?.['minlength'].requiredLength} caracteres.`;
         if (control?.hasError('maxlength'))
             return `${controlName} deve ter no máximo ${control.errors?.['maxlength'].requiredLength} caracteres.`;
+        if (control?.hasError('min'))
+            return `${controlName} deve ser maior ou igual a ${control.errors?.['min'].min}.`;
+        if (control?.hasError('max'))
+            return `${controlName} deve ser menor ou igual a ${control.errors?.['max'].max}.`;
         return '';
     }
-    
 }

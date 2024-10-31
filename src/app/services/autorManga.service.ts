@@ -48,4 +48,7 @@ export class AutorService {
     delete(id: number): Observable<void> {
         return this.httpClient.delete<void>(`${this.baseUrl}/${id}`);
     }
+    findById(id: number): Observable<AutorManga> {
+        return this.httpClient.get<AutorManga>(`${this.baseUrl}/${id}`);
+    }
 }

@@ -63,4 +63,7 @@ export class NovelService {
     delete(id: number): Observable<void> {
         return this.httpClient.delete<void>(`${this.baseUrl}/${id}`);
     }
+    searchNovels(query: string): Observable<Novel[]> {
+        return this.httpClient.get<Novel[]>(`${this.baseUrl}?search=${query}`);
+    }
 }

@@ -4,7 +4,6 @@ import { AutorManga } from "./autorManga.model";
 export class Manga {
     id!: number;
     nome!: string;
-    nomeImagem!: string;
     paginas!: number;
     preco!: number;
     sinopse!: string;
@@ -17,7 +16,6 @@ export class Manga {
     constructor(
         id: number, 
         nome: string, 
-        nomeImagem: string, 
         paginas: number, 
         preco: number, 
         sinopse: string, 
@@ -29,7 +27,6 @@ export class Manga {
     ) {
         this.id = id;
         this.nome = nome;
-        this.nomeImagem = nomeImagem;
         this.paginas = paginas;
         this.preco = preco;
         this.sinopse = sinopse;

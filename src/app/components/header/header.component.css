@@ -32,3 +32,19 @@ header button:hover {
     background-color: #0056b3;
     color: white;
 }
+
+
+.search-form {
+    display: flex;
+    align-items: center;
+}
+.search-field {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.search {
+    max-width: 300px;
+    padding: 0;
+}

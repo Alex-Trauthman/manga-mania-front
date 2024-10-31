@@ -2,9 +2,9 @@ import { Routes } from '@angular/router';
 import { AdministradorFormComponent } from './components/administrador/administrador-form/administrador-form.component';
 import { AdministradorListComponent } from './components/administrador/administrador-list/administrador-list.component';
 import { AutorFormComponent } from './components/autor/autor-form/autor-form.component';
-import { AutorListComponent } from './components/autor/autor-list/autor-list.component';
+import { AutorMangaListComponent } from './components/autor/autor-list/autor-list.component';
 import { EscritorFormComponent } from './components/escritor/escritor-form/escritor-form.component';
-import { EscritorListComponent } from './components/escritor/escritor-list/escritor-list.component';
+import { EscritorNovelListComponent } from './components/escritor/escritor-list/escritor-list.component';
 import { LoginComponent } from './components/login/login.component';
 import { MangaFormComponent } from './components/manga/manga-form/manga-form.component';
 import { MangaListComponent } from './components/manga/manga-list/manga-list.component';
@@ -17,10 +17,10 @@ export const routes: Routes = [
     { path: '', redirectTo: '/login', pathMatch: 'full', data: { title: "Portal de autenticação" } },
     { path: 'administrador', component: AdministradorListComponent, data: { title: "" } },
     { path: 'administrador/new', component: AdministradorFormComponent, data: { title: "AdministradorFormComponent" } },
-    { path: 'autor', component: AutorListComponent, data: { title: "AutorListComponent" } },
+    { path: 'autor', component: AutorMangaListComponent, data: { title: "AutorListComponent" } },
     { path: 'autor/new', component: AutorFormComponent, data: { title: "AutorFormComponent" } },
     { path: 'autor/edit/:id', component: AutorFormComponent, data: { title: "AutorFormComponent" } },
-    { path: 'escritor', component: EscritorListComponent, data: { title: "EscritorListComponent" } },
+    { path: 'escritor', component: EscritorNovelListComponent, data: { title: "EscritorListComponent" } },
     { path: 'escritor/new', component: EscritorFormComponent, data: { title: "EscritorFormComponent" } },
     { path: 'escritor/edit/:id', component: EscritorFormComponent, data: { title: "EscritorFormComponent" } },
     { path: 'login', component: LoginComponent, data: { title: "LoginComponent" } },

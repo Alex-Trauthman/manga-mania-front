@@ -1,32 +1,45 @@
-import { Component,OnInit,Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UsuarioService } from '../../../services/usuario.service';
-import { HeaderComponent } from '../../header/header.component';
-import { FooterComponent } from '../../footer/footer.component';
+import { Component, OnInit } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
+import { Administrador } from '../../../models/administrador.model';
+import { AdministradorService } from '../../../services/administrador.service';
+import { MatTableModule } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { FooterComponent } from "../../footer/footer.component";
+import { HeaderComponent } from "../../header/header.component";
 
 @Component({
     selector: 'app-administrador-list',
+    standalone: true,
     templateUrl: './administrador-list.component.html',
     styleUrls: ['./administrador-list.component.css'],
-    standalone: true,
-    imports: [CommonModule,HeaderComponent,FooterComponent]
+    imports: [CommonModule, RouterModule, MatTableModule, MatButtonModule, MatCardModule, MatToolbarModule, FooterComponent, HeaderComponent]
 })
 export class AdministradorListComponent implements OnInit {
-    administradores: any[] = [];
-    totalRecords = 0;
-    pageSize = 2;
-    page = 0;
+    displayedColumns: string[] = ['id', 'username', 'email', 'cpf', 'actions'];
+    administradores: Administrador[] = [];
 
-    constructor(@Inject(UsuarioService) private usuarioService: UsuarioService) { }
+    constructor(private administradorService: AdministradorService, private router: Router) {}
 
     ngOnInit(): void {
-        this.usuarioService.findAll(this.page,this.pageSize).subscribe(
-            (data: any[]) => {
-                this.administradores = data;
-            },
-            (error: any) => {
-                console.error('Erro ao buscar administradores',error);
-            }
-        );
+        this.loadAdministradores();
+    }
+
+    loadAdministradores(): void {
+        this.administradorService.findAll().subscribe((data: Administrador[]) => {
+            this.administradores = data;
+        });
+    }
+
+    editAdministrador(id: number): void {
+        this.router.navigate(['/administrador', id]);
+    }
+
+    deleteAdministrador(id: number): void {
+        this.administradorService.delete(id).subscribe(() => {
+            this.loadAdministradores();
+        });
     }
 }

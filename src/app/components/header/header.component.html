@@ -10,4 +10,13 @@
     <button (click)="navigateTo('novel')">Novel</button>
     <button (click)="navigateTo('usuario')">Usuario</button>
     <button (click)="navigateTo('login')">Login</button>
+    <mat-toolbar color="primary" class="search">
+        <form [formGroup]="searchForm" (ngSubmit)="onSearch()" class="search-form">
+            <mat-form-field appearance="outline" class="search-field">
+                <mat-label>Pesquisar Novels</mat-label>
+                <input matInput formControlName="query" placeholder="Digite o título do novel">
+            </mat-form-field>
+            <button mat-raised-button color="accent" type="submit">Pesquisar</button>
+        </form>
+    </mat-toolbar>
 </header>
