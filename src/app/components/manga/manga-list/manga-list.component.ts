@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { Component,OnInit } from '@angular/core';
+import { Router,RouterModule } from '@angular/router';
 import { Manga } from '../../../models/manga.model';
 import { MangaService } from '../../../services/manga.service';
 import { MatTableModule } from '@angular/material/table';
@@ -15,13 +15,13 @@ import { FooterComponent } from "../../footer/footer.component";
     standalone: true,
     templateUrl: './manga-list.component.html',
     styleUrls: ['./manga-list.component.css'],
-    imports: [CommonModule, RouterModule, MatTableModule, MatButtonModule, MatCardModule, MatToolbarModule, HeaderComponent, FooterComponent]
+    imports: [CommonModule,RouterModule,MatTableModule,MatButtonModule,MatCardModule,MatToolbarModule,HeaderComponent,FooterComponent]
 })
 export class MangaListComponent implements OnInit {
-    displayedColumns: string[] = ['id', 'nome', 'paginas', 'preco', 'sinopse', 'lancamento', 'estoque', 'color', 'idAutor', 'genero', 'actions'];
+    displayedColumns: string[] = ['id','nome','paginas','preco','sinopse','lancamento','estoque','color','idAutor','genero','actions'];
     mangas: Manga[] = [];
 
-    constructor(private mangaService: MangaService, private router: Router) {}
+    constructor(private mangaService: MangaService,private router: Router) { }
 
     ngOnInit(): void {
         this.loadMangas();
@@ -34,7 +34,7 @@ export class MangaListComponent implements OnInit {
     }
 
     editManga(id: number): void {
-        this.router.navigate(['/manga', id]);
+        this.router.navigate(['/manga',id]);
     }
 
     deleteManga(id: number): void {

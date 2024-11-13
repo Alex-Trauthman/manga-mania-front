@@ -9,17 +9,20 @@ import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { HeaderComponent } from "../../header/header.component";
 import { FooterComponent } from "../../footer/footer.component";
+import { MatIconModule } from '@angular/material/icon';
+import { Novel } from '../../../models/novel.model';
 
 @Component({
     selector: 'app-usuario-list',
     standalone: true,
     templateUrl: './usuario-list.component.html',
     styleUrls: ['./usuario-list.component.css'],
-    imports: [CommonModule, RouterModule, MatTableModule, MatButtonModule, MatCardModule, MatToolbarModule, HeaderComponent, FooterComponent]
+    imports: [CommonModule, RouterModule, MatTableModule, MatButtonModule, MatCardModule, MatToolbarModule, HeaderComponent, FooterComponent, MatIconModule]
 })
 export class UsuarioListComponent implements OnInit {
     displayedColumns: string[] = ['id', 'username', 'email', 'cpf', 'endereco', 'sexo', 'actions'];
     usuarios: Usuario[] = [];
+    // novels: Novel[] = [];
 
     constructor(private usuarioService: UsuarioService, private router: Router) {}
 

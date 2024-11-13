@@ -9,17 +9,20 @@ import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { HeaderComponent } from "../../header/header.component";
 import { FooterComponent } from "../../footer/footer.component";
+import { MatIconModule } from '@angular/material/icon';
+import { Novel } from '../../../models/novel.model';
 
 @Component({
     selector: 'app-autor-manga-list',
     standalone: true,
     templateUrl: './autor-list.component.html',
     styleUrls: ['./autor-list.component.css'],
-    imports: [CommonModule, RouterModule, MatTableModule, MatButtonModule, MatCardModule, MatToolbarModule, HeaderComponent, FooterComponent]
+    imports: [CommonModule, RouterModule, MatTableModule, MatButtonModule, MatCardModule, MatToolbarModule, HeaderComponent, FooterComponent, MatIconModule]
 })
 export class AutorMangaListComponent implements OnInit {
     displayedColumns: string[] = ['id', 'nome', 'anoNascimento', 'nacionalidade', 'sexo', 'actions'];
     autores: AutorManga[] = [];
+    // novels: Novel[] = [];
 
     constructor(private autorService: AutorService, private router: Router) {}
 

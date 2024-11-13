@@ -9,13 +9,14 @@ import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { HeaderComponent } from "../../header/header.component";
 import { FooterComponent } from "../../footer/footer.component";
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @Component({
     selector: 'app-escritor-novel-list',
     standalone: true,
     templateUrl: './escritor-list.component.html',
     styleUrls: ['./escritor-list.component.css'],
-    imports: [CommonModule, RouterModule, MatTableModule, MatButtonModule, MatCardModule, MatToolbarModule, HeaderComponent, FooterComponent]
+    imports: [CommonModule, RouterModule, MatTableModule, MatButtonModule, MatCardModule, MatToolbarModule, HeaderComponent, FooterComponent, MatPaginatorModule]
 })
 export class EscritorNovelListComponent implements OnInit {
     displayedColumns: string[] = ['id', 'nome', 'anoNascimento', 'nacionalidade', 'sexo', 'actions'];

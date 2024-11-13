@@ -1,4 +1,4 @@
-.novel-list-container {
+.autor-manga-list-container {
     margin: 0 auto;
     padding: 20px;
     border: 1px solid #ccc;
@@ -7,34 +7,34 @@
     background-color: #fff;
 }
 
-.novel-list-container h2 {
+.autor-manga-list-container h2 {
     text-align: center;
     margin-bottom: 20px;
     color: #333;
 }
 
-.novel-list-container table {
+.autor-manga-list-container table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
 }
 
-.novel-list-container th,
-.novel-list-container td {
+.autor-manga-list-container th,
+.autor-manga-list-container td {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
 }
 
-.novel-list-container th {
+.autor-manga-list-container th {
     background-color: #f2f2f2;
     font-weight: bold;
 }
 
-.novel-list-container tr:nth-child(even) {
+.autor-manga-list-container tr:nth-child(even) {
     background-color: #f9f9f9;
 }
 
-.novel-list-container tr:hover {
+.autor-manga-list-container tr:hover {
     background-color: #f1f1f1;
 }

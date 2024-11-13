@@ -19,7 +19,8 @@
                 <mat-form-field appearance="fill" class="full-width-input">
                     <mat-label>Ano de Nascimento</mat-label>
                     <input matInput type="number" formControlName="anoNascimento" required>
-                    <mat-error *ngIf="formGroup.get('anoNascimento')?.invalid && formGroup.get('anoNascimento')?.touched">
+                    <mat-error
+                        *ngIf="formGroup.get('anoNascimento')?.invalid && formGroup.get('anoNascimento')?.touched">
                         {{ getErrorMessage('anoNascimento') }}
                     </mat-error>
                 </mat-form-field>
@@ -27,7 +28,8 @@
                 <mat-form-field appearance="fill" class="full-width-input">
                     <mat-label>Nacionalidade</mat-label>
                     <input matInput type="text" formControlName="nacionalidade" required>
-                    <mat-error *ngIf="formGroup.get('nacionalidade')?.invalid && formGroup.get('nacionalidade')?.touched">
+                    <mat-error
+                        *ngIf="formGroup.get('nacionalidade')?.invalid && formGroup.get('nacionalidade')?.touched">
                         {{ getErrorMessage('nacionalidade') }}
                     </mat-error>
                 </mat-form-field>
