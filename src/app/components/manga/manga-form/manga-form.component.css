@@ -1,4 +1,4 @@
-.novel-form-container {
+.manga-form-container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
@@ -9,28 +9,28 @@
     margin-bottom: 100px;
 }
 
-.novel-form-container h2 {
+.manga-form-container h2 {
     text-align: center;
     margin-bottom: 20px;
     color: #333;
 }
 
-.novel-form-container form {
+.manga-form-container form {
     display: flex;
     flex-direction: column;
 }
 
-.novel-form-container .form-group {
+.manga-form-container .form-group {
     margin-bottom: 35px;
 }
 
-.novel-form-container label {
+.manga-form-container label {
     margin-bottom: 5px;
     font-weight: bold;
     color: #555;
 }
 
-.novel-form-container input {
+.manga-form-container input {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -39,7 +39,7 @@
     box-sizing: border-box;
 }
 
-.novel-form-container button {
+.manga-form-container button {
     padding: 10px;
     background-color: #007bff;
     color: #fff;
@@ -51,11 +51,11 @@
     margin-bottom: 100px;
 }
 
-.novel-form-container button:hover {
+.manga-form-container button:hover {
     background-color: #0056b3;
 }
 
-.novel-form-container textarea {
+.manga-form-container textarea {
     width: 100%;
     padding: 10px 10px;
     box-sizing: border-box;
@@ -65,7 +65,7 @@
     font-size: 16px;
 }
 
-.novel-form-container select {
+.manga-form-container select {
     width: 100%;
     box-sizing: border-box;
     border: 2px solid #ccc;

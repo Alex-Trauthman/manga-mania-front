@@ -4,7 +4,6 @@
 </mat-toolbar>
 
 <div class="manga-list-container">
-<<<<<<< Updated upstream
     <mat-card>
         <mat-card-content>
             <table mat-table [dataSource]="mangas" class="mat-elevation-z8">
@@ -82,37 +81,5 @@
             </table>
         </mat-card-content>
     </mat-card>
-=======
-    <h2>Lista de mangás</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Nome</th>
-                <th>Ano lançamento</th>
-                <th>Nacionalidade</th>
-                <th>Sexo</th>
-                <th>Mangas</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let autor of autores">
-                <td>{{ autor.nome }}</td>
-                <td>{{ autor.lancamento }}</td>
-                <td>{{ autor.nacionalidade }}</td>
-                <td>{{ autor.mangas.length }}</td>
-<!--                 <td>
-                    <ul>
-                        <li *ngFor="let condicao of autor.condicoes">{{ condicao.descricao }}</li>
-                    </ul>
-                </td>
-                <td>
-                    <ul>
-                        <li *ngFor="let tarefa of autor.tarefas">{{ tarefa.nome }}</li>
-                    </ul>
-                </td> -->
-            </tr>
-        </tbody>
-    </table>
->>>>>>> Stashed changes
 </div>
 <app-footer></app-footer>

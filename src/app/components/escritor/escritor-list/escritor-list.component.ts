@@ -17,7 +17,6 @@ import { FooterComponent } from "../../footer/footer.component";
     styleUrls: ['./escritor-list.component.css'],
     imports: [CommonModule, RouterModule, MatTableModule, MatButtonModule, MatCardModule, MatToolbarModule, HeaderComponent, FooterComponent]
 })
-<<<<<<< Updated upstream
 export class EscritorNovelListComponent implements OnInit {
     displayedColumns: string[] = ['id', 'nome', 'anoNascimento', 'nacionalidade', 'sexo', 'actions'];
     escritores: EscritorNovel[] = [];
@@ -42,35 +41,5 @@ export class EscritorNovelListComponent implements OnInit {
         this.escritorService.delete(id).subscribe(() => {
             this.loadEscritores();
         });
-=======
-export class EscritorListComponent implements OnInit {
-/*     displayedColumns: string[] = ['id', 'nome', 'anoNascimento', 'nacionalidade', 'sexo'];
-    dataSource: MatTableDataSource<EscritorNovel>;
-    totalRecords = 0;
-    pageSize = 2;
-    page = 0;
-    paginator!: MatPaginator;
-    sort!: MatSort; */
-
-    constructor(@Inject(EscritorNovelService) private escritorService: EscritorNovelService){
-        // this.dataSource = new MatTableDataSource<any>();
-    }
-
-    ngOnInit(): void {
-/*         this.escritorService.findAll(this.page,this.pageSize).subscribe(
-            (data: EscritorNovel[]) => {
-                this.dataSource.data = data;
-            },
-            (error: any) => {
-                console.error('Erro ao buscar escritores',error);
-            }
-        );
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort; */
-    }
-
-    applyFilter(filterValue: string) {
-        // this.dataSource.filter = filterValue.trim().toLowerCase();
->>>>>>> Stashed changes
     }
 }
