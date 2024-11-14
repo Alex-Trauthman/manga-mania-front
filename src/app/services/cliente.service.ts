@@ -1,4 +1,4 @@
-/* import { HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Cliente } from '../models/cliente.model';
 import { Observable } from 'rxjs';
@@ -31,10 +31,7 @@ export class ClienteService {
     }
 
     insert(cliente: Cliente): Observable<Cliente> {
-        const data = {
-            nome: cliente.nome
-        };
-        return this.httpClient.post<Cliente>(this.baseUrl, data);
+        return this.httpClient.post<Cliente>(this.baseUrl, cliente);
     }
 
     update(cliente: Cliente): Observable<Cliente> {
@@ -47,6 +44,4 @@ export class ClienteService {
     delete(id: number): Observable<void> {
         return this.httpClient.delete<void>(`${this.baseUrl}/${id}`);
     }
-
 }
- */

@@ -30,7 +30,7 @@ export class EscritorNovelService {
     }
 
     insert(escritor: EscritorNovel): Observable<EscritorNovel> {
-        return this.httpClient.post<EscritorNovel>(this.baseUrl,escritor);
+        return this.httpClient.post<EscritorNovel>(this.baseUrl, escritor);
     }
 
     update(escritor: EscritorNovel): Observable<EscritorNovel> {

@@ -1,4 +1,3 @@
-<app-header></app-header>
 <mat-toolbar color="primary">
     <div class="toolbar-title">Cadastro de Autor</div>
 </mat-toolbar>
@@ -12,7 +11,10 @@
                     <mat-label>Nome</mat-label>
                     <input matInput type="text" formControlName="nome" required>
                     <mat-error *ngIf="formGroup.get('nome')?.invalid && formGroup.get('nome')?.touched">
-                        {{ getErrorMessage('nome') }}
+                        {{ getErrorMessage('nome', formGroup.get('nome')?.errors) }}
+                        @if(formGroup.get('nome')?.hasError('apiError')) {
+                            <span>{{formGroup.get('nome')?.getError('apiError')}}</span>
+                        }
                     </mat-error>
                 </mat-form-field>
 
@@ -21,7 +23,10 @@
                     <input matInput type="number" formControlName="anoNascimento" required>
                     <mat-error
                         *ngIf="formGroup.get('anoNascimento')?.invalid && formGroup.get('anoNascimento')?.touched">
-                        {{ getErrorMessage('anoNascimento') }}
+                        {{ getErrorMessage('anoNascimento', formGroup.get('anoNascimento')?.errors) }}
+                        @if(formGroup.get('anoNascimento')?.hasError('apiError')) {
+                            <span>{{formGroup.get('anoNascimento')?.getError('apiError')}}</span>
+                        }
                     </mat-error>
                 </mat-form-field>
 
@@ -30,7 +35,10 @@
                     <input matInput type="text" formControlName="nacionalidade" required>
                     <mat-error
                         *ngIf="formGroup.get('nacionalidade')?.invalid && formGroup.get('nacionalidade')?.touched">
-                        {{ getErrorMessage('nacionalidade') }}
+                        {{ getErrorMessage('nacionalidade', formGroup.get('nacionalidade')?.errors) }}
+                        @if(formGroup.get('nacionalidade')?.hasError('apiError')) {
+                            <span>{{formGroup.get('nacionalidade')?.getError('apiError')}}</span>
+                        }
                     </mat-error>
                 </mat-form-field>
 
@@ -41,7 +49,10 @@
                         <mat-option value="Feminino">Feminino</mat-option>
                     </mat-select>
                     <mat-error *ngIf="formGroup.get('sexo')?.invalid && formGroup.get('sexo')?.touched">
-                        {{ getErrorMessage('sexo') }}
+                        {{ getErrorMessage('sexo', formGroup.get('sexo')?.errors) }}
+                        @if(formGroup.get('sexo')?.hasError('apiError')) {
+                            <span>{{formGroup.get('sexo')?.getError('apiError')}}</span>
+                        }
                     </mat-error>
                 </mat-form-field>
 
@@ -58,4 +69,3 @@
         </mat-card-content>
     </mat-card>
 </div>
-<app-footer></app-footer>

@@ -4,8 +4,8 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { AdministradorService } from '../../services/administrador.service';
-import { FooterComponent } from '../footer/footer.component';
-import { HeaderComponent } from '../header/header.component';
+import { FooterComponent } from '../template/footer/footer.component';
+import { HeaderComponent } from '../template/header/header.component';
 
 @Component({
     selector: 'app-login',
@@ -56,7 +56,6 @@ export class LoginComponent {
                     error => {
                         if(error.status === 404) this.errorMessage = "Usuário não encontrado.";
                         else this.errorMessage = 'Ocorreu um erro ao realizar login.';
-                        console.log(error);
                     }
                 )
          */

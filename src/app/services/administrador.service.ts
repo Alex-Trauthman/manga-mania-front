@@ -18,7 +18,7 @@ export class AdministradorService {
                 pageSize: pageSize.toString()
             }
         }
-        return this.httpClient.get<Administrador[]>(this.baseUrl, { params });
+        return this.httpClient.get<Administrador[]>(this.baseUrl, {params});
     }
 
     count(): Observable<number> {

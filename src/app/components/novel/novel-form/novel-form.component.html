@@ -1,4 +1,3 @@
-<app-header></app-header>
 <mat-toolbar color="primary">
     <div class="toolbar-title">Registro de novel</div>
 </mat-toolbar>
@@ -11,7 +10,10 @@
                     <mat-label>Nome</mat-label>
                     <input matInput type="text" formControlName="nome" />
                     <mat-error *ngIf="formGroup.get('nome')?.invalid && formGroup.get('nome')?.touched">
-                        {{ getErrorMessage('nome') }}
+                        {{ getErrorMessage('nome', formGroup.get('nome')?.errors) }}
+                        @if(formGroup.get('nome')?.hasError('apiError')) {
+                           <span>{{formGroup.get('nome')?.getError('apiError')}}</span> 
+                        }
                     </mat-error>
                 </mat-form-field>
 
@@ -19,7 +21,10 @@
                     <mat-label>Sinopse</mat-label>
                     <textarea matInput rows="5" formControlName="sinopse"></textarea>
                     <mat-error *ngIf="formGroup.get('sinopse')?.invalid && formGroup.get('sinopse')?.touched">
-                        {{ getErrorMessage('sinopse') }}
+                        {{ getErrorMessage('sinopse', formGroup.get('sinopse')?.errors) }}
+                        @if(formGroup.get('sinopse')?.hasError('apiError')) {
+                           <span>{{formGroup.get('sinopse')?.getError('apiError')}}</span> 
+                        }
                     </mat-error>
                 </mat-form-field>
 
@@ -29,7 +34,10 @@
                         <mat-option *ngFor="let genero of generos" [value]="genero[0]">{{genero[1]}}</mat-option>
                     </mat-select>
                     <mat-error *ngIf="formGroup.get('genero')?.invalid && formGroup.get('genero')?.touched">
-                        {{ getErrorMessage('genero') }}
+                        {{ getErrorMessage('genero', formGroup.get('genero')?.errors) }}
+                        @if(formGroup.get('genero')?.hasError('apiError')) {
+                           <span>{{formGroup.get('genero')?.getError('apiError')}}</span> 
+                        }
                     </mat-error>
                 </mat-form-field>
 
@@ -41,7 +49,10 @@
                         </mat-option>
                     </mat-select>
                     <mat-error *ngIf="formGroup.get('idAutor')?.invalid && formGroup.get('idAutor')?.touched">
-                        {{ getErrorMessage('idAutor') }}
+                        {{ getErrorMessage('idAutor', formGroup.get('idAutor')?.errors) }}
+                        @if(formGroup.get('idAutor')?.hasError('apiError')) {
+                           <span>{{formGroup.get('idAutor')?.getError('apiError')}}</span> 
+                        }
                     </mat-error>
                 </mat-form-field>
 
@@ -49,7 +60,10 @@
                     <mat-label>Ano de Lançamento</mat-label>
                     <input matInput type="number" formControlName="lancamento" />
                     <mat-error *ngIf="formGroup.get('lancamento')?.invalid && formGroup.get('lancamento')?.touched">
-                        {{ getErrorMessage('lancamento') }}
+                        {{ getErrorMessage('lancamento', formGroup.get('lancamento')?.errors) }}
+                        @if(formGroup.get('lancamento')?.hasError('apiError')) {
+                           <span>{{formGroup.get('lancamento')?.getError('apiError')}}</span> 
+                        }
                     </mat-error>
                 </mat-form-field>
 
@@ -57,23 +71,44 @@
                     <mat-label>Preço</mat-label>
                     <input matInput type="number" formControlName="preco" />
                     <mat-error *ngIf="formGroup.get('preco')?.invalid && formGroup.get('preco')?.touched">
-                        {{ getErrorMessage('preco') }}
+                        {{ getErrorMessage('preco', formGroup.get('preco')?.errors) }}
+                        @if(formGroup.get('preco')?.hasError('apiError')) {
+                           <span>{{formGroup.get('preco')?.getError('apiError')}}</span> 
+                        }
                     </mat-error>
                 </mat-form-field>
 
                 <mat-form-field appearance="fill" class="full-width-input">
                     <mat-label>Estoque</mat-label>
                     <input matInput type="number" formControlName="estoque" />
+                    <mat-error *ngIf="formGroup.get('estoque')?.invalid && formGroup.get('estoque')?.touched">
+                        {{ getErrorMessage('estoque', formGroup.get('estoque')?.errors) }}
+                        @if(formGroup.get('estoque')?.hasError('apiError')) {
+                           <span>{{formGroup.get('estoque')?.getError('apiError')}}</span> 
+                        }
+                    </mat-error>
                 </mat-form-field>
 
                 <mat-form-field appearance="fill" class="full-width-input">
                     <mat-label>Páginas</mat-label>
                     <input matInput type="number" formControlName="paginas" />
+                    <mat-error *ngIf="formGroup.get('paginas')?.invalid && formGroup.get('paginas')?.touched">
+                        {{ getErrorMessage('paginas', formGroup.get('paginas')?.errors) }}
+                        @if(formGroup.get('paginas')?.hasError('apiError')) {
+                           <span>{{formGroup.get('paginas')?.getError('apiError')}}</span> 
+                        }
+                    </mat-error>
                 </mat-form-field>
 
                 <mat-form-field appearance="fill" class="full-width-input">
                     <mat-label>Capítulos</mat-label>
                     <input matInput type="number" formControlName="capitulos" />
+                    <mat-error *ngIf="formGroup.get('capitulos')?.invalid && formGroup.get('capitulos')?.touched">
+                        {{ getErrorMessage('capitulos', formGroup.get('capitulos')?.errors) }}
+                        @if(formGroup.get('capitulos')?.hasError('apiError')) {
+                           <span>{{formGroup.get('capitulos')?.getError('apiError')}}</span> 
+                        }
+                    </mat-error>
                 </mat-form-field>
 
                 <mat-card-actions>
@@ -89,4 +124,3 @@
         </mat-card-content>
     </mat-card>
 </div>
-<app-footer></app-footer>

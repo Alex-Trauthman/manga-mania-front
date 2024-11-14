@@ -2,14 +2,13 @@
     <img src="logo.png" alt="">
     <h1>Bem-vindo!</h1>
     <p></p>
-
-    <button (click)="navigateTo('administrador')">Administradores</button>
-    <button (click)="navigateTo('autor')">Autores</button>
-    <button (click)="navigateTo('escritor')">Escritores</button>
-    <button (click)="navigateTo('manga')">Manga</button>
-    <button (click)="navigateTo('novel')">Novel</button>
-    <button (click)="navigateTo('usuario')">Usuario</button>
-    <button (click)="navigateTo('login')">Login</button>
+    <button (click)="navigateTo('admin/administrador')">Administradores</button>
+    <button (click)="navigateTo('admin/autor')">Autores</button>
+    <button (click)="navigateTo('admin/escritor')">Escritores</button>
+    <button (click)="navigateTo('admin/manga')">Manga</button>
+    <button (click)="navigateTo('admin/novel')">Novel</button>
+    <button (click)="navigateTo('admin/usuario')">Usuario</button>
+    <button (click)="navigateTo('admin/login')">Login</button>
     <mat-toolbar color="primary" class="search">
         <form [formGroup]="searchForm" (ngSubmit)="onSearch()" class="search-form">
             <mat-form-field appearance="outline" class="search-field">

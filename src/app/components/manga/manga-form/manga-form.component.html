@@ -5,42 +5,60 @@
             <label for="nome">Nome:</label>
             <input type="text" id="nome" formControlName="nome" required>
             <div *ngIf="formGroup.get('nome')?.invalid && formGroup.get('nome')?.touched" class="error">
-                {{ getErrorMessage('nome') }}
+                {{ getErrorMessage('nome', formGroup.get('nome')?.errors) }}
+                @if(formGroup.get('nome')?.hasError('apiError')) {
+                    <span>{{formGroup.get('nome')?.getError('apiError')}}</span>
+                }
             </div>
         </div>
         <div class="form-group">
             <label for="paginas">Paginas:</label>
             <input type="text" id="paginas" formControlName="paginas" required>
             <div *ngIf="formGroup.get('paginas')?.invalid && formGroup.get('paginas')?.touched" class="error">
-                {{ getErrorMessage('paginas') }}
+                {{ getErrorMessage('paginas', formGroup.get('paginas')?.errors) }}
+                @if(formGroup.get('paginas')?.hasError('apiError')) {
+                    <span>{{formGroup.get('paginas')?.getError('apiError')}}</span>
+                }
             </div>
         </div>
         <div class="form-group">
             <label for="preco">Preço:</label>
             <input type="number" id="preco" formControlName="preco" required>
             <div *ngIf="formGroup.get('preco')?.invalid && formGroup.get('preco')?.touched" class="error">
-                {{ getErrorMessage('preco') }}
+                {{ getErrorMessage('preco', formGroup.get('preco')?.errors) }}
+                @if(formGroup.get('preco')?.hasError('apiError')) {
+                    <span>{{formGroup.get('preco')?.getError('apiError')}}</span>
+                }
             </div>
         </div>
         <div class="form-group">
             <label for="sinopse">Sinopse:<br></label>
             <textarea id="sinopse" formControlName="sinopse" required></textarea>
             <div *ngIf="formGroup.get('sinopse')?.invalid && formGroup.get('sinopse')?.touched" class="error">
-                {{ getErrorMessage('sinopse') }}
+                {{ getErrorMessage('sinopse', formGroup.get('sinopse')?.errors) }}
+                @if(formGroup.get('sinopse')?.hasError('apiError')) {
+                    <span>{{formGroup.get('sinopse')?.getError('apiError')}}</span>
+                }
             </div>
         </div>
         <div class="form-group">
             <label for="lancamento">Ano lançamento:</label>
             <input type="number" id="lancamento" formControlName="lancamento" required>
             <div *ngIf="formGroup.get('lancamento')?.invalid && formGroup.get('lancamento')?.touched" class="error">
-                {{ getErrorMessage('lancamento') }}
+                {{ getErrorMessage('lancamento', formGroup.get('lancamento')?.errors) }}
+                @if(formGroup.get('lancamento')?.hasError('apiError')) {
+                    <span>{{formGroup.get('lancamento')?.getError('apiError')}}</span>
+                }
             </div>
         </div>
         <div class="form-group">
             <label for="estoque">Estoque:</label>
             <input type="number" id="estoque" formControlName="estoque" required>
             <div *ngIf="formGroup.get('estoque')?.invalid && formGroup.get('estoque')?.touched" class="error">
-                {{ getErrorMessage('estoque') }}
+                {{ getErrorMessage('estoque', formGroup.get('estoque')?.errors) }}
+                @if(formGroup.get('estoque')?.hasError('apiError')) {
+                    <span>{{formGroup.get('estoque')?.getError('apiError')}}</span>
+                }
             </div>
         </div>
         <div class="form-group">
@@ -56,7 +74,10 @@
                 <option *ngFor="let autor of autores" [value]="autor.id">{{ autor.nome }}</option>
             </select>
             <div *ngIf="formGroup.get('idAutor')?.invalid && formGroup.get('idAutor')?.touched" class="error">
-                {{ getErrorMessage('idAutor') }}
+                {{ getErrorMessage('idAutor', formGroup.get('idAutor')?.errors) }}
+                @if(formGroup.get('idAutor')?.hasError('apiError')) {
+                    <span>{{formGroup.get('idAutor')?.getError('apiError')}}</span>
+                }
             </div>
         </div>
         <div class="form-group">
@@ -65,14 +86,20 @@
                 <option *ngFor="let genero of generos" [value]="genero[0]">{{ genero[1] }}</option>
             </select>
             <div *ngIf="formGroup.get('genero')?.invalid && formGroup.get('genero')?.touched" class="error">
-                {{ getErrorMessage('genero') }}
+                {{ getErrorMessage('genero', formGroup.get('genero')?.errors) }}
+                @if(formGroup.get('genero')?.hasError('apiError')) {
+                    <span>{{formGroup.get('genero')?.getError('apiError')}}</span>
+                }
             </div>
         </div>
         <div class="form-group">
             <label for="capitulos">Capítulos:</label>
             <input type="number" id="capitulos" formControlName="capitulos" required>
             <div *ngIf="formGroup.get('capitulos')?.invalid && formGroup.get('capitulos')?.touched" class="error">
-                {{ getErrorMessage('capitulos') }}
+                {{ getErrorMessage('capitulos', formGroup.get('capitulos')?.errors) }}
+                @if(formGroup.get('capitulos')?.hasError('apiError')) {
+                    <span>{{formGroup.get('capitulos')?.getError('apiError')}}</span>
+                }
             </div>
         </div>
         <button type="submit">Salvar</button>

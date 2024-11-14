@@ -11,15 +11,15 @@ export class NovelService {
 
     constructor(private httpClient: HttpClient) { }
 
-    findAll(page?: number, pageSize?: number): Observable<Novel[]> {
+    findAll(page?: number,pageSize?: number): Observable<Novel[]> {
         let params = {};
-        if (page !== undefined && pageSize !== undefined) {
+        if(page !== undefined && pageSize !== undefined) {
             params = {
                 page: page.toString(),
                 pageSize: pageSize.toString()
             }
         }
-        return this.httpClient.get<Novel[]>(this.baseUrl, { params });
+        return this.httpClient.get<Novel[]>(this.baseUrl,{ params });
     }
 
     count(): Observable<number> {
@@ -33,7 +33,7 @@ export class NovelService {
     insert(novel: Novel): Observable<Novel> {
         const data = {
             nome: novel.nome,
-            idAutor: novel.idAutor, // Ensure this matches the form control name
+            idAutor: novel.idAutor,
             genero: novel.genero,
             sinopse: novel.sinopse,
             lancamento: novel.lancamento,
@@ -42,13 +42,13 @@ export class NovelService {
             paginas: novel.paginas,
             capitulos: novel.capitulos
         };
-        return this.httpClient.post<Novel>(this.baseUrl, data);
+        return this.httpClient.post<Novel>(this.baseUrl,data);
     }
 
     update(novel: Novel): Observable<Novel> {
         const data = {
             nome: novel.nome,
-            idAutor: novel.idAutor, // Ensure this matches the form control name
+            idAutor: novel.idAutor,
             genero: novel.genero,
             sinopse: novel.sinopse,
             lancamento: novel.lancamento,
@@ -57,13 +57,18 @@ export class NovelService {
             paginas: novel.paginas,
             capitulos: novel.capitulos
         };
-        return this.httpClient.put<Novel>(`${this.baseUrl}/${novel.id}`, data);
+        return this.httpClient.put<Novel>(`${this.baseUrl}/${novel.id}`,data);
     }
 
     delete(id: number): Observable<void> {
         return this.httpClient.delete<void>(`${this.baseUrl}/${id}`);
     }
+
     searchNovels(query: string): Observable<Novel[]> {
         return this.httpClient.get<Novel[]>(`${this.baseUrl}?search=${query}`);
+    }
+
+    getImagem(nomeImagem: string): string {
+        return `${this.baseUrl}/image/download/${nomeImagem}`;
     }
 }

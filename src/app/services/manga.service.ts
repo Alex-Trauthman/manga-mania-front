@@ -19,7 +19,7 @@ export class MangaService {
                 pageSize: pageSize.toString()
             }
         }
-        return this.httpClient.get<Manga[]>(this.baseUrl, {params});
+        return this.httpClient.get<Manga[]>(this.baseUrl,{ params });
     }
 
     count(): Observable<number> {
@@ -64,4 +64,7 @@ export class MangaService {
         return this.httpClient.delete<void>(`${this.baseUrl}/${id}`);
     }
 
+    getImagem(nomeImagem: string): string {
+        return `${this.baseUrl}/image/download/${nomeImagem}`;
+    }
 }

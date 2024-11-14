@@ -1,4 +1,3 @@
-<app-header></app-header>
 <mat-toolbar color="primary">
     <div class="toolbar-title">Registro de administrador</div>
 </mat-toolbar>
@@ -9,22 +8,42 @@
                 <mat-form-field appearance="fill" class="full-width-input">
                     <mat-label>Username</mat-label>
                     <input matInput type="text" formControlName="username" />
-                    <mat-error *ngIf="formGroup.get('username')?.invalid && formGroup.get('username')?.touched">{{ getErrorMessage('username') }}</mat-error>
+                    <mat-error *ngIf="formGroup.get('username')?.invalid && formGroup.get('username')?.touched">
+                        {{getErrorMessage('username', formGroup.get('username')?.errors)}}
+                        @if(formGroup.get('username')?.hasError('apiError')) {
+                            <span>{{formGroup.get('username')?.getError('apiError')}}</span>
+                        }
+                    </mat-error>
                 </mat-form-field>
                 <mat-form-field appearance="fill" class="full-width-input">
                     <mat-label>Email</mat-label>
                     <input matInput type="text" formControlName="email" />
-                    <mat-error *ngIf="formGroup.get('email')?.invalid && formGroup.get('email')?.touched">{{ getErrorMessage('email') }}</mat-error>
+                    <mat-error *ngIf="formGroup.get('email')?.invalid && formGroup.get('email')?.touched">
+                        {{getErrorMessage('email', formGroup.get('email')?.errors)}}
+                        @if(formGroup.get('email')?.hasError('apiError')) {
+                            <span>{{formGroup.get('email')?.getError('apiError')}}</span>
+                        }
+                    </mat-error>
                 </mat-form-field>
                 <mat-form-field appearance="fill" class="full-width-input">
                     <mat-label>Senha</mat-label>
                     <input matInput type="password" formControlName="senha" />
-                    <mat-error *ngIf="formGroup.get('senha')?.invalid && formGroup.get('senha')?.touched">{{ getErrorMessage('senha') }}</mat-error>
+                    <mat-error *ngIf="formGroup.get('senha')?.invalid && formGroup.get('senha')?.touched">
+                        {{getErrorMessage('senha', formGroup.get('senha')?.errors)}}
+                        @if(formGroup.get('senha')?.hasError('apiError')) {
+                            <span>{{formGroup.get('senha')?.getError('apiError')}}</span>
+                        }
+                    </mat-error>
                 </mat-form-field>
                 <mat-form-field appearance="fill" class="full-width-input">
                     <mat-label>CPF</mat-label>
                     <input matInput type="text" formControlName="cpf" />
-                    <mat-error *ngIf="formGroup.get('cpf')?.invalid && formGroup.get('cpf')?.touched">{{ getErrorMessage('cpf') }}</mat-error>
+                    <mat-error *ngIf="formGroup.get('cpf')?.invalid && formGroup.get('cpf')?.touched">
+                        {{getErrorMessage('cpf', formGroup.get('cpf')?.errors)}}
+                        @if(formGroup.get('cpf')?.hasError('apiError')) {
+                            <span>{{formGroup.get('cpf')?.getError('apiError')}}</span>
+                        }
+                    </mat-error>
                 </mat-form-field>
                 <mat-card-actions>
                     <button mat-raised-button routerLink="/novels">Cancelar</button>
@@ -39,4 +58,3 @@
         </mat-card-content>
     </mat-card>
 </div>
-<app-footer></app-footer>

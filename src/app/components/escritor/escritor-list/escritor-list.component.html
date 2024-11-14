@@ -1,4 +1,3 @@
-<app-header></app-header>
 <mat-toolbar color="primary">
     <div class="toolbar-title">Lista de Escritores de Novel</div>
 </mat-toolbar>
@@ -7,37 +6,31 @@
     <mat-card>
         <mat-card-content>
             <table mat-table [dataSource]="escritores" class="mat-elevation-z8">
-                <!-- ID Column -->
                 <ng-container matColumnDef="id">
                     <th mat-header-cell *matHeaderCellDef> ID </th>
                     <td mat-cell *matCellDef="let escritor"> {{escritor.id}} </td>
                 </ng-container>
 
-                <!-- Nome Column -->
                 <ng-container matColumnDef="nome">
                     <th mat-header-cell *matHeaderCellDef> Nome </th>
                     <td mat-cell *matCellDef="let escritor"> {{escritor.nome}} </td>
                 </ng-container>
 
-                <!-- Ano Nascimento Column -->
                 <ng-container matColumnDef="anoNascimento">
                     <th mat-header-cell *matHeaderCellDef> Ano Nascimento </th>
                     <td mat-cell *matCellDef="let escritor"> {{escritor.anoNascimento}} </td>
                 </ng-container>
 
-                <!-- Nacionalidade Column -->
                 <ng-container matColumnDef="nacionalidade">
                     <th mat-header-cell *matHeaderCellDef> Nacionalidade </th>
                     <td mat-cell *matCellDef="let escritor"> {{escritor.nacionalidade}} </td>
                 </ng-container>
 
-                <!-- Sexo Column -->
                 <ng-container matColumnDef="sexo">
                     <th mat-header-cell *matHeaderCellDef> Sexo </th>
                     <td mat-cell *matCellDef="let escritor"> {{escritor.sexo}} </td>
                 </ng-container>
 
-                <!-- Actions Column -->
                 <ng-container matColumnDef="actions">
                     <th mat-header-cell *matHeaderCellDef> Ações </th>
                     <td mat-cell *matCellDef="let escritor">
@@ -53,40 +46,4 @@
     </mat-card>
 </div>
 
-<!-- <div class="example-container mat-elevation-z8">
-
-    <mat-table [dataSource]="dataSource" matSort>
-
-        <ng-container matColumnDef="id">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
-            <mat-cell *matCellDef="let row"> {{row.id}} </mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="progress">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Progress </mat-header-cell>
-            <mat-cell *matCellDef="let row"> {{row.progress}}% </mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="nome">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
-            <mat-cell *matCellDef="let row"> {{row.nome}} </mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="nacionalidade">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> nacionalidade </mat-header-cell>
-            <mat-cell *matCellDef="let row" [style.nacionalidade]="row.nacionalidade"> {{row.nacionalidade}} </mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="sexo">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> sexo </mat-header-cell>
-            <mat-cell *matCellDef="let row" [style.sexo]="row.sexo"> {{row.sexo}} </mat-cell>
-        </ng-container>
-
-        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns;">
-        </mat-row>
-    </mat-table>
-
-    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
-</div>
- -->
+<mat-paginator [pageSizeOptions]="[2, 4, 8, 16]" [pageSize]="pageSize" [length]="totalRecords" (page)="paginar($event)"></mat-paginator>
