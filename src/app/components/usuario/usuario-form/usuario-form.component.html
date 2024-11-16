@@ -69,13 +69,9 @@
                     </mat-error>
                 </mat-form-field>
                 <mat-card-actions>
-                    <button mat-raised-button routerLink="/novels">Cancelar</button>
-                    <button mat-raised-button color="warn" *ngIf="formGroup.get('id')?.value" (click)="excluir()">
-                        Excluir
-                    </button>
-                    <button mat-raised-button color="primary" type="submit">
-                        Salvar
-                    </button>
+                    <button mat-raised-button routerLink="/admin/usuario">Cancelar</button>
+                    <button mat-raised-button color="warn" *ngIf="formGroup.get('id')?.value" (click)="excluir()">Excluir</button>
+                    <button mat-raised-button color="primary" type="submit">Salvar</button>
                 </mat-card-actions>
             </form>
         </mat-card-content>

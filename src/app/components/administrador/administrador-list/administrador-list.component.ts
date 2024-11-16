@@ -45,7 +45,7 @@ export class AdministradorListComponent implements OnInit {
     }
 
     editAdministrador(id: number): void {
-        this.router.navigate(['/administrador/edit',id]);
+        this.router.navigate(['admin/administrador/edit',id]);
     }
 
     deleteAdministrador(id: number): void {

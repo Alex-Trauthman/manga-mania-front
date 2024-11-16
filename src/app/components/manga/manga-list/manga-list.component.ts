@@ -45,7 +45,7 @@ export class MangaListComponent implements OnInit {
     }
 
     editManga(id: number): void {
-        this.router.navigate(['/manga/edit',id]);
+        this.router.navigate(['admin/manga/edit',id]);
     }
 
     deleteManga(id: number): void {

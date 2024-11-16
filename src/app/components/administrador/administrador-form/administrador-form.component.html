@@ -18,12 +18,6 @@
                 <mat-form-field appearance="fill" class="full-width-input">
                     <mat-label>Email</mat-label>
                     <input matInput type="text" formControlName="email" />
-                    <mat-error *ngIf="formGroup.get('email')?.invalid && formGroup.get('email')?.touched">
-                        {{getErrorMessage('email', formGroup.get('email')?.errors)}}
-                        @if(formGroup.get('email')?.hasError('apiError')) {
-                            <span>{{formGroup.get('email')?.getError('apiError')}}</span>
-                        }
-                    </mat-error>
                 </mat-form-field>
                 <mat-form-field appearance="fill" class="full-width-input">
                     <mat-label>Senha</mat-label>
@@ -46,13 +40,9 @@
                     </mat-error>
                 </mat-form-field>
                 <mat-card-actions>
-                    <button mat-raised-button routerLink="/novels">Cancelar</button>
-                    <button mat-raised-button color="warn" *ngIf="formGroup.get('id')?.value" (click)="excluir()">
-                        Excluir
-                    </button>
-                    <button mat-raised-button color="primary" type="submit">
-                        Salvar
-                    </button>
+                    <button mat-raised-button routerLink="/admin/administrador">Cancelar</button>
+                    <button mat-raised-button color="warn" *ngIf="formGroup.get('id')?.value" (click)="excluir()">Excluir</button>
+                    <button mat-raised-button color="primary" type="submit">Salvar</button>
                 </mat-card-actions>
             </form>
         </mat-card-content>

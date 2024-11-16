@@ -47,7 +47,7 @@ export class UsuarioListComponent implements OnInit {
     }
 
     editUsuario(id: number): void {
-        this.router.navigate(['/usuario/edit',id]);
+        this.router.navigate(['admin/usuario/edit',id]);
     }
 
     deleteUsuario(id: number): void {

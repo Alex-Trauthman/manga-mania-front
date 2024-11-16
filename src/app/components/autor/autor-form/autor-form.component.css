@@ -1,3 +1,11 @@
+mat-toolbar {
+    font-weight: bold;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+}
+
 .autor-form-container {
     max-width: 1200px;
     margin: 0 auto;

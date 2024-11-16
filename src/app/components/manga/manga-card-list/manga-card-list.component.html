@@ -9,12 +9,12 @@
         <mat-card-content class="centered-text">{{manga.preco}}</mat-card-content>
 
         <mat-card-actions class="centered-text">
-            <button mat-button color="primary">Ver Mais ...</button>
+            <button mat-button color="primary" (click)="verManga(manga.id);">Observar mais.</button>
         </mat-card-actions>
 
         <mat-card-footer>
             <button mat-button color="accent" style="width: 100%; padding: 16px;">
-                Adicionar ao Carrinho
+                Adicionar ao carrinho.
             </button>
         </mat-card-footer>
 

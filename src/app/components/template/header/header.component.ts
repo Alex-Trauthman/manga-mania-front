@@ -32,7 +32,7 @@ export class HeaderComponent {
     onSearch(): void {
         const query = this.searchForm.get('query')?.value;
         if(query) {
-            this.router.navigate(['/novel'],{ queryParams: { search: query } });
+            this.router.navigate(['/loja'],{ queryParams: { search: query } });
         }
     }
 

@@ -18,9 +18,7 @@ import { HttpErrorResponse } from '@angular/common/http';
     standalone: true,
     templateUrl: './administrador-form.component.html',
     styleUrls: ['./administrador-form.component.css'],
-    imports: [NgIf,ReactiveFormsModule,MatFormFieldModule,
-        MatInputModule,MatButtonModule,MatCardModule,MatToolbarModule,
-        RouterModule,MatSelectModule,CommonModule,HeaderComponent,FooterComponent]
+    imports: [NgIf,ReactiveFormsModule,MatFormFieldModule,MatInputModule,MatButtonModule,MatCardModule,MatToolbarModule,RouterModule,MatSelectModule,CommonModule,HeaderComponent,FooterComponent]
 })
 export class AdministradorFormComponent implements OnInit {
     formGroup: FormGroup;
@@ -59,6 +57,7 @@ export class AdministradorFormComponent implements OnInit {
             this.formGroup.patchValue(novel);
         }
     }
+
     loadNovel(id: number): void {
         this.administradorService.findById(id).subscribe(novel => {
             this.formGroup.patchValue(novel);

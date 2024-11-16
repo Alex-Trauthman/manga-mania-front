@@ -20,9 +20,7 @@ import { HttpErrorResponse } from '@angular/common/http';
     standalone: true,
     templateUrl: './manga-form.component.html',
     styleUrls: ['./manga-form.component.css'],
-    imports: [NgIf,ReactiveFormsModule,MatFormFieldModule,
-        MatInputModule,MatButtonModule,MatCardModule,MatToolbarModule,
-        RouterModule,MatSelectModule,CommonModule,HeaderComponent,FooterComponent]
+    imports: [CommonModule,FooterComponent,HeaderComponent,MatButtonModule,MatCardModule,MatFormFieldModule,MatInputModule,MatSelectModule,MatToolbarModule,NgIf,ReactiveFormsModule,RouterModule]
 })
 export class MangaFormComponent implements OnInit {
     formGroup: FormGroup;
@@ -68,6 +66,7 @@ export class MangaFormComponent implements OnInit {
             this.formGroup.patchValue(manga);
         }
     }
+
     loadNovel(id: number): void {
         this.mangaService.findById(id).subscribe(manga => {
             this.formGroup.patchValue(manga);
@@ -134,20 +133,20 @@ export class MangaFormComponent implements OnInit {
     errorMessages: { [controlName: string]: { [errorName: string]: string } } = {
         nome: {
             required: 'O nome é obrigatório.',
-            minlength: 'O nome deve conter ao menos 2 letras.', 
-            maxlength: 'O nome deve conter no máximo 10 letras.', 
+            minlength: 'O nome deve conter ao menos 2 letras.',
+            maxlength: 'O nome deve conter no máximo 10 letras.',
             apiError: 'API_ERROR'
         },
         paginas: {
             required: 'Páginas é obrigatório.',
-            minlength: 'Páginas deve conter ao menos 2 letras.', 
-            maxlength: 'Páginas deve conter no máximo 10 letras.', 
+            minlength: 'Páginas deve conter ao menos 2 letras.',
+            maxlength: 'Páginas deve conter no máximo 10 letras.',
             apiError: 'API_ERROR'
         },
         preco: {
             required: 'O preço é obrigatório.',
-            minlength: 'O preço deve conter ao menos 2 letras.', 
-            maxlength: 'O preço deve conter no máximo 10 letras.', 
+            minlength: 'O preço deve conter ao menos 2 letras.',
+            maxlength: 'O preço deve conter no máximo 10 letras.',
             apiError: 'API_ERROR'
         },
         sinopse: {

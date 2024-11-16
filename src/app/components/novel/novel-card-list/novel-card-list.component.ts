@@ -4,6 +4,7 @@ import { NovelService } from '../../../services/novel.service';
 import { MatCardActions,MatCardContent,MatCardFooter,MatCardModule,MatCardTitle } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { NgFor } from '@angular/common';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 type Card = {
     nome: string,
@@ -24,9 +25,12 @@ type Card = {
 export class NovelCardListComponent implements OnInit {
     novels: Novel[] = [];
     cards = signal<Card[]>([]);
+    searchForm: FormGroup;
 
-    constructor(private novelService: NovelService) {
-
+    constructor(private novelService: NovelService,private formBuilder: FormBuilder) {
+        this.searchForm = this.formBuilder.group({
+            query: ['']
+        });
     }
 
     ngOnInit(): void {

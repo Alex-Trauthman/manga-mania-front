@@ -63,12 +63,12 @@ export class AutorFormComponent implements OnInit {
             const autor = this.formGroup.value;
             if(this.autorId) {
                 this.autorService.update(autor).subscribe(() => {
-                    this.router.navigateByUrl('/autores');
+                    this.router.navigateByUrl('/admin/autor');
                 },error => {
                 });
             } else {
                 this.autorService.insert(autor).subscribe(() => {
-                    this.router.navigateByUrl('/autores');
+                    this.router.navigateByUrl('/admin/autor');
                 },error => {
                 });
             }
@@ -79,7 +79,7 @@ export class AutorFormComponent implements OnInit {
         const id = this.formGroup.get('id')?.value;
         if(id) {
             this.autorService.delete(id).subscribe(() => {
-                this.router.navigateByUrl('/autores');
+                this.router.navigateByUrl('/admin/autor');
             },error => {
             });
         }

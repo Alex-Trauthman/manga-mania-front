@@ -47,7 +47,7 @@ export class AutorMangaListComponent implements OnInit {
     }
 
     editAutor(id: number): void {
-        this.router.navigate(['/autor/edit',id]);
+        this.router.navigate(['admin/autor/edit',id]);
     }
 
     deleteAutor(id: number): void {

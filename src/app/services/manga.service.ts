@@ -30,6 +30,10 @@ export class MangaService {
         return this.httpClient.get<Manga>(`${this.baseUrl}/${id}`);
     }
 
+    findByName(term: string): Observable<Manga[]> {
+        return this.httpClient.get<Manga[]>(`${this.baseUrl}/name/${term}`);
+    }
+
     insert(manga: Manga): Observable<Manga> {
         const data = {
             nome: manga.nome,

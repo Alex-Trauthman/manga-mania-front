@@ -45,7 +45,7 @@ export class EscritorNovelListComponent implements OnInit {
     }
 
     editEscritor(id: number): void {
-        this.router.navigate(['/escritor/edit',id]);
+        this.router.navigate(['admin/escritor/edit',id]);
     }
 
     deleteEscritor(id: number): void {

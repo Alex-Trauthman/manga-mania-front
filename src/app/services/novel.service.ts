@@ -30,6 +30,10 @@ export class NovelService {
         return this.httpClient.get<Novel>(`${this.baseUrl}/${id}`);
     }
 
+    findByName(term: string): Observable<Novel[]> {
+        return this.httpClient.get<Novel[]>(`${this.baseUrl}/name/${term}`);
+    }
+
     insert(novel: Novel): Observable<Novel> {
         const data = {
             nome: novel.nome,

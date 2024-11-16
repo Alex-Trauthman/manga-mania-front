@@ -48,7 +48,7 @@ export class NovelListComponent implements OnInit {
     }
 
     editNovel(id: number): void {
-        this.router.navigate(['/novel/edit',id]);
+        this.router.navigate(['admin/novel/edit',id]);
     }
 
     deleteNovel(id: number): void {
