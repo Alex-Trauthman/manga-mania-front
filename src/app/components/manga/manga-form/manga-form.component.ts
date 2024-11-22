@@ -9,11 +9,12 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ActivatedRoute,Router,RouterModule } from '@angular/router';
 import { GeneroNovelMap } from '../../../models/generoNovel.model';
-import { EscritorNovelService } from '../../../services/escritor.service';
 import { FooterComponent } from '../../template/footer/footer.component';
 import { HeaderComponent } from '../../template/header/header.component';
 import { MangaService } from '../../../services/manga.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { AutorService } from '../../../services/autorManga.service';
+import { GeneroMangaMap } from '../../../models/generoManga.model';
 
 @Component({
     selector: 'app-manga-form',
@@ -25,13 +26,13 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class MangaFormComponent implements OnInit {
     formGroup: FormGroup;
     autores: any[] = [];
-    generos = Object.entries(GeneroNovelMap);
-    novelId: number | null = null;
+    generos = Object.entries(GeneroMangaMap);
+    mangaId: number | null = null;
 
     constructor(
         private formBuilder: FormBuilder,
         private mangaService: MangaService,
-        private escritorService: EscritorNovelService,
+        private autorService: AutorService,
         private router: Router,
         private activatedRoute: ActivatedRoute
     ) {
@@ -43,18 +44,20 @@ export class MangaFormComponent implements OnInit {
             sinopse: ['',[Validators.required,Validators.minLength(30)]],
             lancamento: [null,[Validators.required,Validators.min(1000),Validators.max(9999)]],
             estoque: [null,Validators.required],
-            idEscritr: [null,Validators.required],
+            idAutor: [null,Validators.required],
             genero: [null,Validators.required],
-            capitulos: [null,Validators.required]
+            color: [null, Validators.required]
         });
     }
 
     ngOnInit(): void {
-        this.escritorService.findAll().subscribe((data) => (this.autores = data));
+        this.autorService.findAll().subscribe((data) => {
+            this.autores = data;
+        });
         this.activatedRoute.params.subscribe(params => {
-            this.novelId = params['id'] ? +params['id'] : null;
-            if(this.novelId) {
-                this.loadNovel(this.novelId);
+            this.mangaId = params['id'] ? +params['id'] : null;
+            if(this.mangaId) {
+                this.loadManga(this.mangaId);
             }
         });
 
@@ -67,11 +70,13 @@ export class MangaFormComponent implements OnInit {
         }
     }
 
-    loadNovel(id: number): void {
-        this.mangaService.findById(id).subscribe(manga => {
-            this.formGroup.patchValue(manga);
-        });
-        this.formGroup.markAllAsTouched();
+    loadManga(id: number): void {
+        if(id != null && id >0){
+            this.mangaService.findById(id).subscribe(manga => {
+                this.formGroup.patchValue(manga);
+            });
+            this.formGroup.markAllAsTouched();
+        }
     }
 
     salvar(): void {

@@ -37,7 +37,7 @@ export class MangaService {
     insert(manga: Manga): Observable<Manga> {
         const data = {
             nome: manga.nome,
-            escritor: manga.idAutor,
+            idAutor: manga.idAutor,
             genero: manga.genero,
             sinopse: manga.sinopse,
             anoPublicacao: manga.lancamento,
@@ -52,7 +52,7 @@ export class MangaService {
     update(manga: Manga): Observable<Manga> {
         const data = {
             nome: manga.nome,
-            escritor: manga.idAutor,
+            idAutor: manga.idAutor,
             genero: manga.genero,
             sinopse: manga.sinopse,
             anoPublicacao: manga.lancamento,

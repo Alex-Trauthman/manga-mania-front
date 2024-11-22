@@ -77,10 +77,14 @@
                 </mat-form-field>
                 <mat-form-field appearance="fill" class="full-width-input">
                     <mat-label>Colorido:</mat-label>
-                    <mat-select matInput id="color" formControlName="color" required>
-                        <mat-option [value]="true">Sim</mat-option>
-                        <mat-option [value]="false">Não</mat-option>
-                    </mat-select>
+                    <input matInput type="text" id="color" formControlName="color" required>
+                    <mat-error *ngIf="formGroup.get('color')?.invalid && formGroup.get('color')?.touched" class="error">
+                        {{ getErrorMessage('color', formGroup.get('color')?.errors) }}
+                        @if(formGroup.get('color')?.hasError('apiError')) {
+                            <span>{{formGroup.get('color')?.getError('apiError')}}</span>
+                        }
+                    </mat-error>
+                    
                 </mat-form-field>
                 <mat-form-field appearance="fill">
                     <mat-label>Gêneros:</mat-label>
@@ -110,21 +114,12 @@
                     </mat-error>
                 </mat-form-field>
 
-
-                <mat-form-field appearance="fill" class="full-width-input">
-                    <mat-label>Capítulos:</mat-label>
-                    <input matInput type="number" id="capitulos" formControlName="capitulos" required>
-                    <mat-error *ngIf="formGroup.get('capitulos')?.invalid && formGroup.get('capitulos')?.touched" class="error">
-                        {{ getErrorMessage('capitulos', formGroup.get('capitulos')?.errors) }}
-                        @if(formGroup.get('capitulos')?.hasError('apiError')) {
-                            <span>{{formGroup.get('capitulos')?.getError('apiError')}}</span>
-                        }
-                    </mat-error>
-                </mat-form-field>
                 <mat-card-actions>
                     <button mat-raised-button routerLink="/admin/manga">Cancelar</button>
                     <button mat-raised-button color="warn" *ngIf="formGroup.get('id')?.value" (click)="excluir()">Excluir</button>
-                    <button mat-raised-button color="primary" type="submit">Salvar</button>
+                    <button mat-raised-button color="primary" (click)="salvar()">
+                    </button>
+                    
                 </mat-card-actions>
             </form>
         </mat-card-content>
