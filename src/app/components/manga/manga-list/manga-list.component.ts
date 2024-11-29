@@ -38,7 +38,7 @@ export class MangaListComponent implements OnInit {
     }
 
     loadMangas(): void {
-        this.mangaService.findAll().subscribe((data: Manga[]) => {
+        this.mangaService.findAll(this.page, this.pageSize).subscribe((data: Manga[]) => {
             this.mangas = data;
         });
         this.mangaService.count().subscribe(data => {this.totalRecords = data});

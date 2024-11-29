@@ -1,4 +1,5 @@
 import { CommonModule,NgIf } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component,OnInit } from '@angular/core';
 import { FormBuilder,FormGroup,ReactiveFormsModule,ValidationErrors,Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -8,13 +9,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ActivatedRoute,Router,RouterModule } from '@angular/router';
-import { GeneroNovelMap } from '../../../models/generoNovel.model';
+import { GeneroMangaMap } from '../../../models/generoManga.model';
+import { AutorService } from '../../../services/autorManga.service';
+import { MangaService } from '../../../services/manga.service';
 import { FooterComponent } from '../../template/footer/footer.component';
 import { HeaderComponent } from '../../template/header/header.component';
-import { MangaService } from '../../../services/manga.service';
-import { HttpErrorResponse } from '@angular/common/http';
-import { AutorService } from '../../../services/autorManga.service';
-import { GeneroMangaMap } from '../../../models/generoManga.model';
 
 @Component({
     selector: 'app-manga-form',
@@ -39,14 +38,14 @@ export class MangaFormComponent implements OnInit {
         this.formGroup = this.formBuilder.group({
             id: [null],
             nome: [null,[Validators.required,Validators.minLength(3),Validators.maxLength(40)]],
-            paginas: [null,Validators.required],
-            preco: [null,Validators.required],
             sinopse: ['',[Validators.required,Validators.minLength(30)]],
-            lancamento: [null,[Validators.required,Validators.min(1000),Validators.max(9999)]],
-            estoque: [null,Validators.required],
-            idAutor: [null,Validators.required],
-            genero: [null,Validators.required],
-            color: [null, Validators.required]
+            genero: [null,Validators.required,Validators.min(0)],
+            idAutor: [null,Validators.required,Validators.min(0)],
+            lancamento: [null,[Validators.required,Validators.min(0)]],
+            color: [null,Validators.required,Validators.minLength(2),Validators.maxLength(12)],
+            preco: [null,Validators.required,Validators.min(0)],
+            estoque: [null,Validators.required,Validators.min(0)],
+            paginas: [null,Validators.required,Validators.min(0)]
         });
     }
 
@@ -71,7 +70,7 @@ export class MangaFormComponent implements OnInit {
     }
 
     loadManga(id: number): void {
-        if(id != null && id >0){
+        if(id != null && id > 0) {
             this.mangaService.findById(id).subscribe(manga => {
                 this.formGroup.patchValue(manga);
             });
@@ -88,13 +87,15 @@ export class MangaFormComponent implements OnInit {
             const manga = this.formGroup.value;
             if(manga.id) {
                 this.mangaService.update(manga).subscribe(() => {
-                    this.router.navigateByUrl('/manga');
+                    this.router.navigateByUrl('/admin/manga');
                 },error => {
+                    this.tratarErros(error);
                 });
             } else {
                 this.mangaService.insert(manga).subscribe(() => {
-                    this.router.navigateByUrl('/manga');
+                    this.router.navigateByUrl('/admin/manga');
                 },error => {
+                    this.tratarErros(error);
                 });
             }
         }
@@ -104,8 +105,9 @@ export class MangaFormComponent implements OnInit {
         const id = this.formGroup.get('id')?.value;
         if(id) {
             this.mangaService.delete(id).subscribe(() => {
-                this.router.navigateByUrl('/manga');
+                this.router.navigateByUrl('/admin/manga');
             },error => {
+                this.tratarErros(error);
             });
         }
     }
@@ -137,59 +139,51 @@ export class MangaFormComponent implements OnInit {
 
     errorMessages: { [controlName: string]: { [errorName: string]: string } } = {
         nome: {
-            required: 'O nome é obrigatório.',
-            minlength: 'O nome deve conter ao menos 2 letras.',
-            maxlength: 'O nome deve conter no máximo 10 letras.',
-            apiError: 'API_ERROR'
-        },
-        paginas: {
-            required: 'Páginas é obrigatório.',
-            minlength: 'Páginas deve conter ao menos 2 letras.',
-            maxlength: 'Páginas deve conter no máximo 10 letras.',
-            apiError: 'API_ERROR'
-        },
-        preco: {
-            required: 'O preço é obrigatório.',
-            minlength: 'O preço deve conter ao menos 2 letras.',
-            maxlength: 'O preço deve conter no máximo 10 letras.',
+            required: 'Nome é obrigatório.',
+            minlength: 'Nome deve conter ao menos 3 letras.',
+            maxlength: 'Nome deve conter no máximo 40 letras.',
             apiError: 'API_ERROR'
         },
         sinopse: {
-            required: 'A sinopse é obrigatório.',
-            minlength: 'A sinopse deve conter ao menos 30 letras.',
-            // maxlength: 'A sinopse deve conter no máximo 40 letras.', -> não tem limite
-            apiError: 'API_ERROR'
-        },
-        lancamento: {
-            required: 'O ano de lançamento é obrigatório.',
-            // minlength: 'O ano de lançamento deve conter ao menos 2 letras.', -> int
-            // maxlength: 'O ano de lançamento deve conter no máximo 10 letras.', -> int
-            apiError: 'API_ERROR'
-        },
-        estoque: {
-            required: 'O estoque é obrigatório.',
-            // minlength: 'O estoque deve conter ao menos 2 letras.', -> int
-            // maxlength: 'O estoque deve conter no máximo 10 letras.', -> int
-            apiError: 'API_ERROR'
-        },
-        idAutor: {
-            required: 'O id do autor é obrigatório.',
-            // minlength: 'O id do autor deve conter ao menos 2 letras.', -> int
-            // maxlength: 'O id do autor deve conter no máximo 10 letras.', -> int
+            required: 'Sinopse é obrigatório.',
+            minlength: 'Sinopse deve conter ao menos 30 letras.',
             apiError: 'API_ERROR'
         },
         genero: {
             required: 'Gênero é obrigatório.',
-            // minlength: 'Gênero deve conter ao menos 2 letras.', -> int
-            // maxlength: 'Gênero deve conter no máximo 10 letras.', -> int
+            min: 'Gênero deve ser maior do que 0.',
             apiError: 'API_ERROR'
         },
-        capitulos: {
-            required: 'Os capítulos é obrigatório.',
-            // minlength: 'Os capítulos deve conter ao menos 2 letras.', -> int
-            // maxlength: 'Os capítulos deve conter no máximo 10 letras.', -> int
+        idAutor: {
+            required: 'Id do autor é obrigatório.',
+            min: 'Id do autor deve ser maior do que 0.',
             apiError: 'API_ERROR'
         },
-
+        lancamento: {
+            required: 'Ano de lançamento é obrigatório.',
+            min: 'Ano de lançamento deve ser maior do que 0.',
+            apiError: 'API_ERROR'
+        },
+        color: {
+            required: 'Color é obrigatório.',
+            minlength: 'Color deve conter ao menos 1 letras.',
+            maxlength: 'Color deve conter no máximo 12 letras.',
+            apiError: 'API_ERROR'
+        },
+        preco: {
+            required: 'Preço é obrigatório.',
+            min: 'Preço deve ser maior do que 0.',
+            apiError: 'API_ERROR'
+        },
+        estoque: {
+            required: 'Estoque é obrigatório.',
+            min: 'Estoque deve ser maior do que 0.',
+            apiError: 'API_ERROR'
+        },
+        paginas: {
+            required: 'Páginas é obrigatório.',
+            min: 'Páginas deve ser maior do que 0.',
+            apiError: 'API_ERROR'
+        }
     }
 }

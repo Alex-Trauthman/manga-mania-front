@@ -38,7 +38,7 @@ export class EscritorNovelListComponent implements OnInit {
     }
 
     loadEscritores(): void {
-        this.escritorService.findAll().subscribe((data: EscritorNovel[]) => {
+        this.escritorService.findAll(this.page, this.pageSize).subscribe((data: EscritorNovel[]) => {
             this.escritores = data;
         });
         this.escritorService.count().subscribe(data => {this.totalRecords = data});

@@ -36,7 +36,7 @@
                     </mat-error>
                 </mat-form-field>
                 <mat-form-field appearance="fill" class="full-width-input">
-                    <mat-label>Sinopse:<br></mat-label>
+                    <mat-label>Sinopse:</mat-label>
                     <textarea matInput id="sinopse" formControlName="sinopse" required></textarea>
                     <mat-error *ngIf="formGroup.get('sinopse')?.invalid && formGroup.get('sinopse')?.touched" class="error">
                         {{ getErrorMessage('sinopse', formGroup.get('sinopse')?.errors) }}
@@ -46,7 +46,7 @@
                     </mat-error>
                 </mat-form-field>
                 <mat-form-field appearance="fill" class="full-width-input">
-                    <mat-label>Ano lançamento:</mat-label>
+                    <mat-label>Ano de lançamento:</mat-label>
                     <input matInput type="number" id="lancamento" formControlName="lancamento" required>
                     <mat-error *ngIf="formGroup.get('lancamento')?.invalid && formGroup.get('lancamento')?.touched" class="error">
                         {{ getErrorMessage('lancamento', formGroup.get('lancamento')?.errors) }}

@@ -1,20 +1,18 @@
 import { CommonModule,NgIf } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component,OnInit } from '@angular/core';
 import { FormBuilder,FormGroup,ReactiveFormsModule,ValidationErrors,Validators } from '@angular/forms';
-import { ActivatedRoute,Router,RouterLink,RouterModule } from '@angular/router';
-import { GeneroNovel,GeneroNovelMap } from '../../../models/generoNovel.model';
-import { EscritorNovelService } from '../../../services/escritor.service';
-import { NovelService } from '../../../services/novel.service';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { Observable } from 'rxjs/internal/Observable';
-import { HeaderComponent } from '../../template/header/header.component';
+import { ActivatedRoute,Router,RouterModule } from '@angular/router';
+import { GeneroNovelMap } from '../../../models/generoNovel.model';
+import { EscritorNovelService } from '../../../services/escritor.service';
 import { FooterComponent } from '../../template/footer/footer.component';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HeaderComponent } from '../../template/header/header.component';
 
 @Component({
     selector: 'app-escritor-form',
@@ -27,51 +25,44 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class EscritorFormComponent implements OnInit {
     formGroup: FormGroup;
-    autores: any[] = [];
     generos = Object.entries(GeneroNovelMap);
-    novelId: number | null = null;
+    escritorId: number | null = null;
 
     constructor(
         private formBuilder: FormBuilder,
-        private novelService: NovelService,
         private escritorService: EscritorNovelService,
         private router: Router,
         private activatedRoute: ActivatedRoute
     ) {
         this.formGroup = this.formBuilder.group({
             id: [null],
-            nome: [null,[Validators.required,Validators.minLength(3),Validators.maxLength(40)]],
-            paginas: [null,Validators.required],
-            preco: [null,Validators.required],
-            sinopse: ['',[Validators.required,Validators.minLength(30)]],
-            lancamento: [null,[Validators.required,Validators.min(1000),Validators.max(9999)]], // anoPublicação -> modelo java
-            estoque: [null,Validators.required],
-            idAutor: [null,Validators.required],
-            genero: [null,Validators.required],
-            capitulos: [null,Validators.required]
+            nome: [null,Validators.required,Validators.minLength(3),Validators.maxLength(40)],
+            anoNascimento: [null,Validators.required,Validators.min(0)],
+            nacionalidade: [null,Validators.required,Validators.minLength(2),Validators.maxLength(30)],
+            sexo: [null,Validators.required]
         });
     }
 
     ngOnInit(): void {
-        this.escritorService.findAll().subscribe((data) => (this.autores = data));
         this.activatedRoute.params.subscribe(params => {
-            this.novelId = params['id'] ? +params['id'] : null;
-            if(this.novelId) {
-                this.loadNovel(this.novelId);
+            this.escritorId = params['id'] ? +params['id'] : null;
+            if(this.escritorId) {
+                this.loadEscritor(this.escritorId);
             }
         });
 
     }
 
     initializeForm(): void {
-        const novel = this.activatedRoute.snapshot.data['novel'];
-        if(novel) {
-            this.formGroup.patchValue(novel);
+        const v = this.activatedRoute.snapshot.data['v'];
+        if(v) {
+            this.formGroup.patchValue(v);
         }
     }
-    loadNovel(id: number): void {
-        this.novelService.findById(id).subscribe(novel => {
-            this.formGroup.patchValue(novel);
+
+    loadEscritor(id: number): void {
+        this.escritorService.findById(id).subscribe(escritor => {
+            this.formGroup.patchValue(escritor);
         });
         this.formGroup.markAllAsTouched();
     }
@@ -82,16 +73,18 @@ export class EscritorFormComponent implements OnInit {
             return;
         }
         if(this.formGroup.valid) {
-            const novel = this.formGroup.value;
-            if(novel.id) {
-                this.novelService.update(novel).subscribe(() => {
-                    this.router.navigateByUrl('/novels');
+            const escritor = this.formGroup.value;
+            if(escritor.id) {
+                this.escritorService.update(escritor).subscribe(() => {
+                    this.router.navigateByUrl('/admin/escritor');
                 },error => {
+                    this.tratarErros(error);
                 });
             } else {
-                this.novelService.insert(novel).subscribe(() => {
-                    this.router.navigateByUrl('/novels');
+                this.escritorService.insert(escritor).subscribe(() => {
+                    this.router.navigateByUrl('/admin/escritor');
                 },error => {
+                    this.tratarErros(error);
                 });
             }
         }
@@ -100,9 +93,10 @@ export class EscritorFormComponent implements OnInit {
     excluir(): void {
         const id = this.formGroup.get('id')?.value;
         if(id) {
-            this.novelService.delete(id).subscribe(() => {
-                this.router.navigateByUrl('/novel');
+            this.escritorService.delete(id).subscribe(() => {
+                this.router.navigateByUrl('/admin/escritor');
             },error => {
+                this.tratarErros(error);
             });
         }
     }
@@ -134,27 +128,24 @@ export class EscritorFormComponent implements OnInit {
 
     errorMessages: { [controlName: string]: { [errorName: string]: string } } = {
         nome: {
-            required: 'O nome é obrigatório.',
-            minlength: 'O nome deve conter ao menos 3 letras.',
-            maxlength: 'O nome deve conter no máximo 40 letras.',
+            required: 'Nome é obrigatório.',
+            minlength: 'Nome deve conter ao menos 3 letras.',
+            maxlength: 'Nome deve conter no máximo 40 letras.',
             apiError: 'API_ERROR'
         },
         anoNascimento: {
-            required: 'O ano de nascimento é obrigatório.',
-            // minlength: 'O ano de nascimento deve conter ao menos 3 letras.', -> int
-            // maxlength: 'O ano de nascimento deve conter no máximo 40 letras.', -> int
+            required: 'Ano de nascimento é obrigatório.',
+            min: 'Ano de nascimento deve ser maior do que 0.',
             apiError: 'API_ERROR'
         },
         nacionalidade: {
-            required: 'A nacionalidade é obrigatório.',
-            minlength: 'A nacionalidade deve conter ao menos 2 letras.',
-            maxlength: 'A nacionalidade deve conter no máximo 30 letras.',
+            required: 'Nacionalidade é obrigatório.',
+            minlength: 'Nacionalidade deve conter ao menos 2 letras.',
+            maxlength: 'Nacionalidade deve conter no máximo 30 letras.',
             apiError: 'API_ERROR'
         },
         sexo: {
             required: 'Sexo é obrigatório.',
-            // minlength: 'Sexo deve conter ao menos 3 letras.', -> int
-            // maxlength: 'Sexo deve conter no máximo 40 letras.', -> int
             apiError: 'API_ERROR'
         }
     }

@@ -35,7 +35,6 @@ export class MangaCardListComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        console.log(this,123);
         this.loadMangas();
         this.route.queryParams.subscribe(params => {
             if(!params["search"]) return;

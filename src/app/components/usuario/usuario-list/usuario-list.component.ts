@@ -40,7 +40,7 @@ export class UsuarioListComponent implements OnInit {
     }
 
     loadUsuarios(): void {
-        this.usuarioService.findAll().subscribe((data: Usuario[]) => {
+        this.usuarioService.findAll(this.page, this.pageSize).subscribe((data: Usuario[]) => {
             this.usuarios = data;
         });
         this.usuarioService.count().subscribe(data => {this.totalRecords = data});

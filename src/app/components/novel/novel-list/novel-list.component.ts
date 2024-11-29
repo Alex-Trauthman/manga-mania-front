@@ -10,7 +10,7 @@ import { Router,RouterModule } from '@angular/router';
 import { HeaderComponent } from '../../template/header/header.component';
 import { FooterComponent } from '../../template/footer/footer.component';
 import { MatCardModule } from '@angular/material/card';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatPaginatorModule,PageEvent } from '@angular/material/paginator';
 
 @Component({
     selector: 'app-novel-list',
@@ -29,9 +29,7 @@ export class NovelListComponent implements OnInit {
     constructor(private novelService: NovelService,private router: Router) { }
 
     ngOnInit(): void {
-        this.novelService.findAll().subscribe(data => {
-            this.novels = data;
-        });
+        this.loadNovels();
     }
 
     paginar(event: PageEvent): void {
@@ -44,7 +42,7 @@ export class NovelListComponent implements OnInit {
         this.novelService.findAll().subscribe((data: Novel[]) => {
             this.novels = data;
         });
-        this.novelService.count().subscribe(data => {this.totalRecords = data});
+        this.novelService.count().subscribe(data => { this.totalRecords = data });
     }
 
     editNovel(id: number): void {

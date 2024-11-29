@@ -1,20 +1,19 @@
 import { CommonModule,NgIf } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component,OnInit } from '@angular/core';
 import { FormBuilder,FormGroup,ReactiveFormsModule,ValidationErrors,Validators } from '@angular/forms';
-import { ActivatedRoute,Router,RouterLink,RouterModule } from '@angular/router';
-import { GeneroNovel,GeneroNovelMap } from '../../../models/generoNovel.model';
-import { EscritorNovelService } from '../../../services/escritor.service';
-import { NovelService } from '../../../services/novel.service';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { Observable } from 'rxjs/internal/Observable';
-import { HeaderComponent } from '../../template/header/header.component';
+import { ActivatedRoute,Router,RouterModule } from '@angular/router';
+import { GeneroNovelMap } from '../../../models/generoNovel.model';
+import { EscritorNovelService } from '../../../services/escritor.service';
+import { NovelService } from '../../../services/novel.service';
 import { FooterComponent } from '../../template/footer/footer.component';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HeaderComponent } from '../../template/header/header.component';
 
 @Component({
     selector: 'app-novel-form',
@@ -41,14 +40,14 @@ export class NovelFormComponent implements OnInit {
         this.formGroup = this.formBuilder.group({
             id: [null],
             nome: [null,[Validators.required,Validators.minLength(3),Validators.maxLength(40)]],
-            paginas: [null,Validators.required],
-            preco: [null,Validators.required],
             sinopse: ['',[Validators.required,Validators.minLength(30)]],
-            lancamento: [null,[Validators.required,Validators.min(1000),Validators.max(9999)]], // anoPublicação -> modelo java
-            estoque: [null,Validators.required],
-            idAutor: [null,Validators.required],
-            genero: [null,Validators.required],
-            capitulos: [null,Validators.required]
+            genero: [null,Validators.required,Validators.min(0)],
+            idAutor: [null,Validators.required,Validators.min(0)],
+            lancamento: [null,[Validators.required,Validators.min(0)]],
+            preco: [null,Validators.required,Validators.min(0)],
+            estoque: [null,Validators.required,Validators.min(0)],
+            paginas: [null,Validators.required,Validators.min(0)],
+            capitulos: [null,Validators.required,Validators.min(0)]
         });
     }
 
@@ -85,13 +84,15 @@ export class NovelFormComponent implements OnInit {
             const novel = this.formGroup.value;
             if(novel.id) {
                 this.novelService.update(novel).subscribe(() => {
-                    this.router.navigateByUrl('/novel');
+                    this.router.navigateByUrl('/admin/novel');
                 },error => {
+                    this.tratarErros(error);
                 });
             } else {
                 this.novelService.insert(novel).subscribe(() => {
-                    this.router.navigateByUrl('/novel');
+                    this.router.navigateByUrl('/admin/novel');
                 },error => {
+                    this.tratarErros(error);
                 });
             }
         }
@@ -101,8 +102,9 @@ export class NovelFormComponent implements OnInit {
         const id = this.formGroup.get('id')?.value;
         if(id) {
             this.novelService.delete(id).subscribe(() => {
-                this.router.navigateByUrl('/novel');
+                this.router.navigateByUrl('/admin/novel');
             },error => {
+                this.tratarErros(error);
             });
         }
     }
@@ -134,58 +136,50 @@ export class NovelFormComponent implements OnInit {
 
     errorMessages: { [controlName: string]: { [errorName: string]: string } } = {
         nome: {
-            required: 'O nome é obrigatório.',
-            minlength: 'O nome deve conter ao menos 3 letras.',
-            maxlength: 'O nome deve conter no máximo 40 letras.',
+            required: 'Nome é obrigatório.',
+            minlength: 'Nome deve conter ao menos 3 letras.',
+            maxlength: 'Nome deve conter no máximo 40 letras.',
             apiError: 'API_ERROR'
         },
         sinopse: {
-            required: 'A sinopse é obrigatório.',
-            minlength: 'A sinopse deve conter ao menos 30 letras.',
-            // maxlength: 'A sinopse deve conter no máximo 40 letras.', -> não tem limite
+            required: 'Sinopse é obrigatório.',
+            minlength: 'Sinopse deve conter ao menos 30 letras.',
             apiError: 'API_ERROR'
         },
         genero: {
-            required: 'O gênero é obrigatório.',
-            // minlength: 'O gênero deve conter ao menos 3 letras.', -> não tem limite
-            // maxlength: 'O gênero deve conter no máximo 40 letras.', -> não tem limite
+            required: 'Gênero é obrigatório.',
+            min: 'Gênero deve ser maior do que 0.',
             apiError: 'API_ERROR'
         },
         idAutor: {
-            required: 'O autor é obrigatório.',
-            // minlength: 'O autor deve conter ao menos 3 letras.', -> sei lá
-            // maxlength: 'O autor deve conter no máximo 40 letras.', -> sei lá
+            required: 'Id do autor é obrigatório.',
+            min: 'Id do autor deve ser maior do que 0.', 
             apiError: 'API_ERROR'
         },
         lancamento: {
-            required: 'O nome é obrigatório.',
-            // minlength: 'O nome deve conter ao menos 3 letras.', => int
-            // maxlength: 'O nome deve conter no máximo 40 letras.', => int
+            required: 'Ano de lançamento é obrigatório.',
+            min: 'Ano de lançamento deve ser maior do que 0.', 
             apiError: 'API_ERROR'
         },
         preco: {
-            required: 'O nome é obrigatório.',
-            // minlength: 'O nome deve conter ao menos 3 letras.', => int
-            // maxlength: 'O nome deve conter no máximo 40 letras.', => int
+            required: 'Preço é obrigatório.',
+            min: 'Preço deve ser maior do que 0.', 
             apiError: 'API_ERROR'
         },
         estoque: {
-            required: 'O nome é obrigatório.',
-            // minlength: 'O nome deve conter ao menos 3 letras.', => int
-            // maxlength: 'O nome deve conter no máximo 40 letras.', => int
+            required: 'Estoque é obrigatório.',
+            min: 'Estoque deve ser maior do que 0.', 
             apiError: 'API_ERROR'
         },
         paginas: {
-            required: 'O nome é obrigatório.',
-            // minlength: 'O nome deve conter ao menos 3 letras.', => int
-            // maxlength: 'O nome deve conter no máximo 40 letras.', => int
+            required: 'Páginas é obrigatório.',
+            min: 'Páginas deve ser maior do que 0.', 
             apiError: 'API_ERROR'
-        },
+        }, 
         capitulos: {
-            required: 'O nome é obrigatório.',
-            // minlength: 'O nome deve conter ao menos 3 letras.', => int
-            // maxlength: 'O nome deve conter no máximo 40 letras.', => int
+            required: 'Páginas é obrigatório.',
+            min: 'Capitulos deve ser maior do que 0.',
             apiError: 'API_ERROR'
-        },
+        }
     }
 }

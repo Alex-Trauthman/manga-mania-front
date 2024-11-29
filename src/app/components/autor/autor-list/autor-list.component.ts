@@ -40,7 +40,7 @@ export class AutorMangaListComponent implements OnInit {
     }
 
     loadAutores(): void {
-        this.autorService.findAll().subscribe((data: AutorManga[]) => {
+        this.autorService.findAll(this.page, this.pageSize).subscribe((data: AutorManga[]) => {
             this.autores = data;
         });
         this.autorService.count().subscribe(data => {this.totalRecords = data});

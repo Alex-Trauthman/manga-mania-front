@@ -84,7 +84,7 @@ export class NovelFormComponent implements OnInit {
                 novel.genero = novel.genero[0]; // Pegue o primeiro valor do array
             }
             if(novel.id) {
-                this.novelService.update(novel).subscribe(() => this.router.navigateByUrl('/novel'));
+                this.novelService.update(novel).subscribe(() => this.router.navigateByUrl('/admin/novel'));
             } else {
                 this.novelService.insert(novel).subscribe(() => this.router.navigateByUrl('/novel'));
             }
@@ -94,7 +94,7 @@ export class NovelFormComponent implements OnInit {
     excluir(): void {
         const id = this.formGroup.get('id')?.value;
         if(id) {
-            this.novelService.delete(id).subscribe(() => this.router.navigateByUrl('/novels'));
+            this.novelService.delete(id).subscribe(() => this.router.navigateByUrl('/admin/novel'));
         }
     }
 

@@ -12,13 +12,16 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { HeaderComponent } from "../../template/header/header.component";
 import { FooterComponent } from "../../template/footer/footer.component";
 import { HttpErrorResponse } from '@angular/common/http';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @Component({
     selector: 'app-autor-form',
     standalone: true,
     templateUrl: './autor-form.component.html',
     styleUrls: ['./autor-form.component.css'],
-    imports: [CommonModule,FormsModule,ReactiveFormsModule,MatFormFieldModule,MatInputModule,MatButtonModule,MatCardModule,MatToolbarModule,MatSelectModule,RouterModule,HeaderComponent,FooterComponent]
+    imports: [MatDatepickerModule,MatNativeDateModule,CommonModule,FormsModule,ReactiveFormsModule,MatFormFieldModule,MatInputModule,MatButtonModule,MatCardModule,MatToolbarModule,MatSelectModule,RouterModule,HeaderComponent,FooterComponent],
+    providers: [MatDatepickerModule]
 })
 export class AutorFormComponent implements OnInit {
     formGroup: FormGroup;
@@ -33,7 +36,7 @@ export class AutorFormComponent implements OnInit {
         this.formGroup = this.formBuilder.group({
             id: [null],
             nome: [null,[Validators.required,Validators.minLength(3),Validators.maxLength(40)]],
-            anoNascimento: [null,[Validators.required,Validators.min(1900),Validators.max(new Date().getFullYear())]],
+            anoNascimento: [null,[Validators.required,Validators.min(2),Validators.maxLength(30)]],
             nacionalidade: [null,Validators.required],
             sexo: [null,Validators.required]
         });
@@ -65,11 +68,13 @@ export class AutorFormComponent implements OnInit {
                 this.autorService.update(autor).subscribe(() => {
                     this.router.navigateByUrl('/admin/autor');
                 },error => {
+                    this.tratarErros(error);
                 });
             } else {
                 this.autorService.insert(autor).subscribe(() => {
                     this.router.navigateByUrl('/admin/autor');
                 },error => {
+                    this.tratarErros(error);
                 });
             }
         }
@@ -81,6 +86,7 @@ export class AutorFormComponent implements OnInit {
             this.autorService.delete(id).subscribe(() => {
                 this.router.navigateByUrl('/admin/autor');
             },error => {
+                this.tratarErros(error);
             });
         }
     }
@@ -112,27 +118,24 @@ export class AutorFormComponent implements OnInit {
 
     errorMessages: { [controlName: string]: { [errorName: string]: string } } = {
         nome: {
-            required: 'O nome é obrigatório.',
-            minlength: 'O nome deve conter ao menos 3 letras.',
-            maxlength: 'O nome deve conter no máximo 40 letras.',
+            required: 'Nome é obrigatório.',
+            minlength: 'Nome deve conter ao menos 3 letras.',
+            maxlength: 'Nome deve conter no máximo 40 letras.',
             apiError: 'API_ERROR'
         },
         anoNascimento: {
-            required: 'O ano de nascimento é obrigatório.',
-            // minlength: 'O ano de nascimento deve conter ao menos 2.', -> no quarkus é int, sem validação
-            // maxlength: 'O ano de nascimento deve conter no máximo 10 letras.', -> no quarkus é int, sem validação
+            required: 'Ano de nascimento é obrigatório.',
+            min: 'Ano de nascimento deve ser maior do que 0.', 
             apiError: 'API_ERROR'
         },
         nacionalidade: {
-            required: 'A nacionalidade é obrigatório.',
-            minlength: 'A nacionalidade deve conter ao menos 2 letras.',
-            maxlength: 'A nacionalidade deve conter no máximo 30 letras.',
+            required: 'Nacionalidade é obrigatório.',
+            minlength: 'Nacionalidade deve conter ao menos 2 letras.',
+            maxlength: 'Nacionalidade deve conter no máximo 30 letras.',
             apiError: 'API_ERROR'
         },
         sexo: {
             required: 'Sexo é obrigatório.',
-            // minlength: 'Sexo deve conter ao menos 2 letras.', -> sexo é int
-            // maxlength: 'Sexo deve conter no máximo 10 letras.', -> sexo é int
             apiError: 'API_ERROR'
         },
 

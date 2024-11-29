@@ -22,8 +22,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class AdministradorFormComponent implements OnInit {
     formGroup: FormGroup;
-    administradores: any[] = [];
-    novelId: number | null = null;
+    adminId: number | null = null;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -33,34 +32,33 @@ export class AdministradorFormComponent implements OnInit {
     ) {
         this.formGroup = this.formBuilder.group({
             id: [null],
-            username: [null,Validators.required],
-            email: [null,Validators.required],
-            senha: [null,Validators.required],
-            cpf: [null,Validators.required]
+            username: [null,Validators.required,Validators.minLength(4),Validators.maxLength(80)],
+            email: [null,Validators.required,Validators.minLength(6),Validators.maxLength(60)],
+            senha: [null,Validators.required,Validators.minLength(6),Validators.maxLength(60)],
+            cpf: [null,Validators.required,Validators.minLength(10),Validators.maxLength(12)]
         });
     }
 
     ngOnInit(): void {
-        this.administradorService.findAll().subscribe((data) => (this.administradores = data));
         this.activatedRoute.params.subscribe(params => {
-            this.novelId = params['id'] ? +params['id'] : null;
-            if(this.novelId) {
-                this.loadNovel(this.novelId);
+            this.adminId = params['id'] ? +params['id'] : null;
+            if(this.adminId) {
+                this.loadAdministrador(this.adminId);
             }
         });
 
     }
 
     initializeForm(): void {
-        const novel = this.activatedRoute.snapshot.data['novel'];
-        if(novel) {
-            this.formGroup.patchValue(novel);
+        const admin = this.activatedRoute.snapshot.data['admin'];
+        if(admin) {
+            this.formGroup.patchValue(admin);
         }
     }
 
-    loadNovel(id: number): void {
-        this.administradorService.findById(id).subscribe(novel => {
-            this.formGroup.patchValue(novel);
+    loadAdministrador(id: number): void {
+        this.administradorService.findById(id).subscribe(admin => {
+            this.formGroup.patchValue(admin);
         });
         this.formGroup.markAllAsTouched();
     }
@@ -71,16 +69,18 @@ export class AdministradorFormComponent implements OnInit {
             return;
         }
         if(this.formGroup.valid) {
-            const novel = this.formGroup.value;
-            if(novel.id) {
-                this.administradorService.update(novel).subscribe(() => {
-                    this.router.navigateByUrl('/novels');
+            const administrador = this.formGroup.value;
+            if(administrador.id) {
+                this.administradorService.update(administrador).subscribe(() => {
+                    this.router.navigateByUrl('/admin/administrador');
                 },error => {
+                    this.tratarErros(error);
                 });
             } else {
-                this.administradorService.insert(novel).subscribe(() => {
-                    this.router.navigateByUrl('/novels');
+                this.administradorService.insert(administrador).subscribe(() => {
+                    this.router.navigateByUrl('/admin/administrador');
                 },error => {
+                    this.tratarErros(error);
                 });
             }
         }
@@ -90,8 +90,9 @@ export class AdministradorFormComponent implements OnInit {
         const id = this.formGroup.get('id')?.value;
         if(id) {
             this.administradorService.delete(id).subscribe(() => {
-                this.router.navigateByUrl('/novel');
+                this.router.navigateByUrl('/admin/administrador');
             },error => {
+                this.tratarErros(error);
             });
         }
     }
@@ -123,29 +124,28 @@ export class AdministradorFormComponent implements OnInit {
 
     errorMessages: { [controlName: string]: { [errorName: string]: string } } = {
         username: {
-            required: 'O nome de usuário é obrigatório.',
-            minlength: 'O nome deve conter ao menos 4 letras.',
-            maxlength: 'O nome deve conter no máximo 80 letras.',
+            required: 'Nome de usuário é obrigatório.',
+            minlength: 'Nome deve conter ao menos 4 letras.',
+            maxlength: 'Nome deve conter no máximo 80 letras.',
             apiError: 'API_ERROR'
         },
         email: {
-            required: 'O email é obrigatório.',
-            minlength: 'O email deve conter ao menos 6 letras.',
-            maxlength: 'O email deve conter no máximo 60 letras.',
+            required: 'Email é obrigatório.',
+            minlength: 'Email deve conter ao menos 6 letras.',
+            maxlength: 'Email deve conter no máximo 60 letras.',
             apiError: 'API_ERROR'
         },
         senha: {
-            required: 'A senha é obrigatório.',
-            minlength: 'A senha deve conter ao menos 6 letras.',
-            maxlength: 'A senha deve conter no máximo 60 letras.',
+            required: 'Senha é obrigatório.',
+            minlength: 'Senha deve conter ao menos 6 letras.',
+            maxlength: 'Senha deve conter no máximo 60 letras.',
             apiError: 'API_ERROR'
         },
         cpf: {
-            required: 'O cpf é obrigatório.',
-            minlength: 'O cpf deve conter ao menos 10 letras.',
-            maxlength: 'O cpf deve conter no máximo 12 letras.',
+            required: 'CPF é obrigatório.',
+            minlength: 'CPF deve conter ao menos 10 letras.',
+            maxlength: 'CPF deve conter no máximo 12 letras.',
             apiError: 'API_ERROR'
         },
-
     }
 }

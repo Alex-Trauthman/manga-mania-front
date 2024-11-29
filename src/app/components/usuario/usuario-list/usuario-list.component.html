@@ -1,6 +1,6 @@
 <mat-toolbar color="primary">
     <div class="flex-container">
-        <span class="toolbar-title">Registro de usuario</span>
+        <span class="toolbar-title">Lista de usuário</span>
     </div>
 </mat-toolbar>
 
@@ -70,4 +70,4 @@
     </mat-card>
 </div>
 
-<mat-paginator [pageSizeOptions]="[2, 4, 8, 16]" [pageSize]="pageSize" [length]="totalRecords" (page)="paginar($event)"></mat-paginator>
+<mat-paginator [pageSizeOptions]="[2, 4, 10, 30, 60, 90, 120]" [pageSize]="pageSize" [length]="totalRecords" (page)="paginar($event)"></mat-paginator>

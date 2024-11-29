@@ -38,7 +38,7 @@ export class AdministradorListComponent implements OnInit {
     }
 
     loadAdministradores(): void {
-        this.administradorService.findAll().subscribe((data: Administrador[]) => {
+        this.administradorService.findAll(this.page, this.pageSize).subscribe((data: Administrador[]) => {
             this.administradores = data;
         });
         this.administradorService.count().subscribe(data => {this.totalRecords = data});
