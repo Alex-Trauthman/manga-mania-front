@@ -4,3 +4,5 @@
 [ ] Cadastro de Usuario (pelo usuario) - Carrinho de Compras
 [ ] Conclusão da compra (com pagamento) - Visualização das compras por usuário (geralmente no perfil)
 [ ] Interface (que nao seja de backend) * Conteúdo extra não implementado em sala de aula
+[ ] Carrinho de compras
+[ ] Salvar pedido

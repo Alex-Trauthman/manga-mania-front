@@ -76,8 +76,8 @@
                     </mat-error>
                 </mat-form-field>
                 <mat-form-field appearance="fill" class="full-width-input">
-                    <mat-label>Colorido:</mat-label>
-                    <input matInput type="text" id="color" formControlName="color" required>
+                    <mat-label>Cor destaque:</mat-label>
+                    <input matInput type="text" id="color" formControlName="color" placeholder="#FFFFFF" required>
                     <mat-error *ngIf="formGroup.get('color')?.invalid && formGroup.get('color')?.touched" class="error">
                         {{ getErrorMessage('color', formGroup.get('color')?.errors) }}
                         @if(formGroup.get('color')?.hasError('apiError')) {
