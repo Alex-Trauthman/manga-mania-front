@@ -9,6 +9,9 @@ import { MatToolbar,MatToolbarModule } from '@angular/material/toolbar';
 import { MatIcon } from '@angular/material/icon';
 import { MatBadge } from '@angular/material/badge';
 import { SidebarService } from '../../../services/sidebar.service';
+import { AuthService } from '../../../services/auth.service';
+import { Subscription } from 'rxjs';
+import { Usuario } from '../../../models/usuario.model';
 
 @Component({
     selector: 'app-header',
@@ -19,10 +22,29 @@ import { SidebarService } from '../../../services/sidebar.service';
 })
 export class HeaderComponent {
     searchForm: FormGroup;
-    constructor(private router: Router,private formBuilder: FormBuilder,private sidebarService: SidebarService) {
+    usuarioLogado: Usuario | null = null;
+    private subscription = new Subscription();
+
+
+    constructor(private router: Router,private formBuilder: FormBuilder,private sidebarService: SidebarService,private authService: AuthService) {
         this.searchForm = this.formBuilder.group({
             query: ['']
         });
+    }
+
+    ngOnInit(): void {
+        this.subscription.add(this.authService.getUsuarioLogado().subscribe(
+            usuario => this.usuarioLogado = usuario
+        ));
+    }
+
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
+    }
+
+    deslogar() {
+        this.authService.removeToken();
+        this.authService.removeUsuarioLogado();
     }
 
     navigateTo(route: string): void {

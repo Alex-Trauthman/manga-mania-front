@@ -11,6 +11,7 @@ import { HeaderComponent } from '../../template/header/header.component';
 import { FooterComponent } from '../../template/footer/footer.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatPaginatorModule,PageEvent } from '@angular/material/paginator';
+import { CarrinhoService } from '../../../services/carrinho.service';
 
 @Component({
     selector: 'app-novel-list',
@@ -26,7 +27,7 @@ export class NovelListComponent implements OnInit {
     pageSize = 2;
     page = 0;
 
-    constructor(private novelService: NovelService,private router: Router) { }
+    constructor(private novelService: NovelService,private router: Router,private carrinhoService: CarrinhoService) { }
 
     ngOnInit(): void {
         this.loadNovels();

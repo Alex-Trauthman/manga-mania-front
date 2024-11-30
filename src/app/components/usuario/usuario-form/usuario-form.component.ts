@@ -141,15 +141,15 @@ export class UsuarioFormComponent implements OnInit {
             apiError: 'API_ERROR'
         },
         senha: {
-            required: 'Senha é obrigatório.',
-            minlength: 'Senha de usuário deve conter ao menos 6 letras.',
-            maxlength: 'Senha de usuário deve conter no máximo 60 letras.',
+            required: 'Senha é obrigatória.',
+            minlength: 'Senha deve conter ao menos 6 letras.',
+            maxlength: 'Senha deve conter no máximo 60 letras.',
             apiError: 'API_ERROR'
         },
         cpf: {
             required: 'CPF é obrigatório.',
             minlength: 'CPF deve conter ao menos 10 letras.',
-            maxlength: 'CPF de usuário deve conter no máximo 12 letras.',
+            maxlength: 'CPF deve conter no máximo 12 letras.',
             apiError: 'API_ERROR'
         },
         endereco: {

@@ -17,6 +17,7 @@ import { UsuarioFormComponent } from './components/usuario/usuario-form/usuario-
 import { UsuarioListComponent } from './components/usuario/usuario-list/usuario-list.component';
 import { MangaInfoComponent } from './components/manga/manga-info/manga-info.component';
 import { NovelInfoComponent } from './components/novel/novel-info/novel-info.component';
+import { CarrinhoComponent } from './components/carrinho/carrinho.component';
 
 export const routes: Routes = [
     {
@@ -26,8 +27,10 @@ export const routes: Routes = [
         children: [
             { path: '',pathMatch: 'full',redirectTo: 'loja' },
             { path: 'loja',component: MangaCardListComponent,title: 'Listagem de produtos' }, 
+            { path: 'carrinho',component: CarrinhoComponent,title: 'Carrinho de compras' }, 
+            { path: 'login',component: LoginComponent,title: 'Login' }, 
             { path: 'loja/manga/:id',component: MangaInfoComponent,title: 'Mangá' }, 
-            { path: 'loja/novel/:id',component: NovelInfoComponent,title: 'Mangá' }
+            { path: 'loja/novel/:id',component: NovelInfoComponent,title: 'Novel' }
         ]
     },
     {

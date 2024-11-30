@@ -136,7 +136,7 @@ export class AdministradorFormComponent implements OnInit {
             apiError: 'API_ERROR'
         },
         senha: {
-            required: 'Senha é obrigatório.',
+            required: 'Senha é obrigatória.',
             minlength: 'Senha deve conter ao menos 6 letras.',
             maxlength: 'Senha deve conter no máximo 60 letras.',
             apiError: 'API_ERROR'

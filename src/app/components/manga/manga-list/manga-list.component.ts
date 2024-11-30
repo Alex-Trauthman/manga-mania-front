@@ -1,15 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component,OnInit } from '@angular/core';
-import { Router,RouterModule } from '@angular/router';
-import { Manga } from '../../../models/manga.model';
-import { MangaService } from '../../../services/manga.service';
-import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatPaginatorModule,PageEvent } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { HeaderComponent } from "../../template/header/header.component";
+import { Router,RouterModule } from '@angular/router';
+import { Manga } from '../../../models/manga.model';
+import { CarrinhoService } from '../../../services/carrinho.service';
+import { MangaService } from '../../../services/manga.service';
 import { FooterComponent } from "../../template/footer/footer.component";
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { HeaderComponent } from "../../template/header/header.component";
 
 @Component({
     selector: 'app-manga-list',
@@ -25,11 +27,29 @@ export class MangaListComponent implements OnInit {
     pageSize = 2;
     page = 0;
 
-    constructor(private mangaService: MangaService,private router: Router) { }
+    constructor(private mangaService: MangaService,private router: Router,private carrinhoService: CarrinhoService, private snackBar: MatSnackBar) { }
 
     ngOnInit(): void {
         this.loadMangas();
     }
+
+    adicionarAoCarrinho(manga: Manga) {
+        this.showSnackBarTopPosition('Produto adicionado no carinho.');
+        this.carrinhoService.adicionar({
+            id: manga.id,
+            nome: manga.nome,
+            preco: manga.preco,
+            quantidade: 1
+        })
+    }
+
+    showSnackBarTopPosition(content: string) {
+        this.snackBar.open(content,'fechar',{
+            duration: 3000,
+            verticalPosition: "top",
+            horizontalPosition: "center"
+        })
+    };
 
     paginar(event: PageEvent): void {
         this.page = event.pageIndex;
@@ -38,10 +58,10 @@ export class MangaListComponent implements OnInit {
     }
 
     loadMangas(): void {
-        this.mangaService.findAll(this.page, this.pageSize).subscribe((data: Manga[]) => {
+        this.mangaService.findAll(this.page,this.pageSize).subscribe((data: Manga[]) => {
             this.mangas = data;
         });
-        this.mangaService.count().subscribe(data => {this.totalRecords = data});
+        this.mangaService.count().subscribe(data => { this.totalRecords = data });
     }
 
     editManga(id: number): void {
