@@ -12,26 +12,7 @@ export class CarrinhoService {
     carrinhos: Observable<ItemCarrinho[]> = this.carrinhoSubject;
 
     constructor(private localStorage: LocalStorageService) {
-        // this.carrinhoSubject.next(localStorage.getItem('carrinho') || []);
-        this.carrinhoSubject.next([{
-            type: 1, 
-            id: 1, 
-            nome: "test", 
-            quantidade: 1, 
-            preco: 1
-        }, {
-            type: 1, 
-            id: 2, 
-            nome: "test", 
-            quantidade: 1, 
-            preco: 1
-        }, {
-            type: 1, 
-            id: 3, 
-            nome: "test", 
-            quantidade: 1, 
-            preco: 1
-        }]);
+        this.carrinhoSubject.next(localStorage.getItem('carrinho') || []);
     }
 
     obter(): ItemCarrinho[] {

@@ -1,4 +1,4 @@
-import { CommonModule, NgFor, NgIf } from '@angular/common';
+import { CommonModule,NgFor,NgIf } from '@angular/common';
 import { Component,OnInit } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CarrinhoService } from '../../services/carrinho.service';
@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule,MatCardActions,MatCardContent,MatCardTitle,MatCardFooter } from '@angular/material/card';
-    
+
 @Component({
     selector: 'app-carrinho',
     standalone: true,
@@ -42,6 +42,10 @@ export class CarrinhoComponent implements OnInit {
 
     finalizarCompra(): void {
         const usuario = this.localStorageService.getItem(this.usuarioLogadoKey);
-        if(!usuario) return; // terminar
+        if(!usuario) {
+            this.router.navigateByUrl("/login");
+            return;
+        };
+        this.router.navigateByUrl("/comprasfinalizadas");
     }
 }
