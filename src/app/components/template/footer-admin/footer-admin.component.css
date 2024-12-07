@@ -1,0 +1,10 @@
+.footerComponent {
+    background-color: #233697;
+    background-image: linear-gradient(to top, rgba(35, 54, 151, 1), rgba(35, 54, 151, 0));
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}

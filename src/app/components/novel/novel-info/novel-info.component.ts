@@ -11,6 +11,9 @@ import { MatPaginatorModule,PageEvent } from '@angular/material/paginator';
 import { Novel } from '../../../models/novel.model';
 import { NovelService } from '../../../services/novel.service';
 import { getGeneroNovelById } from '../../../models/generoNovel.model';
+import { CarrinhoService } from '../../../services/carrinho.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Manga } from '../../../models/manga.model';
 
 @Component({
     selector: 'app-novel-info',
@@ -22,7 +25,7 @@ import { getGeneroNovelById } from '../../../models/generoNovel.model';
 export class NovelInfoComponent implements OnInit {
     novel!: Novel;
 
-    constructor(private novelService: NovelService,private router: Router,private route: ActivatedRoute) { }
+    constructor(private novelService: NovelService,private router: Router,private carrinhoService: CarrinhoService,private snackBar: MatSnackBar) { }
 
     ngOnInit(): void {
         this.novelService.findById(parseInt(this.router.url.split("?")[0].split("/")?.pop() ?? "-1")).subscribe((data: Novel) => {
@@ -37,5 +40,24 @@ export class NovelInfoComponent implements OnInit {
             console.error(error);
             return 'Gênero desconhecido';
         }
+    }
+
+    adicionarAoCarrinho(novel: any) {
+        this.showSnackbarTopPosition('Produto adicionado no carinho.');
+        this.carrinhoService.adicionar({
+            type: 2, 
+            id: novel.id,
+            nome: novel.nome,
+            preco: novel.preco,
+            quantidade: 1
+        })
+    }
+
+    showSnackbarTopPosition(content: any) {
+        this.snackBar.open(content,'fechar',{
+            duration: 3000,
+            verticalPosition: "top",
+            horizontalPosition: "center"
+        });
     }
 }

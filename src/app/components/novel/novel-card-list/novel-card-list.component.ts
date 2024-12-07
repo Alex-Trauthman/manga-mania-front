@@ -1,12 +1,16 @@
-import { Component,OnInit,signal } from '@angular/core';
-import { Novel } from '../../../models/novel.model';
-import { NovelService } from '../../../services/novel.service';
-import { MatCardActions,MatCardContent,MatCardFooter,MatCardModule,MatCardTitle } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
 import { NgFor } from '@angular/common';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component,OnInit,signal } from '@angular/core';
+import { FormBuilder,FormGroup } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardActions,MatCardContent,MatCardFooter,MatCardModule,MatCardTitle } from '@angular/material/card';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute,Router } from '@angular/router';
+import { Novel } from '../../../models/novel.model';
+import { CarrinhoService } from '../../../services/carrinho.service';
+import { NovelService } from '../../../services/novel.service';
 
 type Card = {
+    id: number,
     nome: string,
     sinopse: string,
     lancamento: number,
@@ -27,7 +31,7 @@ export class NovelCardListComponent implements OnInit {
     cards = signal<Card[]>([]);
     searchForm: FormGroup;
 
-    constructor(private novelService: NovelService,private formBuilder: FormBuilder) {
+    constructor(private route: ActivatedRoute,private router: Router,private novelService: NovelService,private formBuilder: FormBuilder,private carrinhoService: CarrinhoService,private snackBar: MatSnackBar) {
         this.searchForm = this.formBuilder.group({
             query: ['']
         });
@@ -48,14 +52,34 @@ export class NovelCardListComponent implements OnInit {
         const cards: Card[] = [];
         this.novels.forEach(novel => {
             cards.push({
-                nome: novel.nome, 
-                sinopse: novel.sinopse, 
-                lancamento: novel.lancamento, 
-                preco: novel.preco, 
-                capitulos: novel.capitulos, 
-                imageUrl: this.novelService.getImagem(novel.nomeImagem)
+                id: novel.id,
+                nome: novel.nome,
+                sinopse: novel.sinopse,
+                lancamento: novel.lancamento,
+                preco: novel.preco,
+                capitulos: novel.capitulos,
+                imageUrl: this.novelService.toImageUrl(novel.id, novel.imageUrl)
             })
         });
         this.cards.set(cards);
+    }
+
+    adicionarAoCarrinho(card: Card) {
+        this.showSnackbarTopPosition('Produto adicionado ao carrinho');
+        this.carrinhoService.adicionar({
+            type: 2, 
+            id: card.id,
+            nome: card.nome,
+            preco: card.preco,
+            quantidade: 1
+        });
+    }
+
+    showSnackbarTopPosition(content: any) {
+        this.snackBar.open(content,'fechar',{
+            duration: 3000,
+            verticalPosition: "top",
+            horizontalPosition: "center"
+        });
     }
 }

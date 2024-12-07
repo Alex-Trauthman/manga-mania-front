@@ -10,20 +10,15 @@ import { Router,RouterModule } from '@angular/router';
 import { Manga } from '../../../models/manga.model';
 import { CarrinhoService } from '../../../services/carrinho.service';
 import { MangaService } from '../../../services/manga.service';
-import { MatTableModule } from '@angular/material/table';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { HeaderComponent } from "../../template/header/header.component";
-import { FooterComponent } from "../../template/footer/footer.component";
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { HeaderAdminComponent } from "../../template/header-admin/header-admin.component";
+import { FooterAdminComponent } from "../../template/footer-admin/footer-admin.component";
 
 @Component({
     selector: 'app-manga-list',
     standalone: true,
     templateUrl: './manga-list.component.html',
     styleUrls: ['./manga-list.component.css'],
-    imports: [MatPaginatorModule,CommonModule,RouterModule,MatTableModule,MatButtonModule,MatCardModule,MatToolbarModule,HeaderComponent,FooterComponent]
+    imports: [MatPaginatorModule,CommonModule,RouterModule,MatTableModule,MatButtonModule,MatCardModule,MatToolbarModule,HeaderAdminComponent,FooterAdminComponent]
 })
 export class MangaListComponent implements OnInit {
     displayedColumns: string[] = ['id','nome','paginas','preco','sinopse','lancamento','estoque','color','idAutor','genero','actions'];
@@ -36,16 +31,6 @@ export class MangaListComponent implements OnInit {
 
     ngOnInit(): void {
         this.loadMangas();
-    }
-
-    adicionarAoCarrinho(manga: Manga) {
-        this.showSnackBarTopPosition('Produto adicionado no carinho.');
-        this.carrinhoService.adicionar({
-            id: manga.id,
-            nome: manga.nome,
-            preco: manga.preco,
-            quantidade: 1
-        })
     }
 
     showSnackBarTopPosition(content: string) {

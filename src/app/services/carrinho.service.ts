@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ItemCarrinho } from '../models/item-carrinho';
 import { LocalStorageService } from './local-storage.service';
 
@@ -9,10 +9,29 @@ import { LocalStorageService } from './local-storage.service';
 
 export class CarrinhoService {
     private carrinhoSubject = new BehaviorSubject<ItemCarrinho[]>([]);
-    carrinhos = this.carrinhoSubject.asObservable;
+    carrinhos: Observable<ItemCarrinho[]> = this.carrinhoSubject;
+
     constructor(private localStorage: LocalStorageService) {
-        const carrinhoArmazenado = localStorage.getItem('carrinho') || [];
-        this.carrinhoSubject.next(carrinhoArmazenado);
+        // this.carrinhoSubject.next(localStorage.getItem('carrinho') || []);
+        this.carrinhoSubject.next([{
+            type: 1, 
+            id: 1, 
+            nome: "test", 
+            quantidade: 1, 
+            preco: 1
+        }, {
+            type: 1, 
+            id: 2, 
+            nome: "test", 
+            quantidade: 1, 
+            preco: 1
+        }, {
+            type: 1, 
+            id: 3, 
+            nome: "test", 
+            quantidade: 1, 
+            preco: 1
+        }]);
     }
 
     obter(): ItemCarrinho[] {

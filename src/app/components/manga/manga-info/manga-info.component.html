@@ -6,12 +6,12 @@
 <body>
     <section class="product-container">
         <div class="img-card">
-            <img src="{{manga.nomeImagem}}" alt="" id="featured-image">
+            <img src="{{manga.imageUrl}}" alt="" id="featured-image">
             <div class="small-Card">
-                <img src="{{manga.nomeImagem}}" class="small-Img">
-                <img src="{{manga.nomeImagem}}" class="small-Img">
-                <img src="{{manga.nomeImagem}}" class="small-Img">
-                <img src="{{manga.nomeImagem}}" class="small-Img">
+                <img src="{{manga.imageUrl}}" class="small-Img">
+                <img src="{{manga.imageUrl}}" class="small-Img">
+                <img src="{{manga.imageUrl}}" class="small-Img">
+                <img src="{{manga.imageUrl}}" class="small-Img">
             </div>
         </div>
         <div class="product-info">
@@ -26,9 +26,9 @@
             <p>{{manga.sinopse}}</p>
             <div class="quantity">
                 <input type="number" value="1" min="1" max="100">
-                <button>Adicionar ao carrinho</button>
+                <button mat-button (click)="adicionarAoCarrinho(manga)" color="accent" style="width: 100%; padding: 16px;">Adicionar ao carrinho</button>
             </div>
-            <a mat-flat-button href="/loja/manga/{{manga.id}}/image/download/{{manga.nomeImagem}}" target="_blank">Link</a>
+            <a mat-flat-button href="/loja/manga/{{manga.id}}/image/download/{{manga.imageUrl}}" target="_blank">Link</a>
         </div>
     </section>
 </body>

@@ -7,15 +7,16 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { Router,RouterModule } from '@angular/router';
-import { HeaderComponent } from '../../template/header/header.component';
-import { FooterComponent } from '../../template/footer/footer.component';
+import { HeaderAdminComponent } from "../../template/header-admin/header-admin.component";
+import { FooterAdminComponent } from "../../template/footer-admin/footer-admin.component";
 import { MatCardModule } from '@angular/material/card';
 import { MatPaginatorModule,PageEvent } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'app-novel-list',
     standalone: true,
-    imports: [MatPaginatorModule,CommonModule,RouterModule,MatTableModule,MatButtonModule,MatCardModule,MatToolbarModule,HeaderComponent,FooterComponent,NgFor,MatIconModule,HeaderComponent,FooterComponent],
+    imports: [MatPaginatorModule,CommonModule,RouterModule,MatTableModule,MatButtonModule,MatCardModule,MatToolbarModule,HeaderAdminComponent,FooterAdminComponent,NgFor,MatIconModule,HeaderAdminComponent,FooterAdminComponent],
     templateUrl: './novel-list.component.html',
     styleUrls: ['./novel-list.component.css']
 })
@@ -26,7 +27,7 @@ export class NovelListComponent implements OnInit {
     pageSize = 2;
     page = 0;
 
-    constructor(private novelService: NovelService,private router: Router,private carrinhoService: CarrinhoService) { }
+    constructor(private novelService: NovelService,private router: Router,private snackBar: MatSnackBar) { }
 
     ngOnInit(): void {
         this.loadNovels();

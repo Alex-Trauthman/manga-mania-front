@@ -7,16 +7,12 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { ActivatedRoute,Router,RouterModule } from '@angular/router';
-import { AdministradorService } from '../../services/administrador.service';
-import { FooterComponent } from '../template/footer/footer.component';
-import { HeaderComponent } from '../template/header/header.component';
-import { HttpErrorResponse } from '@angular/common/http';
+import { Router,RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { FooterLoginComponent } from '../template/footer-login/footer-login.component';
 import { HeaderLoginComponent } from '../template/header-login/header-login.component';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'app-login-component',
@@ -32,25 +28,12 @@ export class LoginComponent implements OnInit {
     password: string = '123456789123456789';
     errorMessage: string = '';
 
-    constructor(private authService: AuthService,private router: Router,private formBuilder: FormBuilder,private administradorService: AdministradorService,private usuarioService: UsuarioService,private activatedRoute: ActivatedRoute) {
+    constructor(private authService: AuthService,private router: Router,private formBuilder: FormBuilder,private snackBar: MatSnackBar) {
         this.formGroup = this.formBuilder.group({
             username: [null,Validators.required,Validators.minLength(1),Validators.maxLength(80)],
             senha: [null,Validators.required,Validators.minLength(1),Validators.maxLength(60)],
         })
     };
-
-    ngOnInit(): void {
-        this.activatedRoute.params.subscribe(params => {
-            this.adminId = params['id'] ? +params['id'] : null;
-            if(this.adminId) {
-                this.loadAdministrador(this.adminId);
-            }
-        });
-
-    constructor(
-        private activatedRoute: ActivatedRoute,private snackBar: MatSnackBar,private authService: AuthService,private formBuilder: FormBuilder,private router: Router
-    ) {
-    }
 
     ngOnInit(): void {
         this.formGroup = this.formBuilder.group({
@@ -59,14 +42,14 @@ export class LoginComponent implements OnInit {
         });
     }
 
-    onSubmit() {
+    login() {
         if(this.formGroup.valid) {
-            const username = this.formGroup.get('username')?.value;
-            const password = this.formGroup.get('password')?.value;
+            // const username = this.formGroup.get('username')?.value;
+            // const password = this.formGroup.get('password')?.value;
 
-            this.authService.login(username,password).subscribe({
+            this.authService.login(this.username,this.password).subscribe({
                 next: () => {
-                    this.router.navigateByUrl('/admin');
+                    this.router.navigateByUrl('/loja');
                 },
                 error: (err: any) => {
                     console.log(err);

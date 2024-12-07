@@ -12,17 +12,15 @@ import { ActivatedRoute,Router,RouterModule } from '@angular/router';
 import { GeneroNovelMap } from '../../../models/generoNovel.model';
 import { EscritorNovelService } from '../../../services/escritor.service';
 import { NovelService } from '../../../services/novel.service';
-import { FooterComponent } from '../../template/footer/footer.component';
-import { HeaderComponent } from '../../template/header/header.component';
+import { HeaderAdminComponent } from "../../template/header-admin/header-admin.component";
+import { FooterAdminComponent } from "../../template/footer-admin/footer-admin.component";
 
 @Component({
     selector: 'app-novel-form',
     standalone: true,
     templateUrl: './novel-form.component.html',
     styleUrls: ['./novel-form.component.css'],
-    imports: [NgIf,ReactiveFormsModule,MatFormFieldModule,
-        MatInputModule,MatButtonModule,MatCardModule,MatToolbarModule,
-        RouterModule,MatSelectModule,CommonModule,HeaderComponent,FooterComponent]
+    imports: [NgIf,ReactiveFormsModule,MatFormFieldModule,MatInputModule,MatButtonModule,MatCardModule,MatToolbarModule,RouterModule,MatSelectModule,CommonModule,HeaderAdminComponent,FooterAdminComponent]
 })
 export class NovelFormComponent implements OnInit {
     formGroup: FormGroup;

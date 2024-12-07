@@ -9,8 +9,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { HeaderComponent } from "../../template/header/header.component";
-import { FooterComponent } from "../../template/footer/footer.component";
+import { HeaderAdminComponent } from "../../template/header-admin/header-admin.component";
+import { FooterAdminComponent } from "../../template/footer-admin/footer-admin.component";
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -20,7 +20,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     standalone: true,
     templateUrl: './autor-form.component.html',
     styleUrls: ['./autor-form.component.css'],
-    imports: [MatDatepickerModule,MatNativeDateModule,CommonModule,FormsModule,ReactiveFormsModule,MatFormFieldModule,MatInputModule,MatButtonModule,MatCardModule,MatToolbarModule,MatSelectModule,RouterModule,HeaderComponent,FooterComponent],
+    imports: [MatDatepickerModule,MatNativeDateModule,CommonModule,FormsModule,ReactiveFormsModule,MatFormFieldModule,MatInputModule,MatButtonModule,MatCardModule,MatToolbarModule,MatSelectModule,RouterModule,HeaderAdminComponent,FooterAdminComponent],
     providers: [MatDatepickerModule]
 })
 export class AutorFormComponent implements OnInit {

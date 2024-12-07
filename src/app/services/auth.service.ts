@@ -9,54 +9,43 @@ import { LocalStorageService } from "./local-storage.service";
     providedIn: 'root'
 })
 export class AuthService {
-    private baseUrl = 'http://localhost:8080/auth';
+    private baseUrl = 'http://localhost:8000/auth';
     private tokenKey = 'jwt_token';
     private usuarioLogadoKey = 'usuario_logado';
     private usuarioLogadoSubject = new BehaviorSubject<Usuario | null>(null);
 
-    constructor(private httpClient: HttpClient,private localStorageService: LocalStorageService,private jwtHelper: JwtHelperService) {
-        this.init();
+    constructor(private httpClient: HttpClient,
+        private localStorageService: LocalStorageService,
+        private jwtHelper: JwtHelperService
+    ) {
+        this.initUsuarioLogado();
     }
 
-    private initUsuarioLogado():void {
+    private initUsuarioLogado(): void {
         const usuario = this.localStorageService.getItem(this.usuarioLogadoKey);
-        if (usuario) {
+        if(usuario) {
             // const usuarioLogado = JSON.parse(usuario);
             this.usuarioLogadoSubject.next(usuario);
         }
     }
 
-    public login(username: string,password: string): Observable<any> {
-        return this.httpClient.post(`${this.baseUrl}`,{ username,senha: password },{ observe: 'response' }).pipe(
+    public login(username: string,senha: string): Observable<any> {
+        return this.httpClient.post(`${this.baseUrl}`,{ username,senha },{ observe: 'response' }).pipe(
             tap((res: any) => {
-                if(res.headers.get('Authorization') ?? '') {
-                    this.setToken(res.headers.get('Authorization') ?? '');
-                    if(res.body) {
-                        this.setUsuarioLogado(res.body);
-                        this.usuarioLogadoSubject.next(res.body);
+                const authToken = res.headers.get('Authorization') ?? '';
+                if(authToken) {
+                    this.setToken(authToken);
+                    const usuarioLogado = res.body;
+                    console.log(usuarioLogado);
+                    if(usuarioLogado) {
+                        this.setUsuarioLogado(usuarioLogado);
+                        this.usuarioLogadoSubject.next(usuarioLogado);
                     }
                 }
             })
         );
     }
 
-        //{ observe: 'response' } para garantir que a resposta completa seja retornada (incluindo o cabeçalho)
-    return this.httpClient.post(`${this.baseUrl}`, params, {observe: 'response'}).pipe(
-        tap((res: any) => {
-          const authToken = res.headers.get('Authorization') ?? '';
-          if (authToken) {
-            this.setToken(authToken);
-            const usuarioLogado = res.body;
-            //console.log(usuarioLogado);
-            if (usuarioLogado) {
-              this.setUsuarioLogado(usuarioLogado);
-              this.usuarioLogadoSubject.next(usuarioLogado);
-            }
-          }
-        })
-      );
-    }
-  
     setUsuarioLogado(usuario: Usuario): void {
         this.localStorageService.setItem(this.usuarioLogadoKey,usuario);
     }

@@ -11,6 +11,8 @@ import { HeaderComponent } from "../../template/header/header.component";
 import { FooterComponent } from "../../template/footer/footer.component";
 import { MatPaginatorModule,PageEvent } from '@angular/material/paginator';
 import { getGeneroMangaById } from '../../../models/generoManga.model';
+import { CarrinhoService } from '../../../services/carrinho.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'app-manga-info',
@@ -22,7 +24,7 @@ import { getGeneroMangaById } from '../../../models/generoManga.model';
 export class MangaInfoComponent implements OnInit {
     manga!: Manga;
 
-    constructor(private mangaService: MangaService,private router: Router,private route: ActivatedRoute) { }
+    constructor(private mangaService: MangaService,private router: Router,private carrinhoService: CarrinhoService,private snackBar: MatSnackBar) { }
 
     ngOnInit(): void {
         this.mangaService.findById(parseInt(this.router.url.split("?")[0].split("/")?.pop() ?? "-1")).subscribe((data: Manga) => {
@@ -37,5 +39,24 @@ export class MangaInfoComponent implements OnInit {
             console.error(error);
             return 'Gênero desconhecido';
         }
+    }
+
+    adicionarAoCarrinho(manga: any) {
+        this.showSnackbarTopPosition('Produto adicionado no carinho.');
+        this.carrinhoService.adicionar({
+            type: 1, 
+            id: manga.id,
+            nome: manga.nome,
+            preco: manga.preco,
+            quantidade: 1
+        })
+    }
+
+    showSnackbarTopPosition(content: any) {
+        this.snackBar.open(content,'fechar',{
+            duration: 3000,
+            verticalPosition: "top",
+            horizontalPosition: "center"
+        });
     }
 }

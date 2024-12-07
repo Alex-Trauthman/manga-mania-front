@@ -4,7 +4,7 @@ import { GeneroNovel } from "./generoNovel.model";
 export class Novel {
     id!: number;
     nome!: string;
-    imagem!: string;
+    imageUrl!: string;
     paginas!: number;
     preco!: number;
     sinopse!: string;
@@ -17,7 +17,7 @@ export class Novel {
     constructor(
         id: number,
         nome: string,
-        imagem: string, 
+        imageUrl: string, 
         sinopse: string,
         idAutor: EscritorNovel,
         lancamento: number,
@@ -29,7 +29,7 @@ export class Novel {
     ) {
         this.id = id;
         this.nome = nome;
-        this.imagem = nomeImagem;
+        this.imageUrl = imageUrl;
         this.sinopse = sinopse;
         this.idAutor = idAutor;
         this.lancamento = lancamento;

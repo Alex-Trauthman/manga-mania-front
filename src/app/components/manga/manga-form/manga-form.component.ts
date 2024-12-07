@@ -12,15 +12,15 @@ import { ActivatedRoute,Router,RouterModule } from '@angular/router';
 import { GeneroMangaMap } from '../../../models/generoManga.model';
 import { AutorService } from '../../../services/autorManga.service';
 import { MangaService } from '../../../services/manga.service';
-import { FooterComponent } from '../../template/footer/footer.component';
-import { HeaderComponent } from '../../template/header/header.component';
+import { HeaderAdminComponent } from "../../template/header-admin/header-admin.component";
+import { FooterAdminComponent } from "../../template/footer-admin/footer-admin.component";
 
 @Component({
     selector: 'app-manga-form',
     standalone: true,
     templateUrl: './manga-form.component.html',
     styleUrls: ['./manga-form.component.css'],
-    imports: [CommonModule,FooterComponent,HeaderComponent,MatButtonModule,MatCardModule,MatFormFieldModule,MatInputModule,MatSelectModule,MatToolbarModule,NgIf,ReactiveFormsModule,RouterModule]
+    imports: [CommonModule,FooterAdminComponent,HeaderAdminComponent,MatButtonModule,MatCardModule,MatFormFieldModule,MatInputModule,MatSelectModule,MatToolbarModule,NgIf,ReactiveFormsModule,RouterModule]
 })
 export class MangaFormComponent implements OnInit {
     formGroup: FormGroup;

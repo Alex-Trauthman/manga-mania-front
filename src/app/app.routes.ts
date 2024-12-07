@@ -8,6 +8,7 @@ import { EscritorFormComponent } from './components/escritor/escritor-form/escri
 import { EscritorNovelListComponent } from './components/escritor/escritor-list/escritor-list.component';
 import { MangaCardListComponent } from './components/manga/manga-card-list/manga-card-list.component';
 import { LoginComponent } from './components/login/login.component';
+import { CompraFinalizadaComponent } from './components/compra-finalizada/compra-finalizada.component';
 import { MangaFormComponent } from './components/manga/manga-form/manga-form.component';
 import { MangaListComponent } from './components/manga/manga-list/manga-list.component';
 import { NovelFormComponent } from './components/novel/novel-form/novel-form.component';
@@ -37,6 +38,11 @@ export const routes: Routes = [
         path: 'login', 
         component: LoginComponent,
         title: 'LOGIN',
+    },
+    {
+        path: 'comprasfinalizadas', 
+        component: CompraFinalizadaComponent,
+        title: 'COMPRAS',
     },
     {
         path: 'search/novel', 

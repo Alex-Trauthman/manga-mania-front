@@ -6,6 +6,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { NgFor } from '@angular/common';
 import { FormBuilder,FormGroup } from '@angular/forms';
 import { ActivatedRoute,Router } from '@angular/router';
+import { CarrinhoService } from '../../../services/carrinho.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 type Card = {
     id: number,
@@ -28,7 +30,7 @@ export class MangaCardListComponent implements OnInit {
     cards = signal<Card[]>([]);
     searchForm: FormGroup;
 
-    constructor(private route: ActivatedRoute,private router: Router,private mangaService: MangaService,private formBuilder: FormBuilder) {
+    constructor(private route: ActivatedRoute,private router: Router,private mangaService: MangaService,private formBuilder: FormBuilder,private carrinhoService: CarrinhoService,private snackBar: MatSnackBar) {
         this.searchForm = this.formBuilder.group({
             query: ['']
         });
@@ -64,10 +66,29 @@ export class MangaCardListComponent implements OnInit {
                 nome: manga.nome,
                 sinopse: manga.sinopse,
                 lancamento: manga.lancamento,
-                preco: manga.preco, 
-                imageUrl: this.mangaService.getImagem(manga.nomeImagem)
+                preco: manga.preco,
+                imageUrl: this.mangaService.toImageUrl(manga.id, manga.imageUrl)
             })
         });
         this.cards.set(cards);
+    }
+
+    adicionarAoCarrinho(card: Card) {
+        this.showSnackbarTopPosition('Produto adicionado ao carrinho');
+        this.carrinhoService.adicionar({
+            type: 1, 
+            id: card.id,
+            nome: card.nome,
+            preco: card.preco,
+            quantidade: 1
+        });
+    }
+
+    showSnackbarTopPosition(content: any) {
+        this.snackBar.open(content,'fechar',{
+            duration: 3000,
+            verticalPosition: "top",
+            horizontalPosition: "center"
+        });
     }
 }

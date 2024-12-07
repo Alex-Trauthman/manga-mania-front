@@ -1,14 +1,102 @@
 <ng-container *ngIf="carrinhoItens.length > 0; else carrinhoVazio">
-    <div *ngFor="let item of carrinhoItens" class="carrinho-item">
-        <h3>{{ item.nome }}</h3>
-        <p>Preço: {{ item.preco }}</p>
-        <p>Quantidade: {{ item.quantidade }}</p>
-        <p>Total: {{ item.quantidade * item.preco }}</p>
-        <button mat-raised-button color="warn" (click)="removerItem(item)">Remover do Carrinho</button>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        .responsivo {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
+            gap: 16px;
+            padding: 20px;
+            margin: 0 auto;
+        }
+
+        .carrinhoItem mat-card {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .carrinhoItem mat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .centro {
+            text-align: center;
+        }
+
+        button[mat-button],
+        button[mat-raised-button] {
+            margin-top: 10px;
+        }
+
+        p {
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        button[mat-raised-button] {
+            display: block;
+            margin: 20px auto;
+            background-color: #007bff;
+            color: white;
+        }
+
+        button[mat-raised-button]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <div *ngFor="let item of carrinhoItens" class="carrinhoItem">
+        <div class="responsivo">
+            <mat-card>
+                <mat-card-title class="centro">{{item.nome}}</mat-card-title>
+                <mat-card-content class="centro">Qtd: {{item.quantidade}}</mat-card-content>
+                <mat-card-content class="centro">Preço: {{item.preco}}</mat-card-content>
+                <mat-card-actions class="centro">
+                    <button mat-raised-button color="warn" (click)="removeItem(item)">Remover</button>
+                    <button mat-button color="primary" (click)="goTo(item)">Observar mais</button>
+                </mat-card-actions>
+            </mat-card>
+        </div>
     </div>
-    <p>Total do Carrinho: {{ calcularTotal() }}</p>
+    <p>Total: R$ {{ calcularTotal() | number:'1.2-2' }}</p>
     <button mat-raised-button color="primary" (click)="finalizarCompra()">Finalizar Compra</button>
 </ng-container>
 <ng-template #carrinhoVazio>
-    <p>O carrinho está vazio.</p>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Carrinho de Compras</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f9f9f9;
+                margin: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                color: #555;
+            }
+
+            .mensagemVazia {
+                text-align: center;
+                border: 2px dashed #ccc;
+                padding: 20px;
+                background-color: #fff;
+                border-radius: 8px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+        </style>
+    </head>
+    <div class="mensagemVazia">
+        <h1>Seu carrinho de compras</h1>
+        <p>Seu carrinho de compras está vazio.</p>
+    </div>
 </ng-template>

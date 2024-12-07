@@ -14,16 +14,17 @@ import { Subscription } from 'rxjs';
 import { Usuario } from '../../../models/usuario.model';
 
 @Component({
-    selector: 'app-header',
-    templateUrl: './header.component.html',
-    styleUrls: ['./header.component.css'],
+    selector: 'app-header-admin',
+    templateUrl: './header-admin.component.html',
+    styleUrls: ['./header-admin.component.css'],
     imports: [CommonModule,RouterModule,ReactiveFormsModule,MatFormFieldModule,MatInputModule,MatButtonModule,MatToolbarModule,MatToolbar,MatIcon,MatBadge,MatButton,MatIconButton,RouterModule],
     standalone: true
 })
-export class HeaderComponent {
+export class HeaderAdminComponent {
     searchForm: FormGroup;
     usuarioLogado: Usuario | null = null;
     private subscription = new Subscription();
+
 
     constructor(private router: Router,private formBuilder: FormBuilder,private sidebarService: SidebarService,private authService: AuthService) {
         this.searchForm = this.formBuilder.group({

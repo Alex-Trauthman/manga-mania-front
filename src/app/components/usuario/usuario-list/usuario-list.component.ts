@@ -7,8 +7,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { HeaderComponent } from "../../template/header/header.component";
-import { FooterComponent } from "../../template/footer/footer.component";
+import { HeaderAdminComponent } from "../../template/header-admin/header-admin.component";
+import { FooterAdminComponent } from "../../template/footer-admin/footer-admin.component";
 import { MatIconModule } from '@angular/material/icon';
 import { Novel } from '../../../models/novel.model';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
@@ -18,7 +18,7 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
     standalone: true,
     templateUrl: './usuario-list.component.html',
     styleUrls: ['./usuario-list.component.css'],
-    imports: [MatPaginatorModule,CommonModule,RouterModule,MatTableModule,MatButtonModule,MatCardModule,MatToolbarModule,HeaderComponent,FooterComponent,MatIconModule]
+    imports: [MatPaginatorModule,CommonModule,RouterModule,MatTableModule,MatButtonModule,MatCardModule,MatToolbarModule,HeaderAdminComponent,FooterAdminComponent,MatIconModule]
 })
 export class UsuarioListComponent implements OnInit {
     displayedColumns: string[] = ['id','username','email','cpf','endereco','sexo','actions'];

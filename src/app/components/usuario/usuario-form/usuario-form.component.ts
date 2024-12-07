@@ -11,17 +11,15 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { ActivatedRoute,Router,RouterModule } from '@angular/router';
 import { SexoMap } from '../../../models/sexo.model';
 import { UsuarioService } from '../../../services/usuario.service';
-import { FooterComponent } from '../../template/footer/footer.component';
-import { HeaderComponent } from '../../template/header/header.component';
+import { HeaderAdminComponent } from "../../template/header-admin/header-admin.component";
+import { FooterAdminComponent } from "../../template/footer-admin/footer-admin.component";
 
 @Component({
     selector: 'app-usuario-form',
     standalone: true,
     templateUrl: './usuario-form.component.html',
     styleUrls: ['./usuario-form.component.css'],
-    imports: [NgIf,ReactiveFormsModule,MatFormFieldModule,
-        MatInputModule,MatButtonModule,MatCardModule,MatToolbarModule,
-        RouterModule,MatSelectModule,CommonModule,HeaderComponent,FooterComponent]
+    imports: [NgIf,ReactiveFormsModule,MatFormFieldModule,MatInputModule,MatButtonModule,MatCardModule,MatToolbarModule,RouterModule,MatSelectModule,CommonModule,HeaderAdminComponent,FooterAdminComponent]
 })
 export class UsuarioFormComponent implements OnInit {
     formGroup: FormGroup;

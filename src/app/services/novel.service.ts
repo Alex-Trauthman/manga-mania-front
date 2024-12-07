@@ -72,7 +72,7 @@ export class NovelService {
         return this.httpClient.get<Novel[]>(`${this.baseUrl}?search=${query}`);
     }
 
-    getImagem(nomeImagem: string): string {
-        return `${this.baseUrl}/image/download/${nomeImagem}`;
+    toImageUrl(id: number, imagem: string): string {
+        return `${this.baseUrl}/${id}/image/download/${imagem}`;
     }
 }
