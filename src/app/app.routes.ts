@@ -19,6 +19,7 @@ import { UsuarioListComponent } from './components/usuario/usuario-list/usuario-
 import { MangaInfoComponent } from './components/manga/manga-info/manga-info.component';
 import { NovelInfoComponent } from './components/novel/novel-info/novel-info.component';
 import { CarrinhoComponent } from './components/carrinho/carrinho.component';
+import { authGuard } from './guard/auth.guard';
 
 export const routes: Routes = [
     {
@@ -27,30 +28,30 @@ export const routes: Routes = [
         title: 'Mangás e Novels',
         children: [
             { path: '',pathMatch: 'full',redirectTo: 'loja' },
-            { path: 'loja',component: MangaCardListComponent,title: 'Listagem de produtos' }, 
-            { path: 'carrinho',component: CarrinhoComponent,title: 'Carrinho de compras' }, 
-            { path: 'login',component: LoginComponent,title: 'Login' }, 
-            { path: 'loja/manga/:id',component: MangaInfoComponent,title: 'Mangá' }, 
+            { path: 'loja',component: MangaCardListComponent,title: 'Listagem de produtos' },
+            { path: 'carrinho',component: CarrinhoComponent,title: 'Carrinho de compras' },
+            { path: 'login',component: LoginComponent,title: 'Login' },
+            { path: 'loja/manga/:id',component: MangaInfoComponent,title: 'Mangá' },
             { path: 'loja/novel/:id',component: NovelInfoComponent,title: 'Novel' }
         ]
     },
     {
-        path: 'login', 
+        path: 'login',
         component: LoginComponent,
         title: 'LOGIN',
     },
     {
-        path: 'comprasfinalizadas', 
+        path: 'comprasfinalizadas',
         component: CompraFinalizadaComponent,
         title: 'COMPRAS',
     },
     {
-        path: 'search/novel', 
+        path: 'search/novel',
         component: UserTemplateComponent,
         title: 'PESQUISA 1',
     },
     {
-        path: 'search/novel/:term', 
+        path: 'search/novel/:term',
         component: UserTemplateComponent,
         title: 'PESQUISA 2',
     },
@@ -58,6 +59,7 @@ export const routes: Routes = [
         path: 'admin',
         component: AdminTemplateComponent,
         title: 'Painel de controle',
+        canActivate: [authGuard],
         children: [
             { path: '',pathMatch: 'full',redirectTo: 'administrador' },
             { path: 'administrador',component: AdministradorListComponent,data: { title: "AdministradorListComponent" } },
@@ -78,7 +80,6 @@ export const routes: Routes = [
             { path: 'usuario',component: UsuarioListComponent,data: { title: "UsuarioListComponent" } },
             { path: 'usuario/new',component: UsuarioFormComponent,data: { title: "UsuarioFormComponent" } },
             { path: 'usuario/edit/:id',component: UsuarioFormComponent,data: { title: "UsuarioFormComponent" } }
-
         ]
     }
 ]
