@@ -13,7 +13,7 @@ type Card = {
     sinopse: string,
     lancamento: number,
     preco: number,
-    // imageUrl: string;
+    imageUrl: string;
 }
 
 @Component({
@@ -64,8 +64,8 @@ export class MangaCardListComponent implements OnInit {
                 nome: manga.nome,
                 sinopse: manga.sinopse,
                 lancamento: manga.lancamento,
-                preco: manga.preco
-                // imageUrl: this.mangaService.getImagem(manga.nomeImagem)
+                preco: manga.preco, 
+                imageUrl: this.mangaService.getImagem(manga.nomeImagem)
             })
         });
         this.cards.set(cards);

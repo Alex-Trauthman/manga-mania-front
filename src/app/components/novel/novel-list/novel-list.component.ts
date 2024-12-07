@@ -11,7 +11,6 @@ import { HeaderComponent } from '../../template/header/header.component';
 import { FooterComponent } from '../../template/footer/footer.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatPaginatorModule,PageEvent } from '@angular/material/paginator';
-import { CarrinhoService } from '../../../services/carrinho.service';
 
 @Component({
     selector: 'app-novel-list',

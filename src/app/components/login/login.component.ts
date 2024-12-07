@@ -1,4 +1,5 @@
 import { CommonModule,NgIf } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component,OnInit } from '@angular/core';
 import { FormBuilder,FormGroup,ReactiveFormsModule,ValidationErrors,Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -13,14 +14,16 @@ import { FooterComponent } from '../template/footer/footer.component';
 import { HeaderComponent } from '../template/header/header.component';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
-import { UsuarioService } from '../../services/usuario.service';
+import { FooterLoginComponent } from '../template/footer-login/footer-login.component';
+import { HeaderLoginComponent } from '../template/header-login/header-login.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-    selector: 'app-login',
+    selector: 'app-login-component',
     standalone: true,
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.css'],
-    imports: [NgIf,ReactiveFormsModule,MatFormFieldModule,MatInputModule,MatButtonModule,MatCardModule,MatToolbarModule,RouterModule,MatSelectModule,CommonModule,HeaderComponent,FooterComponent]
+    imports: [NgIf,ReactiveFormsModule,MatFormFieldModule,MatInputModule,MatButtonModule,MatCardModule,MatToolbarModule,RouterModule,MatSelectModule,CommonModule,HeaderLoginComponent,FooterLoginComponent]
 })
 export class LoginComponent implements OnInit {
     formGroup: FormGroup;
@@ -44,87 +47,33 @@ export class LoginComponent implements OnInit {
             }
         });
 
+    constructor(
+        private activatedRoute: ActivatedRoute,private snackBar: MatSnackBar,private authService: AuthService,private formBuilder: FormBuilder,private router: Router
+    ) {
     }
 
-    initializeForm(): void {
-        const admin = this.activatedRoute.snapshot.data['admin'];
-        if(admin) {
-            this.formGroup.patchValue(admin);
-        }
-    }
-
-    onLogin() {
-        /* 
-                this.authService.login(this.username, this.password).subscribe((response: any) => {
-                        if(response) {
-                            this.router.navigateByUrl('/');
-                        } else {
-                            this.errorMessage = 'Usuário ou senha inválidos.';
-                        }
-                    }
-                )
-                this.authService.login(this.username, this.password).then((response: any) => {
-                    if(response) {
-                        localStorage.setItem('usuario', btoa(JSON.stringify(response)));
-                        this.router.navigateByUrl('/');
-                    } else {
-                        this.errorMessage = 'Usuário ou senha inválidos.';
-                    }
-                })
-                return this.authService.login(this.username, this.password).subscribe(
-                    response => {
-                        if(response) {
-                            this.router.navigateByUrl('/');
-                        } else {
-                            this.errorMessage = 'Usuário ou senha inválidos.';
-                        }
-                    },
-                    error => {
-                        if(error.status === 404) this.errorMessage = "Usuário não encontrado.";
-                        else this.errorMessage = 'Ocorreu um erro ao realizar login.';
-                    }
-                )
-         */
-    }
-
-    loadAdministrador(id: number): void {
-        this.administradorService.findById(id).subscribe(admin => {
-            this.formGroup.patchValue(admin);
+    ngOnInit(): void {
+        this.formGroup = this.formBuilder.group({
+            username: [null,[Validators.required,Validators.minLength(4),Validators.maxLength(80)]],
+            senha: [null,[Validators.required,Validators.minLength(6),Validators.maxLength(60)]],
         });
-        this.formGroup.markAllAsTouched();
     }
 
-    salvar(): void {
-        if(this.formGroup.invalid) {
-            this.formGroup.markAllAsTouched();
-            return;
-        }
+    onSubmit() {
         if(this.formGroup.valid) {
-            const administrador = this.formGroup.value;
-            if(administrador.id) {
-                this.administradorService.update(administrador).subscribe(() => {
-                    this.router.navigateByUrl('/admin/administrador');
-                },error => {
-                    this.tratarErros(error);
-                });
-            } else {
-                this.administradorService.insert(administrador).subscribe(() => {
-                    this.router.navigateByUrl('/admin/administrador');
-                },error => {
-                    this.tratarErros(error);
-                });
-            }
-        }
-    }
+            const username = this.formGroup.get('username')?.value;
+            const password = this.formGroup.get('password')?.value;
 
-    excluir(): void {
-        const id = this.formGroup.get('id')?.value;
-        if(id) {
-            this.administradorService.delete(id).subscribe(() => {
-                this.router.navigateByUrl('/admin/administrador');
-            },error => {
-                this.tratarErros(error);
-            });
+            this.authService.login(username,password).subscribe({
+                next: () => {
+                    this.router.navigateByUrl('/admin');
+                },
+                error: (err: any) => {
+                    console.log(err);
+                    this.showSnackbarTopPosition("Username ou senha inválido");
+                }
+            })
+
         }
     }
 
@@ -151,6 +100,14 @@ export class LoginComponent implements OnInit {
         } else if(errorResponse.status < 400) {
         } else if(errorResponse.status >= 500) {
         }
+    }
+
+    showSnackbarTopPosition(content: any) {
+        this.snackBar.open(content,'fechar',{
+            duration: 3000,
+            verticalPosition: "top",
+            horizontalPosition: "center"
+        });
     }
 
     errorMessages: { [controlName: string]: { [errorName: string]: string } } = {

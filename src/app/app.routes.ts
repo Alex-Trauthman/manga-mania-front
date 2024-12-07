@@ -34,6 +34,11 @@ export const routes: Routes = [
         ]
     },
     {
+        path: 'login', 
+        component: LoginComponent,
+        title: 'LOGIN',
+    },
+    {
         path: 'search/novel', 
         component: UserTemplateComponent,
         title: 'PESQUISA 1',
@@ -41,7 +46,7 @@ export const routes: Routes = [
     {
         path: 'search/novel/:term', 
         component: UserTemplateComponent,
-        title: 'PESQUISA 1',
+        title: 'PESQUISA 2',
     },
     {
         path: 'admin',

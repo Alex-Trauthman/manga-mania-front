@@ -10,8 +10,13 @@ import { Router,RouterModule } from '@angular/router';
 import { Manga } from '../../../models/manga.model';
 import { CarrinhoService } from '../../../services/carrinho.service';
 import { MangaService } from '../../../services/manga.service';
-import { FooterComponent } from "../../template/footer/footer.component";
+import { MatTableModule } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { HeaderComponent } from "../../template/header/header.component";
+import { FooterComponent } from "../../template/footer/footer.component";
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 
 @Component({
     selector: 'app-manga-list',

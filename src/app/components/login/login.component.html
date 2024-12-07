@@ -5,7 +5,7 @@
 <div class="login-container">
     <mat-card>
         <mat-card-content>
-            <form [formGroup]="formGroup" (ngSubmit)="salvar()">
+            <form [formGroup]="formGroup">
                 <mat-form-field appearance="fill" class="full-width-input">
                     <mat-label>Username:</mat-label>
                     <input matInput type="text" formControlName="username" />
@@ -27,9 +27,8 @@
                     </mat-error>
                 </mat-form-field>
                 <mat-card-actions>
-                    <button mat-raised-button routerLink="/">Voltar</button>
-                    <button mat-raised-button routerLink="/usuario/new">Criar conta</button>
-                    <button mat-raised-button color="primary" type="submit">Login</button>
+                    <!-- <button mat-raised-button routerLink="/usuario/novaconta">Criar conta</button> -->
+                    <button mat-raised-button color="primary" type="submit">Entrar</button>
                 </mat-card-actions>
             </form>
         </mat-card-content>
