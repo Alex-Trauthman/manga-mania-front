@@ -67,7 +67,7 @@ export class MangaCardListComponent implements OnInit {
                 sinopse: manga.sinopse,
                 lancamento: manga.lancamento,
                 preco: manga.preco,
-                imageUrl: this.mangaService.toImageUrl(manga.id, manga.imageUrl)
+                imageUrl: this.mangaService.toImageUrl(manga.imageUrl)
             })
         });
         this.cards.set(cards);

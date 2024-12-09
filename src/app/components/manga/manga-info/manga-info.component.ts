@@ -29,6 +29,7 @@ export class MangaInfoComponent implements OnInit {
     ngOnInit(): void {
         this.mangaService.findById(parseInt(this.router.url.split("?")[0].split("/")?.pop() ?? "-1")).subscribe((data: Manga) => {
             this.manga = data;
+            this.manga.imageUrl = this.mangaService.toImageUrl(this.manga.imageUrl);
         });
     }
 

@@ -68,7 +68,7 @@ export class MangaService {
         return this.httpClient.delete<void>(`${this.baseUrl}/${id}`);
     }
 
-    toImageUrl(id: number, imagem: string): string {
-        return `${this.baseUrl}/${id}/image/download/${imagem}`;
+    toImageUrl( imagem: string): string {
+        return `${this.baseUrl}/image/download/${imagem}`;
     }
 }
