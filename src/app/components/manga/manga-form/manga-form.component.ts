@@ -4,29 +4,36 @@ import { Component,OnInit } from '@angular/core';
 import { FormBuilder,FormGroup,ReactiveFormsModule,ValidationErrors,Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatFormFieldControl, MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ActivatedRoute,Router,RouterModule } from '@angular/router';
-import { GeneroMangaMap } from '../../../models/generoManga.model';
 import { AutorService } from '../../../services/autorManga.service';
 import { MangaService } from '../../../services/manga.service';
 import { HeaderAdminComponent } from "../../template/header-admin/header-admin.component";
 import { FooterAdminComponent } from "../../template/footer-admin/footer-admin.component";
+import { AutorManga } from '../../../models/autorManga.model';
+import { Manga } from '../../../models/manga.model';
+import { MatIcon } from '@angular/material/icon';
+import { GeneroManga } from '../../../models/generoManga.model';
 
 @Component({
     selector: 'app-manga-form',
     standalone: true,
     templateUrl: './manga-form.component.html',
     styleUrls: ['./manga-form.component.css'],
-    imports: [CommonModule,FooterAdminComponent,HeaderAdminComponent,MatButtonModule,MatCardModule,MatFormFieldModule,MatInputModule,MatSelectModule,MatToolbarModule,NgIf,ReactiveFormsModule,RouterModule]
+    imports: [CommonModule,FooterAdminComponent,HeaderAdminComponent,MatIcon,MatButtonModule,MatCardModule,MatFormFieldModule,MatInputModule,MatSelectModule,MatToolbarModule,NgIf,ReactiveFormsModule,RouterModule]
 })
 export class MangaFormComponent implements OnInit {
     formGroup: FormGroup;
-    autores: any[] = [];
-    generos = Object.entries(GeneroMangaMap);
+    autores: AutorManga[] = [];
+    generos: GeneroManga[] = [];
     mangaId: number | null = null;
+
+    fileName: string = '';
+    selectedFile: File | null = null; 
+    imagePreview: string | ArrayBuffer | null = null;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -45,61 +52,124 @@ export class MangaFormComponent implements OnInit {
             color: [null,Validators.required,Validators.minLength(2),Validators.maxLength(12)],
             preco: [null,Validators.required,Validators.min(0)],
             estoque: [null,Validators.required,Validators.min(0)],
-            paginas: [null,Validators.required,Validators.min(0)]
+            paginas: [null,Validators.required,Validators.min(0)],
+            imageUrl: [null]
         });
     }
 
     ngOnInit(): void {
+        
+        const manga: Manga = this.activatedRoute.snapshot.data['manga'];
         this.autorService.findAll().subscribe((data) => {
             this.autores = data;
         });
+        this.mangaService.findGeneros().subscribe((data) => {
+            this.generos = data;
+        });
         this.activatedRoute.params.subscribe(params => {
             this.mangaId = params['id'] ? +params['id'] : null;
+            console.log("id manga"+this.mangaId);
             if(this.mangaId) {
                 this.loadManga(this.mangaId);
             }
         });
+        this.initializeForm();
 
     }
 
     initializeForm(): void {
         const manga = this.activatedRoute.snapshot.data['manga'];
-        if(manga) {
-            this.formGroup.patchValue(manga);
+        if (manga && manga.imageUrl) {
+            this.imagePreview = this.mangaService.toImageUrl(manga.imageUrl);
+            this.fileName = manga.imageUrl;
         }
+        this.formGroup = this.formBuilder.group({
+            id: [(manga && manga.id)? manga.id : null],
+            nome: [(manga && manga.nome)? manga.nome:null],
+            sinopse: [(manga && manga.sinopse)? manga.sinopse:null],
+            genero: [(manga && manga.genero)? manga.genero:null],
+            idAutor: [(manga && manga.idAutor)? manga.idAutor:null],
+            lancamento: [(manga && manga.lancamento)? manga.lancamento:null],
+            color: [(manga && manga.color)? manga.color:null],
+            preco: [(manga && manga.preco)? manga.preco:null],
+            estoque: [(manga && manga.estoque)? manga.estoque:null],
+            paginas: [(manga && manga.paginas)? manga.paginas:null],
+            imageUrl: [(manga && manga.imageUrl)? manga.imageUrl:null]
+        });
     }
 
+    private uploadImage(mangaId: number) {
+        if (this.selectedFile) {
+          this.mangaService.uploadImage(mangaId, this.selectedFile.name, this.selectedFile)
+          .subscribe({
+            next: () => {
+              this.voltarPagina();
+            },
+            error: err => {
+              console.log('Erro ao fazer o upload da imagem');
+              // tratar o erro
+            }
+          })
+        } 
+      }
+
+    voltarPagina(): void {
+        this.router.navigateByUrl('/admin/manga');
+    }
     loadManga(id: number): void {
         if(id != null && id > 0) {
             this.mangaService.findById(id).subscribe(manga => {
                 this.formGroup.patchValue(manga);
+                if (manga.imageUrl) {
+                    this.imagePreview = this.mangaService.toImageUrl(manga.imageUrl);
+                    this.fileName = manga.imageUrl;
+                }
             });
             this.formGroup.markAllAsTouched();
         }
     }
 
-    salvar(): void {
-        if(this.formGroup.invalid) {
-            this.formGroup.markAllAsTouched();
-            return;
+    carregarImagemSelecionada(event: any) {
+        this.selectedFile = event.target.files[0];
+    
+        if (this.selectedFile) {
+          this.fileName = this.selectedFile.name;
+          
+          const reader = new FileReader();
+          reader.onload = e => this.imagePreview = reader.result;
+          reader.readAsDataURL(this.selectedFile);
         }
-        if(this.formGroup.valid) {
-            const manga = this.formGroup.value;
-            if(manga.id) {
-                this.mangaService.update(manga).subscribe(() => {
-                    this.router.navigateByUrl('/admin/manga');
-                },error => {
-                    this.tratarErros(error);
-                });
-            } else {
-                this.mangaService.insert(manga).subscribe(() => {
-                    this.router.navigateByUrl('/admin/manga');
-                },error => {
-                    this.tratarErros(error);
-                });
+    
+      }
+
+      salvar() {
+        this.formGroup.markAllAsTouched();
+        if (this.formGroup.valid) {
+          const manga = this.formGroup.value;
+            
+          
+          const operacao = manga.id == null
+          ? this.mangaService.insert(manga)
+          : this.mangaService.update(manga);
+          
+          // executando a operacao
+          operacao.subscribe({
+            next: (mangaCadastrada) => {
+              
+                if (this.mangaId !== null) {
+                    this.uploadImage(this.mangaId);
+                }
+              
+              this.uploadImage(mangaCadastrada.id);
+            },
+            error: (error) => {
+              console.log('Erro ao Salvar' + JSON.stringify(error));
+              this.tratarErros(error);
             }
+          });
         }
-    }
+      }
+    
 
     excluir(): void {
         const id = this.formGroup.get('id')?.value;

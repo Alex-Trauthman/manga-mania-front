@@ -1,6 +1,67 @@
+.manga-card {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    background-color: #cfcfcf;
+}
+
+.manga-card-content {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.manga-image {
+    width: 180px;
+    height: auto;
+    object-fit: cover;
+    margin-right: 10px;
+    border-radius: 10px;
+}
+
+.manga-details {
+    flex: 1;
+}
+
+.mat-mdc-paginator {
+    bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    margin-top: 20px;
+    background-color: #cfcfcf;
+    border-radius: 10px;
+}
+
+.mat-paginator-page-size-label,
+.mat-paginator-range-actions {
+    font-size: 14px;
+    color: #333;
+}
+
+.mat-paginator-navigation-previous,
+.mat-paginator-navigation-next {
+    background-color: #3f51b5;
+    color: white;
+    border-radius: 50%;
+    padding: 5px;
+}
+
+.mat-paginator-navigation-previous:hover,
+.mat-paginator-navigation-next:hover {
+    background-color: #303f9f;
+}
+
+.mat-paginator-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 img {
     width: 100%;
-    height: 240px;
+    max-height: 100%;
     object-fit: cover;
 }
 
@@ -9,8 +70,9 @@ img {
 }
 
 .responsive-grid {
+    border-radius: 10px;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(370px, 1fr));
     gap: 20px;
 }
 

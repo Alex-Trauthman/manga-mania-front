@@ -33,7 +33,7 @@ export class CarrinhoComponent implements OnInit {
     }
 
     goTo(item: ItemCarrinho) {
-        this.router.navigateByUrl(`/${item.type === 1 ? "manga" : "novel"}/${item.id}`);
+        this.router.navigateByUrl(`/loja/manga/${item.id}`);
     }
 
     calcularTotal(): number {

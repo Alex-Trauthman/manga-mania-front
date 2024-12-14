@@ -1,35 +1,46 @@
-<mat-toolbar color="primary">
-    <div class="toolbar-title">Mangá</div>
+<mat-toolbar >
+    <div class="toolbar-title"><h1>Informações do Mangá</h1></div>
 </mat-toolbar>
 
-@if(manga) {
-<body>
+<div *ngIf="manga">
     <section class="product-container">
         <div class="img-card">
-            <img src="{{manga.imageUrl}}" alt="" id="featured-image">
-            <div class="small-Card">
-                <img src="{{manga.imageUrl}}" class="small-Img">
-                <img src="{{manga.imageUrl}}" class="small-Img">
-                <img src="{{manga.imageUrl}}" class="small-Img">
-                <img src="{{manga.imageUrl}}" class="small-Img">
-            </div>
+            <img [src]="manga.imageUrl" alt="" id="featured-image">
         </div>
         <div class="product-info">
             <h3>{{manga.nome}}</h3>
             <h5>R$ {{manga.preco}}</h5>
+            <h5>Sinopse: {{manga.sinopse}}</h5>
             <h5>Páginas: {{manga.paginas}}</h5>
             <h5>Estoque: {{manga.estoque}}</h5>
             <h5>Ano: {{manga.lancamento}}</h5>
-            <!-- <h5>Gênero: {{manga.genero.nome}}</h5> -->
-            <!-- <h5>Gênero: {{getGeneroString(manga.genero.id)}}</h5> -->
+            <h5>Gênero: {{manga.genero.nome}}</h5>
             <h5>Autor: {{manga.idAutor.nome}}</h5>
             <p>{{manga.sinopse}}</p>
             <div class="quantity">
-                <input type="number" value="1" min="1" max="100">
-                <button mat-button (click)="adicionarAoCarrinho(manga)" color="accent" style="width: 100%; padding: 16px;">Adicionar ao carrinho</button>
+                <button mat-button (click)="adicionarAoCarrinho(manga)" color="accent" class="add-to-cart-button">Adicionar ao carrinho</button>
             </div>
-            <a mat-flat-button href="/loja/manga/{{manga.id}}/image/download/{{manga.imageUrl}}" target="_blank">Link</a>
         </div>
     </section>
-</body>
-}
+</div>
+
+<section class="other-mangas-container">
+    <h2>Mangás Relacionados</h2>
+    <div class="other-mangas-grid">
+        <mat-card *ngFor="let otherManga of otherMangas" class="manga-card">
+            <div class="img-other">
+                
+                <img [src]="otherManga.imageUrl" alt=" ">
+            </div>
+            <mat-card-title>{{otherManga.nome}}</mat-card-title>
+            <mat-card-content>
+                <p>{{otherManga.sinopse.length > 30 ? (otherManga.sinopse | slice:0:30) + '...' : otherManga.sinopse}}</p>
+                <p>R$ {{otherManga.preco}}</p>
+            </mat-card-content>
+            <mat-card-actions>
+                <button mat-button color="primary" (click)="verManga(otherManga.id)">Ver mais</button>
+                <button mat-button color="accent" (click)="adicionarAoCarrinho(otherManga)">Adicionar ao carrinho</button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+</section>

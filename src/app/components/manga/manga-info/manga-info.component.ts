@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component,OnInit } from '@angular/core';
-import { ActivatedRoute,Router,RouterModule } from '@angular/router';
+import { Component, OnInit, signal } from '@angular/core';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Manga } from '../../../models/manga.model';
 import { MangaService } from '../../../services/manga.service';
 import { MatTableModule } from '@angular/material/table';
@@ -9,52 +9,127 @@ import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { HeaderComponent } from "../../template/header/header.component";
 import { FooterComponent } from "../../template/footer/footer.component";
-import { MatPaginatorModule,PageEvent } from '@angular/material/paginator';
-import { getGeneroMangaById } from '../../../models/generoManga.model';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { CarrinhoService } from '../../../services/carrinho.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MangaCardListComponent } from "../manga-card-list/manga-card-list.component";
+
+type Card= {
+    id: number;
+    nome: string;
+    preco: number;
+    imageUrl: string;
+}
 
 @Component({
     selector: 'app-manga-info',
     standalone: true,
     templateUrl: './manga-info.component.html',
     styleUrls: ['./manga-info.component.css'],
-    imports: [MatPaginatorModule,CommonModule,RouterModule,MatTableModule,MatButtonModule,MatCardModule,MatToolbarModule,HeaderComponent,FooterComponent]
+    imports: [
+        CommonModule,
+        RouterModule,
+        MatTableModule,
+        MatButtonModule,
+        MatCardModule,
+        MatToolbarModule,
+        MatPaginatorModule,
+        HeaderComponent,
+        FooterComponent,
+        MangaCardListComponent
+    ]
 })
 export class MangaInfoComponent implements OnInit {
     manga!: Manga;
+    otherMangas: Manga[] = [];
+    cards = signal<Card[]>([]);
 
-    constructor(private mangaService: MangaService,private router: Router,private carrinhoService: CarrinhoService,private snackBar: MatSnackBar) { }
+    constructor(
+        private mangaService: MangaService,
+        private router: Router,
+        private carrinhoService: CarrinhoService,
+        private snackBar: MatSnackBar,
+        private route: ActivatedRoute
+    ) { }
 
     ngOnInit(): void {
-        this.mangaService.findById(parseInt(this.router.url.split("?")[0].split("/")?.pop() ?? "-1")).subscribe((data: Manga) => {
-            this.manga = data;
-            this.manga.imageUrl = this.mangaService.toImageUrl(this.manga.imageUrl);
+        this.route.paramMap.subscribe(params => {
+            const mangaId = parseInt(params.get('id') ?? '-1', 10);
+            if (mangaId !== -1) {
+                this.mangaService.findById(mangaId).subscribe((data: Manga) => {
+                    this.manga = data;
+                    this.manga.imageUrl = this.mangaService.toImageUrl(this.manga.imageUrl);
+                    this.loadOtherMangas();
+                });
+            }
         });
     }
 
-    getGeneroString(id: number): string {
-        try {
-            return getGeneroMangaById(id);
-        } catch(error) {
-            console.error(error);
-            return 'Gênero desconhecido';
-        }
+    loadOtherMangas(): void {
+        this.mangaService.findAll(0, 6).subscribe(data => {
+            this.otherMangas = data.filter(m => m.id !== this.manga.id);
+        
+            // Aqui, garantimos que a URL da imagem esteja completa para cada manga
+            this.otherMangas.forEach(manga => {
+                if (!manga.imageUrl.startsWith('http')) {
+                    manga.imageUrl = 'http://localhost:8000/manga/image/download/' + manga.imageUrl;
+                }
+            });
+        
+            console.log("Imagens processadas:", this.otherMangas);
+            this.carregarCards();
+        });
+        
+        
     }
 
-    adicionarAoCarrinho(manga: any) {
-        this.showSnackbarTopPosition('Produto adicionado no carinho.');
+    carregarCards() {
+        const cards: Card[] = [];
+        this.otherMangas.forEach(otherManga => {
+            if (otherManga.id === this.manga.id) return;
+            
+            // Log to debug the raw data
+            console.log("Raw otherManga:", otherManga);
+
+            
+
+            
+
+            cards.push({
+                id: otherManga.id,
+                nome: otherManga.nome,
+                preco: otherManga.preco,
+                imageUrl: this.mangaService.toImageUrl(otherManga.imageUrl)
+            });
+
+            console.log("Processed card:", {
+                id: otherManga.id,
+                nome: otherManga.nome,
+                preco: otherManga.preco,
+                imageUrl: this.mangaService.toImageUrl(otherManga.imageUrl)
+            });
+        });
+        this.cards.set(cards) ;
+
+    }
+
+    verManga(id: number): void {
+        this.router.navigateByUrl('loja/manga/' + id);
+    }
+
+    adicionarAoCarrinho(manga: Manga): void {
+        this.showSnackbarTopPosition('Produto adicionado no carrinho.');
         this.carrinhoService.adicionar({
-            type: 1, 
+            type: 1,
             id: manga.id,
             nome: manga.nome,
             preco: manga.preco,
             quantidade: 1
-        })
+        });
     }
 
-    showSnackbarTopPosition(content: any) {
-        this.snackBar.open(content,'fechar',{
+    showSnackbarTopPosition(content: any): void {
+        this.snackBar.open(content, 'fechar', {
             duration: 3000,
             verticalPosition: "top",
             horizontalPosition: "center"

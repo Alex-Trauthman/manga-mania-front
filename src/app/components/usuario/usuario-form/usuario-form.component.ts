@@ -9,10 +9,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ActivatedRoute,Router,RouterModule } from '@angular/router';
-import { SexoMap } from '../../../models/sexo.model';
 import { UsuarioService } from '../../../services/usuario.service';
 import { HeaderAdminComponent } from "../../template/header-admin/header-admin.component";
 import { FooterAdminComponent } from "../../template/footer-admin/footer-admin.component";
+import { Sexo } from '../../../models/sexo.model';
 
 @Component({
     selector: 'app-usuario-form',
@@ -24,7 +24,7 @@ import { FooterAdminComponent } from "../../template/footer-admin/footer-admin.c
 export class UsuarioFormComponent implements OnInit {
     formGroup: FormGroup;
     usuarioId: number | null = null;
-    sexoIds = Object.entries(SexoMap);
+    sexoIds: Sexo[] = [];
 
     constructor(
         private formBuilder: FormBuilder,
@@ -44,6 +44,10 @@ export class UsuarioFormComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.sexoIds = [
+            { id: 2, descricao: 'Masculino' },
+            { id: 1, descricao: 'Feminino' },
+        ];
         this.activatedRoute.params.subscribe(params => {
             this.usuarioId = params['id'] ? +params['id'] : null;
             if(this.usuarioId) {

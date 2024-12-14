@@ -1,20 +1,24 @@
 <header>
-    <a href=""><img src="logo.png"></a>
-    <h1>Bem-vindo!</h1>
+    <a href=""><img src="logo.png" alt="Logo"></a>
     <button (click)="navigateTo('')">Página inicial</button>
-    <button (click)="navigateTo('admin')">Administração</button>
+    <!-- Exibe o botão de Administração apenas para administradores -->
+    <button *ngIf="userRole === 'admin'" (click)="navigateTo('admin')">Administração</button>
+    <button *ngIf="userRole !== 'admin'" (click)="navigateTo('perfil')">Perfil</button>
     <button (click)="navigateTo('carrinho')">Carrinho</button>
-    <button mat-icon-button (click)="deslogar()">
-        <mat-icon>exit_to_app</mat-icon>
-    </button>
-    <span>{{usuarioLogado?.username}}</span>
+    <button (click)="navigateTo('perfil')">Perfil</button>
     <mat-toolbar color="primary" class="search">
         <form [formGroup]="searchForm" (ngSubmit)="onSearch()" class="search-form">
             <mat-form-field appearance="outline" class="search-field">
-                <mat-label>Pesquisar Novels</mat-label>
-                <input matInput formControlName="query" placeholder="Digite o título do novel">
+                <mat-label>Pesquisar Mangás</mat-label>
+                <input matInput formControlName="query" placeholder="Nome do mangá">
             </mat-form-field>
             <button mat-raised-button color="accent" type="submit">Pesquisar</button>
         </form>
     </mat-toolbar>
+    <div>
+        <span>{{usuarioLogado?.username}}</span>
+        <button mat-icon-button (click)="deslogar()">
+            <mat-icon>exit_to_app</mat-icon>
+        </button>
+    </div>
 </header>

@@ -1,9 +1,14 @@
-[x] Todos CRUDS (?) Telas Principais (regras de negócio do sistema) 
-[x] Validações dos campos - Perfil do usuário (Troca de senha, alterar dados, deslogar)
-[x] Imagens em produtos (upload e download) - Segurança (Autenticação e Autorização)
-[ ] Cadastro de Usuario (pelo usuario) - Carrinho de Compras
-[ ] Conclusão da compra (com pagamento) - Visualização das compras por usuário (geralmente no perfil)
-[ ] Interface (que nao seja de backend) * Conteúdo extra não implementado em sala de aula
+[x] Todos CRUDS (?)
+[x]Telas Principais (regras de negócio do sistema) 
+[x] Validações dos campos 
+[x]Perfil do usuário (Troca de senha, alterar dados, deslogar)
+[x] Imagens em produtos (upload e download) 
+[x]Segurança (Autenticação e Autorização)
+[x] Cadastro de Usuario (pelo usuario) 
+[ ] Conclusão da compra (com pagamento) 
+[ ]Visualização das compras por usuário (geralmente no perfil)
+[x] Interface (que nao seja de backend)
+[ ] Conteúdo extra não implementado em sala de aula
 [x] Carrinho de compras
 [x] Salvar pedido
 [ ] Página de erros

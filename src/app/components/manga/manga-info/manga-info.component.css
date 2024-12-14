@@ -8,6 +8,7 @@ body {
     max-width: 1280px;
     margin: 0 auto;
     padding: 0 30px;
+    font-family: 'Lato', sans-serif;
 }
 
 header {
@@ -16,120 +17,169 @@ header {
 
 .product-container {
     display: flex;
-    justify-content: start;
-    align-items: start;
+    justify-content: center;
+    align-items: flex-start;
     gap: 40px;
+    margin-bottom: 40px;
+    background-color: #8f8f8f;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    flex-wrap: wrap;
+}
+
+.mat-toolbar {
+    background-color: #222222;
+    color: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
 }
 
 .img-card img {
     width: 100%;
-    flex-shrink: 0;
-    border-radius: 4px;
-    height: 520px;
-    object-fit: cover;
-}
-
-.small-Card {
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    margin-top: 15px;
-    gap: 12px;
-}
-
-.small-Card img {
-    width: 104px;
-    height: 104px;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.small-Card img:active {
-    border: 1px solid #17696a;
-}
-
-.sm-card {
-    border: 2px solid darkred;
+    min-width: 350px;
+    border-radius: 8px;
+    height: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .product-info {
-    width: 60%;
+    width: 100%;
+    max-width: 700px;     text-align: center;
 }
 
 .product-info h3 {
     font-size: 32px;
-    font-family: Lato;
     font-weight: 600;
-    line-height: 130%;
+    line-height: 1.3;
+    margin-bottom: 10px;
+    color: #010101;
 }
 
 .product-info h5 {
-    font-size: 24px;
-    font-family: Lato;
+    font-size: 20px;
     font-weight: 500;
-    line-height: 130%;
-    color: #ff4242;
+    line-height: 1.3;
+    color: #090909;
     margin: 6px 0;
 }
 
-.product-info del {
-    color: #a9a9a9;
-}
-
 .product-info p {
-    color: #424551;
+    color: #121212;
     margin: 15px 0;
-    width: 70%;
+    font-size: 16px;
 }
 
-.sizes p {
-    font-size: 22px;
-    color: black;
-}
 
-.size-option {
-    width: 200px;
-    height: 30px;
-    margin-bottom: 15px;
-    padding: 5px;
+.quantity {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
 }
 
 .quantity input {
-    width: 51px;
-    height: 33px;
-    margin-bottom: 15px;
+    width: 60px;
+    height: 40px;
     padding: 6px;
-}
-
-button {
-    background: #17696a;
+    border: 1px solid #ccc;
     border-radius: 4px;
-    padding: 10px 37px;
-    border: none;
-    color: white;
-    font-weight: 600;
+    text-align: center;
 }
 
-.delivery {
+.add-to-cart-button {
+    background: #000;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.add-to-cart-button:hover {
+    background: #333;
+}
+
+.other-mangas-container {
+    margin-top: 40px;
+}
+
+.other-mangas-container h2 {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #000000;
+}
+
+.other-mangas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.manga-card {
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: #8f8f8f;
+}
+
+.manga-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+.other-mangas-grid .manga-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 15px;
+    align-items: center;
+}
+.manga-card img {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    object-fit: cover;
+    height: 220px;
+    width: 100%;
+    align-self: center;
+}
+
+.manga-card mat-card-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 10px 0;
+    color: #000000;
+}
+
+.manga-card mat-card-content p {
+    font-size: 14px;
+    color: #000000;
+    margin: 10px 0;
+    line-height: 1.4;
+}
+
+.manga-card mat-card-actions {
     display: flex;
     justify-content: space-between;
+    padding: 10px;
+}
+
+.toolbar-title {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.3;
+    text-align: center;
+    margin: 6px 0;
+    text-align: center;
+    display: flex;
     align-items: center;
-    width: 70%;
-    color: #787a80;
-    font-size: 12px;
-    font-family: Lato;
-    line-height: 150%;
-    letter-spacing: 1px;
+    justify-content: center;
 }
 
-hr {
-    color: #787a80;
-    width: 58%;
-    opacity: 0.67;
-}
-
-.pagination {
-    color: #787a80;
-    margin: 15px 0;
-    cursor: pointer;
-}

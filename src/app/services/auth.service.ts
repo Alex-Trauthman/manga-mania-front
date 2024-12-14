@@ -28,6 +28,18 @@ export class AuthService {
         }
     }
 
+
+    public getUserRole(): string {
+        const token = this.getToken();
+        if (!token) {
+            return ''; // Se não houver token, retorna vazio
+        }
+
+        const decodedToken = this.jwtHelper.decodeToken(token);
+        return decodedToken?.groups?.includes('Administrador') ? 'admin' : 'user';
+    }
+
+    
     public login(username: string,senha: string): Observable<any> {
         return this.httpClient.post(`${this.baseUrl}`,{ username,senha },{ observe: 'response' }).pipe(
             tap((res: any) => {

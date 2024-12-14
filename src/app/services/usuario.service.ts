@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Usuario } from '../models/usuario.model';
 import { Observable } from 'rxjs';
@@ -37,11 +37,29 @@ export class UsuarioService {
             senha: usuario.senha, 
             cpf: usuario.cpf, 
             endereco: usuario.endereco, 
-            listaTelefone: usuario.listaTelefone, 
             sexo: usuario.sexo
         };
         return this.httpClient.post<Usuario>(this.baseUrl,data);
     }
+
+    updateSenha(senhaAntiga: string, repeticao: string, senhaNova: string): Observable<any> {
+        const senhaDTO = {
+            senhaAtual: senhaAntiga,
+            novaSenha: senhaNova,
+            confirmacao: repeticao,
+        };
+        return this.httpClient.patch(`${this.baseUrl}/updateSenha`, senhaDTO);
+    }    
+    
+      updateEmail(email: string): Observable<any> {
+        return this.httpClient.patch(`${this.baseUrl}/updateEmail`, {email})
+    }
+    
+    
+    updateEndereco(endereco: string): Observable<any> {
+        return this.httpClient.patch(`${this.baseUrl}/updateEndereco`, { endereco });
+    }
+    
 
     update(usuario: Usuario): Observable<Usuario> {
         const data = {

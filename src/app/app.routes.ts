@@ -20,6 +20,8 @@ import { MangaInfoComponent } from './components/manga/manga-info/manga-info.com
 import { NovelInfoComponent } from './components/novel/novel-info/novel-info.component';
 import { CarrinhoComponent } from './components/carrinho/carrinho.component';
 import { authGuard } from './guard/auth.guard';
+import { CadastroComponent } from './components/cadastro/cadastro.component';
+import { PerfilComponent } from './components/usuario/perfil/perfil.component';
 
 export const routes: Routes = [
     {
@@ -32,7 +34,9 @@ export const routes: Routes = [
             { path: 'carrinho',component: CarrinhoComponent,title: 'Carrinho de compras' },
             { path: 'login',component: LoginComponent,title: 'Login' },
             { path: 'loja/manga/:id',component: MangaInfoComponent,title: 'Mangá' },
-            { path: 'loja/novel/:id',component: NovelInfoComponent,title: 'Novel' }
+            { path: 'loja/novel/:id',component: NovelInfoComponent,title: 'Novel' },
+            { path: 'cadastro', component: CadastroComponent, title: 'Cadastro'},
+            { path: 'perfil', component: PerfilComponent, title: 'Perfil'}
         ]
     },
     {
@@ -62,6 +66,7 @@ export const routes: Routes = [
         canActivate: [authGuard],
         children: [
             { path: '',pathMatch: 'full',redirectTo: 'administrador' },
+            { path: 'admin/loja', component: MangaCardListComponent, title: 'Listagem'},
             { path: 'administrador',component: AdministradorListComponent,data: { title: "AdministradorListComponent" } },
             { path: 'administrador/new',component: AdministradorFormComponent,data: { title: "AdministradorFormComponent" } },
             { path: 'administrador/edit/:id',component: AdministradorFormComponent,data: { title: "AdministradorFormComponent" } },

@@ -59,7 +59,7 @@
                 <mat-form-field appearance="fill">
                     <mat-label>Sexo:</mat-label>
                     <mat-select formControlName="sexo">
-                        <mat-option *ngFor="let sexo of sexoIds" [value]="sexo[0]">{{sexo[1]}}</mat-option>
+                        <mat-option *ngFor="let sexo of sexoIds" [value]="sexo.id">{{sexo.descricao}}</mat-option>
                     </mat-select>
                     <mat-error *ngIf="formGroup.get('sexo')?.invalid && formGroup.get('sexo')?.touched">
                         {{ getErrorMessage('sexo', formGroup.get('sexo')?.errors) }}
