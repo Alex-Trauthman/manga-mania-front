@@ -14,19 +14,7 @@ export class Manga {
     idAutor!: AutorManga;
     genero!: GeneroManga;
 
-    constructor(
-        id: number,
-        nome: string,
-        imageUrl: string,
-        paginas: number,
-        preco: number,
-        sinopse: string,
-        lancamento: number,
-        estoque: number,
-        color: string,
-        idAutor: AutorManga,
-        genero: GeneroManga,
-    ) {
+    constructor(id: number,nome: string,imageUrl: string,paginas: number,preco: number,sinopse: string,lancamento: number,estoque: number,color: string,idAutor: AutorManga,genero: GeneroManga) {
         this.id = id;
         this.nome = nome;
         this.imageUrl = imageUrl;

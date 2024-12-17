@@ -32,11 +32,9 @@ export class MangaCardListComponent implements OnInit {
     mangas: Manga[] = [];
     cards = signal<Card[]>([]);
     searchForm: FormGroup;
-
-    // Pagination variables
-    totalMangas = 0;      // Total number of mangas (for pagination)
-    pageSize = 10;        // Number of items per page
-    pageSizeOptions = [5, 10, 15, 20];  // Page size options
+    totalMangas = 0;
+    pageSize = 30;
+    pageSizeOptions = [10, 30, 60, 90, 110, 130];
     currentPage = 0;          constructor(
         private route: ActivatedRoute,
         private router: Router,
@@ -51,10 +49,9 @@ export class MangaCardListComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        // First, get the total number of mangas to set up pagination
         this.mangaService.count().subscribe(total => {
             this.totalMangas = total;
-            this.loadMangas();  // Load the mangas after getting the total count
+            this.loadMangas();
         });
 
         this.route.queryParams.subscribe(params => {
@@ -94,11 +91,12 @@ export class MangaCardListComponent implements OnInit {
     }
 
     adicionarAoCarrinho(card: Card) {
-        this.showSnackbarTopPosition('Produto adicionado ao carrinho');
+        this.showSnackbarTopPosition('Produto adicionado ao carrinho.');
         this.carrinhoService.adicionar({
             type: 1,
             id: card.id,
             nome: card.nome,
+            imageUrl: card.imageUrl ?? "livro.jpg", 
             preco: card.preco,
             quantidade: 1
         });
@@ -112,10 +110,9 @@ export class MangaCardListComponent implements OnInit {
         });
     }
 
-    // Handle page change for pagination
     onPageChange(event: any) {
         this.currentPage = event.pageIndex;
         this.pageSize = event.pageSize;
-        this.loadMangas(this.currentPage);  // Load mangas for the current page
+        this.loadMangas(this.currentPage);
     }
 }

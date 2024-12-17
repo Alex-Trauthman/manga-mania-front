@@ -24,7 +24,7 @@ export class UsuarioListComponent implements OnInit {
     displayedColumns: string[] = ['id','username','email','cpf','endereco','sexo','actions'];
     usuarios: Usuario[] = [];
     totalRecords = 0;
-    pageSize = 2;
+    pageSize = 10;
     page = 0;
 
     constructor(private usuarioService: UsuarioService,private router: Router) { }

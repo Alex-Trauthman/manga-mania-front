@@ -34,19 +34,19 @@ export class UsuarioFormComponent implements OnInit {
     ) {
         this.formGroup = this.formBuilder.group({
             id: [null],
-            username: [null,Validators.required,Validators.minLength(4),Validators.maxLength(80)],
-            email: [null,Validators.required,Validators.minLength(6),Validators.maxLength(60)],
-            senha: [null,Validators.required,Validators.minLength(6),Validators.maxLength(60)],
-            cpf: [null,Validators.required,Validators.minLength(10),Validators.maxLength(12)],
-            endereco: [null,Validators.required,Validators.minLength(4),Validators.maxLength(80)],
-            sexo: [null,Validators.required]
+            username: [null,[Validators.required,Validators.minLength(4),Validators.maxLength(80)]],
+            email: [null,[Validators.required,Validators.minLength(6),Validators.maxLength(60)]],
+            senha: [null,[Validators.required,Validators.minLength(6),Validators.maxLength(60)]],
+            cpf: [null,[Validators.required,Validators.minLength(10),Validators.maxLength(12)]],
+            endereco: [null,[Validators.required,Validators.minLength(4),Validators.maxLength(80)]],
+            sexo: [null,[Validators.required]]
         });
     }
 
     ngOnInit(): void {
         this.sexoIds = [
-            { id: 2, descricao: 'Masculino' },
-            { id: 1, descricao: 'Feminino' },
+            { id: 1,descricao: 'Feminino' },
+            { id: 2,descricao: 'Masculino' }
         ];
         this.activatedRoute.params.subscribe(params => {
             this.usuarioId = params['id'] ? +params['id'] : null;
@@ -54,7 +54,6 @@ export class UsuarioFormComponent implements OnInit {
                 this.loadUsuario(this.usuarioId);
             }
         });
-
     }
 
     initializeForm(): void {
@@ -63,11 +62,14 @@ export class UsuarioFormComponent implements OnInit {
             this.formGroup.patchValue(usuario);
         }
     }
+
     loadUsuario(id: number): void {
         this.usuarioService.findById(id).subscribe(usuario => {
-            this.formGroup.patchValue(usuario);
+            let data = { ...usuario };
+            data.senha = "";
+            this.formGroup.patchValue(data);
         });
-        this.formGroup.markAllAsTouched();
+        this.formGroup.markAsUntouched();
     }
 
     salvar(): void {
@@ -111,7 +113,7 @@ export class UsuarioFormComponent implements OnInit {
                 return this.errorMessages[controlName][errorName];
             }
         }
-        return "parâmetro inválido";
+        return "Parâmetro inválido.";
     }
 
     tratarErros(errorResponse: HttpErrorResponse) {
@@ -132,32 +134,32 @@ export class UsuarioFormComponent implements OnInit {
     errorMessages: { [controlName: string]: { [errorName: string]: string } } = {
         username: {
             required: 'Nome de usuário é obrigatório.',
-            minlength: 'Nome de usuário deve conter ao menos 4 letras.',
-            maxlength: 'Nome de usuário deve conter no máximo 80 letras.',
+            minlength: 'Nome de usuário deve conter ao menos 4 caracteres.',
+            maxlength: 'Nome de usuário deve conter no máximo 80 caracteres.',
             apiError: 'API_ERROR'
         },
         email: {
             required: 'Email é obrigatório.',
-            minlength: 'Email de usuário deve conter ao menos 6 letras.',
-            maxlength: 'Email de usuário deve conter no máximo 60 letras.',
+            minlength: 'Email de usuário deve conter ao menos 6 caracteres.',
+            maxlength: 'Email de usuário deve conter no máximo 60 caracteres.',
             apiError: 'API_ERROR'
         },
         senha: {
             required: 'Senha é obrigatória.',
-            minlength: 'Senha deve conter ao menos 6 letras.',
-            maxlength: 'Senha deve conter no máximo 60 letras.',
+            minlength: 'Senha deve conter ao menos 6 caracteres.',
+            maxlength: 'Senha deve conter no máximo 60 caracteres.',
             apiError: 'API_ERROR'
         },
         cpf: {
             required: 'CPF é obrigatório.',
-            minlength: 'CPF deve conter ao menos 10 letras.',
-            maxlength: 'CPF deve conter no máximo 12 letras.',
+            minlength: 'CPF deve conter ao menos 10 caracteres.',
+            maxlength: 'CPF deve conter no máximo 12 caracteres.',
             apiError: 'API_ERROR'
         },
         endereco: {
             required: 'Endereço é obrigatório.',
-            minlength: 'Endereço deve conter ao menos 4 letras.',
-            maxlength: 'Endereço deve conter no máximo 80 letras.',
+            minlength: 'Endereço deve conter ao menos 4 caracteres.',
+            maxlength: 'Endereço deve conter no máximo 80 caracteres.',
             apiError: 'API_ERROR'
         },
         sexo: {

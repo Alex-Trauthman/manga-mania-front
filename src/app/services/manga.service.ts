@@ -58,10 +58,6 @@ export class MangaService {
         return this.httpClient.post<Manga>(this.baseUrl,data);
     }
 
-
-    findGeneros():Observable<GeneroManga[]>{
-        return this.httpClient.get<GeneroManga[]>(`${this.baseUrl}/generos`);
-    }
     update(manga: Manga): Observable<Manga> {
         const data = {
             nome: manga.nome,
@@ -81,17 +77,14 @@ export class MangaService {
         return this.httpClient.delete<void>(`${this.baseUrl}/${id}`);
     }
 
-    toImageUrl(imagem: string): string {
-        console.log('Base URL:', this.baseUrl); // Log the base URL
-    
-        if (!imagem) {
-            return 'semimagem.png';  // URL de fallback
-        }
-    
-        const imageUrl = `${this.baseUrl}/image/download/${imagem}`;
-        console.log('Constructed image URL:', imageUrl); // Log the final image URL
-    
-        return imageUrl;
+    searchMangas(query: string): Observable<Manga[]> {
+        return this.httpClient.get<Manga[]>(`${this.baseUrl}?search=${query}`);
     }
-    
+
+    toImageUrl(imagem: string): string {
+        if (!imagem) {
+            return 'semimagem.png'; 
+        }
+        return `${this.baseUrl}/image/download/${imagem}`;
+    }
 }

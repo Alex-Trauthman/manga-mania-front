@@ -30,6 +30,8 @@ export class NovelCardListComponent implements OnInit {
     novels: Novel[] = [];
     cards = signal<Card[]>([]);
     searchForm: FormGroup;
+    pageSize = 30;
+    pageSizeOptions = [10, 30, 60, 90, 110, 130];
 
     constructor(private route: ActivatedRoute,private router: Router,private novelService: NovelService,private formBuilder: FormBuilder,private carrinhoService: CarrinhoService,private snackBar: MatSnackBar) {
         this.searchForm = this.formBuilder.group({
@@ -70,6 +72,7 @@ export class NovelCardListComponent implements OnInit {
             type: 2, 
             id: card.id,
             nome: card.nome,
+            imageUrl: card.imageUrl ?? "livro.jpg", 
             preco: card.preco,
             quantidade: 1
         });

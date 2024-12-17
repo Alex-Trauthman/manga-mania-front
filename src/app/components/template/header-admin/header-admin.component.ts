@@ -23,7 +23,7 @@ import { Usuario } from '../../../models/usuario.model';
 export class HeaderAdminComponent {
     searchForm: FormGroup;
     usuarioLogado: Usuario | null = null;
-    userRole: string | null = null; // Para armazenar o role do usuário
+    userRole: string | null = null;
     private subscription = new Subscription();
 
 
@@ -36,19 +36,19 @@ export class HeaderAdminComponent {
     ngOnInit(): void {
         this.subscription.add(this.authService.getUsuarioLogado().subscribe(
             usuario => {
-              this.usuarioLogado = usuario;
-              this.userRole = this.authService.getUserRole(); // Obtém o papel do usuário
+                this.usuarioLogado = usuario;
+                this.userRole = this.authService.getUserRole();
             }
-          ));
+        ));
     }
 
     ngOnDestroy() {
         this.subscription.unsubscribe();
     }
 
-    deslogar() {
+    logout() {
         this.authService.removeToken();
-        this.authService.removeUsuarioLogado();
+        this.authService.removeUser();
         this.router.navigateByUrl('/login');
     }
 

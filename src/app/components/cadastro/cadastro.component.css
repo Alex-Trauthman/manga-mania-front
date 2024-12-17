@@ -1,29 +1,15 @@
-
-:root {
-    --green-dark-1: #014c1c;
-    --green-dark-2: #00762c;
-    --green-1: #16FF3F;
-    --green-2: #008531;
-    --green-back: #007f1757;
-    --green-back-2: #00ff2f8e;
-    --text-light: #ffffff;
-    --text-dark: #000000;
-}
-
-
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-body, html {
+body,
+html {
     height: 100%;
     font-family: Arial, sans-serif;
-    background: var(--green-dark-2);
-    color: var(--text-light);
+    color: #ffffff;
 }
-
 
 main {
     display: flex;
@@ -33,7 +19,6 @@ main {
     height: 80vh;
     padding: 1rem;
 }
-
 
 .login-register {
     display: flex;
@@ -45,17 +30,15 @@ main {
 .login-register h1 {
     font-size: 1.5rem;
     font-weight: bold;
+    color: #ffffff;
+    font-weight: bolder;
 }
 
 .login-register h1 a {
     text-decoration: none;
-    color: var(--text-light);
+    color: #ffffff;
+    cursor: pointer;
 }
-
-.login-register h1 a:hover {
-    color: var(--green-1);
-}
-
 
 section#register {
     display: flex;
@@ -69,7 +52,7 @@ section#register {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
-#register > div {
+#register>div {
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -78,17 +61,19 @@ section#register {
     padding: 2rem;
 }
 
-
 section#register #img {
     background: url('/gutz.webp') no-repeat center center / cover;
     min-height: 300px;
     flex: 1;
 }
 
+section#register #form p {
+    color: #FFFFFF;
+}
 
 section#register #form {
     background-color: #333;
-    color: var(--text-light);
+    color: #07234b;
     padding: 2rem;
     display: flex;
     flex-direction: column;
@@ -115,7 +100,7 @@ form .field {
     display: flex;
     align-items: center;
     margin-bottom: 1rem;
-    background-color: var(--green-back);
+    background-color: wheat;
     padding: 0.5rem;
     border-radius: 5px;
 }
@@ -125,19 +110,20 @@ form .field span.material-symbols-outlined {
     margin-right: 0.5rem;
 }
 
-form .field input, form .field mat-select {
+form .field input,
+form .field mat-select {
     flex: 1;
     padding: 0.75rem;
     border: none;
     border-radius: 3px;
     font-size: 1rem;
-    background-color: var(--green-back-2);
+    background-color: white;
 }
 
-form .field input:focus, form .field mat-select:focus {
+form .field input:focus,
+form .field mat-select:focus {
     outline: none;
-    background-color: var(--text-light);
-    color: var(--text-dark);
+    background-color: #ffffff;
 }
 
 form input[type="submit"] {
@@ -145,8 +131,8 @@ form input[type="submit"] {
     padding: 0.75rem;
     font-size: 1rem;
     font-weight: bold;
-    background: var(--green-2);
-    color: var(--text-light);
+    background: peru;
+    color: #ffffff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -154,9 +140,8 @@ form input[type="submit"] {
 }
 
 form input[type="submit"]:hover {
-    background: var(--green-1);
+    background: #cd773f;
 }
-
 
 form #links {
     display: flex;
@@ -166,11 +151,11 @@ form #links {
 
 form #links a {
     text-decoration: none;
-    color: var(--green-1);
+    color: peru;
     font-size: 0.9rem;
     transition: color 0.3s ease;
 }
 
 form #links a:hover {
-    color: var(--text-light);
+    color: #ffffff;
 }

@@ -37,6 +37,16 @@ export class CarrinhoService {
         window.location.reload();
     }
 
+    diminuirItem(itemCarrinho: ItemCarrinho): void {
+        const itemExistente = this.carrinhoSubject.value.find(item => item.id === itemCarrinho.id);
+        if(itemExistente){
+            itemExistente.quantidade -= 1;
+            if(itemExistente.quantidade <= 0) this.carrinhoSubject.value.filter(item => item.id !== itemCarrinho.id);
+        };
+        this.carrinhoSubject.next(this.carrinhoSubject.value);
+        this.atualizar();
+    }
+
     removerItem(itemCarrinho: ItemCarrinho): void {
         this.carrinhoSubject.next(this.carrinhoSubject.value.filter(item => item.id !== itemCarrinho.id));
         this.atualizar();

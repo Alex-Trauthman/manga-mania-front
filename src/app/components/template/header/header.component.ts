@@ -22,8 +22,8 @@ import { Usuario } from '../../../models/usuario.model';
 })
 export class HeaderComponent {
     searchForm: FormGroup;
+    userRole: string | null = null;
     usuarioLogado: Usuario | null = null;
-    userRole: string | null = null; // Para armazenar o role do usuário
     private subscription = new Subscription();
 
     constructor(private router: Router,private formBuilder: FormBuilder,private sidebarService: SidebarService,private authService: AuthService) {
@@ -33,21 +33,20 @@ export class HeaderComponent {
     }
 
     ngOnInit(): void {
-        this.subscription.add(this.authService.getUsuarioLogado().subscribe(
-            usuario => {
-              this.usuarioLogado = usuario;
-              this.userRole = this.authService.getUserRole(); // Obtém o papel do usuário
+        this.subscription.add(this.authService.getUsuarioLogado().subscribe(usuario => {
+                this.usuarioLogado = usuario;
+                this.userRole = this.authService.getUserRole();
             }
-          ));
+        ));
     }
 
     ngOnDestroy() {
         this.subscription.unsubscribe();
     }
 
-    deslogar() {
+    logout() {
         this.authService.removeToken();
-        this.authService.removeUsuarioLogado();
+        this.authService.removeUser();
         this.router.navigateByUrl('/login');
     }
 

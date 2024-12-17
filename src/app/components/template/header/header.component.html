@@ -1,11 +1,11 @@
 <header>
     <a href=""><img src="logo.png" alt="Logo"></a>
     <button (click)="navigateTo('')">Página inicial</button>
-    <!-- Exibe o botão de Administração apenas para administradores -->
     <button *ngIf="userRole === 'admin'" (click)="navigateTo('admin')">Administração</button>
-    <button *ngIf="userRole !== 'admin'" (click)="navigateTo('perfil')">Perfil</button>
+    <button *ngIf="userRole === 'user'" (click)="navigateTo('perfil')">Perfil</button>
+    <button *ngIf="!userRole" (click)="navigateTo('login')">Login</button>
     <button (click)="navigateTo('carrinho')">Carrinho</button>
-    <button (click)="navigateTo('perfil')">Perfil</button>
+    <!-- <button (click)="navigateTo('perfil')">Perfil</button> -->
     <mat-toolbar color="primary" class="search">
         <form [formGroup]="searchForm" (ngSubmit)="onSearch()" class="search-form">
             <mat-form-field appearance="outline" class="search-field">
@@ -17,7 +17,7 @@
     </mat-toolbar>
     <div>
         <span>{{usuarioLogado?.username}}</span>
-        <button mat-icon-button (click)="deslogar()">
+        <button mat-icon-button (click)="logout()">
             <mat-icon>exit_to_app</mat-icon>
         </button>
     </div>

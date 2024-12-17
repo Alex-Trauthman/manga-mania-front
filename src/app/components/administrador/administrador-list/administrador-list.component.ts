@@ -22,7 +22,7 @@ export class AdministradorListComponent implements OnInit {
     displayedColumns: string[] = ['id','username','email','cpf','actions'];
     administradores: Administrador[] = [];
     totalRecords = 0;
-    pageSize = 2;
+    pageSize = 10;
     page = 0;
 
     constructor(private administradorService: AdministradorService,private router: Router) { }

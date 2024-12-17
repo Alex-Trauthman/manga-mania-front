@@ -34,10 +34,10 @@ export class EscritorFormComponent implements OnInit {
     ) {
         this.formGroup = this.formBuilder.group({
             id: [null],
-            nome: [null,Validators.required,Validators.minLength(3),Validators.maxLength(40)],
-            anoNascimento: [null,Validators.required,Validators.min(0)],
-            nacionalidade: [null,Validators.required,Validators.minLength(2),Validators.maxLength(30)],
-            sexo: [null,Validators.required]
+            nome: [null,[Validators.required,Validators.minLength(3),Validators.maxLength(40)]],
+            anoNascimento: [null,[Validators.required,Validators.min(0),Validators.max(9999)]],
+            nacionalidade: [null,[Validators.required,Validators.minLength(2),Validators.maxLength(30)]],
+            sexo: [null,[Validators.required]]
         });
     }
 
@@ -52,14 +52,14 @@ export class EscritorFormComponent implements OnInit {
     }
 
     initializeForm(): void {
-        const v = this.activatedRoute.snapshot.data['v'];
-        if(v) {
-            this.formGroup.patchValue(v);
+        if(this.activatedRoute.snapshot.data['escritor']) {
+            this.formGroup.patchValue(this.activatedRoute.snapshot.data['escritor']);
         }
     }
 
     loadEscritor(id: number): void {
         this.escritorService.findById(id).subscribe(escritor => {
+            console.log(escritor);
             this.formGroup.patchValue(escritor);
         });
         this.formGroup.markAllAsTouched();
@@ -106,7 +106,7 @@ export class EscritorFormComponent implements OnInit {
                 return this.errorMessages[controlName][errorName];
             }
         }
-        return "parâmetro inválido";
+        return "Parâmetro inválido.";
     }
 
     tratarErros(errorResponse: HttpErrorResponse) {
@@ -127,19 +127,20 @@ export class EscritorFormComponent implements OnInit {
     errorMessages: { [controlName: string]: { [errorName: string]: string } } = {
         nome: {
             required: 'Nome é obrigatório.',
-            minlength: 'Nome deve conter ao menos 3 letras.',
-            maxlength: 'Nome deve conter no máximo 40 letras.',
+            minlength: 'Nome deve conter ao menos 3 caracteres.',
+            maxlength: 'Nome deve conter no máximo 40 caracteres.',
             apiError: 'API_ERROR'
         },
         anoNascimento: {
             required: 'Ano de nascimento é obrigatório.',
             min: 'Ano de nascimento deve ser maior do que 0.',
+            max: 'Ano de nascimento deve ser menor do que 9999.',
             apiError: 'API_ERROR'
         },
         nacionalidade: {
             required: 'Nacionalidade é obrigatório.',
-            minlength: 'Nacionalidade deve conter ao menos 2 letras.',
-            maxlength: 'Nacionalidade deve conter no máximo 30 letras.',
+            minlength: 'Nacionalidade deve conter ao menos 2 caracteres.',
+            maxlength: 'Nacionalidade deve conter no máximo 30 caracteres.',
             apiError: 'API_ERROR'
         },
         sexo: {

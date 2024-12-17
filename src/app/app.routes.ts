@@ -1,72 +1,97 @@
 import { Routes } from '@angular/router';
 import { AdministradorFormComponent } from './components/administrador/administrador-form/administrador-form.component';
 import { AdministradorListComponent } from './components/administrador/administrador-list/administrador-list.component';
-import { AdminTemplateComponent } from './components/template/admin-template/admin-template.component';
 import { AutorFormComponent } from './components/autor/autor-form/autor-form.component';
 import { AutorMangaListComponent } from './components/autor/autor-list/autor-list.component';
+import { CadastroComponent } from './components/cadastro/cadastro.component';
+import { CarrinhoComponent } from './components/carrinho/carrinho.component';
+import { CompraFinalizadaComponent } from './components/compra-finalizada/compra-finalizada.component';
+import { ConfirmarCompraComponent } from './components/compra/compra.component';
 import { EscritorFormComponent } from './components/escritor/escritor-form/escritor-form.component';
 import { EscritorNovelListComponent } from './components/escritor/escritor-list/escritor-list.component';
-import { MangaCardListComponent } from './components/manga/manga-card-list/manga-card-list.component';
 import { LoginComponent } from './components/login/login.component';
-import { CompraFinalizadaComponent } from './components/compra-finalizada/compra-finalizada.component';
+import { MangaCardListComponent } from './components/manga/manga-card-list/manga-card-list.component';
 import { MangaFormComponent } from './components/manga/manga-form/manga-form.component';
+import { MangaInfoComponent } from './components/manga/manga-info/manga-info.component';
 import { MangaListComponent } from './components/manga/manga-list/manga-list.component';
 import { NovelFormComponent } from './components/novel/novel-form/novel-form.component';
+import { NovelInfoComponent } from './components/novel/novel-info/novel-info.component';
 import { NovelListComponent } from './components/novel/novel-list/novel-list.component';
+import { AcessoProibidoComponent } from './components/status/acessoproibido/acessoproibido.component';
+import { DesconhecidoComponent } from './components/status/desconhecido/desconhecido.component';
+import { AdminTemplateComponent } from './components/template/admin-template/admin-template.component';
 import { UserTemplateComponent } from './components/template/user-template/user-template.component';
+import { PerfilComponent } from './components/usuario/perfil/perfil.component';
 import { UsuarioFormComponent } from './components/usuario/usuario-form/usuario-form.component';
 import { UsuarioListComponent } from './components/usuario/usuario-list/usuario-list.component';
-import { MangaInfoComponent } from './components/manga/manga-info/manga-info.component';
-import { NovelInfoComponent } from './components/novel/novel-info/novel-info.component';
-import { CarrinhoComponent } from './components/carrinho/carrinho.component';
 import { authGuard } from './guard/auth.guard';
-import { CadastroComponent } from './components/cadastro/cadastro.component';
-import { PerfilComponent } from './components/usuario/perfil/perfil.component';
 
 export const routes: Routes = [
     {
         path: '',
+        title: 'Loja',
         component: UserTemplateComponent,
-        title: 'Mangás e Novels',
         children: [
             { path: '',pathMatch: 'full',redirectTo: 'loja' },
             { path: 'loja',component: MangaCardListComponent,title: 'Listagem de produtos' },
-            { path: 'carrinho',component: CarrinhoComponent,title: 'Carrinho de compras' },
+            { path: 'carrinho',component: CarrinhoComponent,title: 'Carrinho de compras',canActivate: [authGuard],data: { role: "user" } },
             { path: 'login',component: LoginComponent,title: 'Login' },
             { path: 'loja/manga/:id',component: MangaInfoComponent,title: 'Mangá' },
             { path: 'loja/novel/:id',component: NovelInfoComponent,title: 'Novel' },
-            { path: 'cadastro', component: CadastroComponent, title: 'Cadastro'},
-            { path: 'perfil', component: PerfilComponent, title: 'Perfil'}
+            { path: 'cadastro',component: CadastroComponent,title: 'Cadastro' },
+            { path: 'perfil',component: PerfilComponent,title: 'Perfil',canActivate: [authGuard] }
         ]
     },
     {
         path: 'login',
+        title: 'Login',
         component: LoginComponent,
-        title: 'LOGIN',
+    },
+    {
+        path: 'compras',
+        component: ConfirmarCompraComponent,
+        title: 'Confirmação de compras',
+        canActivate: [authGuard],data: { role: "user" },
     },
     {
         path: 'comprasfinalizadas',
         component: CompraFinalizadaComponent,
-        title: 'COMPRAS',
+        title: 'Compras finalizadas',
+        canActivate: [authGuard],data: { role: "user" },
+    },
+    {
+        path: 'search/manga',
+        title: 'Barra de pesquisa de mangás',
+        component: UserTemplateComponent,
+    },
+    {
+        path: 'search/manga/:term',
+        title: 'Barra de pesquisa de mangás',
+        component: UserTemplateComponent,
     },
     {
         path: 'search/novel',
+        title: 'Barra de pesquisa de novels',
         component: UserTemplateComponent,
-        title: 'PESQUISA 1',
     },
     {
         path: 'search/novel/:term',
+        title: 'Barra de pesquisa de novels',
         component: UserTemplateComponent,
-        title: 'PESQUISA 2',
+    },
+    {
+        path: 'acesso-proibido',
+        title: 'Acesso proibido',
+        component: AcessoProibidoComponent,
     },
     {
         path: 'admin',
-        component: AdminTemplateComponent,
         title: 'Painel de controle',
-        canActivate: [authGuard],
+        component: AdminTemplateComponent,
+        canActivate: [authGuard],data: { role: "admin" },
         children: [
             { path: '',pathMatch: 'full',redirectTo: 'administrador' },
-            { path: 'admin/loja', component: MangaCardListComponent, title: 'Listagem'},
+            { path: 'admin/loja',component: MangaCardListComponent,title: 'Listagem' },
             { path: 'administrador',component: AdministradorListComponent,data: { title: "AdministradorListComponent" } },
             { path: 'administrador/new',component: AdministradorFormComponent,data: { title: "AdministradorFormComponent" } },
             { path: 'administrador/edit/:id',component: AdministradorFormComponent,data: { title: "AdministradorFormComponent" } },
@@ -86,5 +111,11 @@ export const routes: Routes = [
             { path: 'usuario/new',component: UsuarioFormComponent,data: { title: "UsuarioFormComponent" } },
             { path: 'usuario/edit/:id',component: UsuarioFormComponent,data: { title: "UsuarioFormComponent" } }
         ]
-    }
+    },
+    {
+        path: '**',
+        pathMatch: 'full',
+        title: 'Página não encontrada',
+        component: DesconhecidoComponent,
+    },
 ]

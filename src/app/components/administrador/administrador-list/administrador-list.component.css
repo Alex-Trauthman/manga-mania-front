@@ -1,3 +1,7 @@
+body {
+    height: 100vh;
+}
+
 .administrador-list-container {
     margin: 0 auto;
     padding: 20px;

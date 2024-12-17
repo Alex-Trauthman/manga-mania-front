@@ -14,19 +14,7 @@ export class Novel {
     capitulos!: number;
     idAutor!: EscritorNovel;
 
-    constructor(
-        id: number,
-        nome: string,
-        imageUrl: string, 
-        sinopse: string,
-        idAutor: EscritorNovel,
-        lancamento: number,
-        preco: number,
-        estoque: number,
-        paginas: number,
-        genero: GeneroNovel,
-        capitulos: number
-    ) {
+    constructor(id: number,nome: string,imageUrl: string,sinopse: string,idAutor: EscritorNovel,lancamento: number,preco: number,estoque: number,paginas: number,genero: GeneroNovel,capitulos: number) {
         this.id = id;
         this.nome = nome;
         this.imageUrl = imageUrl;

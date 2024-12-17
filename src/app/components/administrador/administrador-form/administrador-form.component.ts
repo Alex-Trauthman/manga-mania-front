@@ -24,18 +24,13 @@ export class AdministradorFormComponent implements OnInit {
     formGroup: FormGroup;
     adminId: number | null = null;
 
-    constructor(
-        private formBuilder: FormBuilder,
-        private administradorService: AdministradorService,
-        private router: Router,
-        private activatedRoute: ActivatedRoute
-    ) {
+    constructor(private formBuilder: FormBuilder,private administradorService: AdministradorService,private router: Router,private activatedRoute: ActivatedRoute) {
         this.formGroup = this.formBuilder.group({
             id: [null],
-            username: [null,Validators.required,Validators.minLength(4),Validators.maxLength(80)],
-            email: [null,Validators.required,Validators.minLength(6),Validators.maxLength(60)],
-            senha: [null,Validators.required,Validators.minLength(6),Validators.maxLength(60)],
-            cpf: [null,Validators.required,Validators.minLength(10),Validators.maxLength(12)]
+            username: [null,[Validators.required,Validators.minLength(4),Validators.maxLength(80)]],
+            email: [null,[Validators.required,Validators.minLength(6),Validators.maxLength(60)]],
+            senha: [null,[Validators.required,Validators.minLength(6),Validators.maxLength(60)]],
+            cpf: [null,[Validators.required,Validators.minLength(10),Validators.maxLength(12)]]
         });
     }
 
@@ -58,9 +53,11 @@ export class AdministradorFormComponent implements OnInit {
 
     loadAdministrador(id: number): void {
         this.administradorService.findById(id).subscribe(admin => {
-            this.formGroup.patchValue(admin);
+            let data = { ...admin };
+            data.senha = "";
+            this.formGroup.patchValue(data);
         });
-        this.formGroup.markAllAsTouched();
+        this.formGroup.markAsUntouched();
     }
 
     salvar(): void {
@@ -104,7 +101,7 @@ export class AdministradorFormComponent implements OnInit {
                 return this.errorMessages[controlName][errorName];
             }
         }
-        return "parâmetro inválido";
+        return "Parâmetro inválido.";
     }
 
     tratarErros(errorResponse: HttpErrorResponse) {
@@ -125,26 +122,26 @@ export class AdministradorFormComponent implements OnInit {
     errorMessages: { [controlName: string]: { [errorName: string]: string } } = {
         username: {
             required: 'Nome de usuário é obrigatório.',
-            minlength: 'Nome deve conter ao menos 4 letras.',
-            maxlength: 'Nome deve conter no máximo 80 letras.',
+            minlength: 'Nome deve conter ao menos 4 caracteres.',
+            maxlength: 'Nome deve conter no máximo 80 caracteres.',
             apiError: 'API_ERROR'
         },
         email: {
             required: 'Email é obrigatório.',
-            minlength: 'Email deve conter ao menos 6 letras.',
-            maxlength: 'Email deve conter no máximo 60 letras.',
+            minlength: 'Email deve conter ao menos 6 caracteres.',
+            maxlength: 'Email deve conter no máximo 60 caracteres.',
             apiError: 'API_ERROR'
         },
         senha: {
             required: 'Senha é obrigatória.',
-            minlength: 'Senha deve conter ao menos 6 letras.',
-            maxlength: 'Senha deve conter no máximo 60 letras.',
+            minlength: 'Senha deve conter ao menos 6 caracteres.',
+            maxlength: 'Senha deve conter no máximo 60 caracteres.',
             apiError: 'API_ERROR'
         },
         cpf: {
             required: 'CPF é obrigatório.',
-            minlength: 'CPF deve conter ao menos 10 letras.',
-            maxlength: 'CPF deve conter no máximo 12 letras.',
+            minlength: 'CPF deve conter ao menos 10 caracteres.',
+            maxlength: 'CPF deve conter no máximo 12 caracteres.',
             apiError: 'API_ERROR'
         },
     }

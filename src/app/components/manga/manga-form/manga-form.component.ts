@@ -4,7 +4,7 @@ import { Component,OnInit } from '@angular/core';
 import { FormBuilder,FormGroup,ReactiveFormsModule,ValidationErrors,Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldControl, MatFormFieldModule } from '@angular/material/form-field';
+import { MatFormFieldControl,MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -16,7 +16,7 @@ import { FooterAdminComponent } from "../../template/footer-admin/footer-admin.c
 import { AutorManga } from '../../../models/autorManga.model';
 import { Manga } from '../../../models/manga.model';
 import { MatIcon } from '@angular/material/icon';
-import { GeneroManga } from '../../../models/generoManga.model';
+import { GeneroManga,GeneroMangaMap } from '../../../models/generoManga.model';
 
 @Component({
     selector: 'app-manga-form',
@@ -28,99 +28,73 @@ import { GeneroManga } from '../../../models/generoManga.model';
 export class MangaFormComponent implements OnInit {
     formGroup: FormGroup;
     autores: AutorManga[] = [];
-    generos: GeneroManga[] = [];
+    generos = Object.entries(GeneroMangaMap);
     mangaId: number | null = null;
 
     fileName: string = '';
-    selectedFile: File | null = null; 
+    selectedFile: File | null = null;
     imagePreview: string | ArrayBuffer | null = null;
 
-    constructor(
-        private formBuilder: FormBuilder,
-        private mangaService: MangaService,
-        private autorService: AutorService,
-        private router: Router,
-        private activatedRoute: ActivatedRoute
-    ) {
+    constructor(private formBuilder: FormBuilder,private mangaService: MangaService,private autorService: AutorService,private router: Router,private activatedRoute: ActivatedRoute) {
         this.formGroup = this.formBuilder.group({
             id: [null],
             nome: [null,[Validators.required,Validators.minLength(3),Validators.maxLength(40)]],
-            sinopse: ['',[Validators.required,Validators.minLength(30)]],
-            genero: [null,Validators.required,Validators.min(0)],
-            idAutor: [null,Validators.required,Validators.min(0)],
+            sinopse: [null,[Validators.required,Validators.minLength(10),Validators.maxLength(1000)]],
+            genero: [null,[Validators.required,Validators.min(0)]],
+            idAutor: [null,[Validators.required,Validators.min(0)]],
             lancamento: [null,[Validators.required,Validators.min(0)]],
-            color: [null,Validators.required,Validators.minLength(2),Validators.maxLength(12)],
-            preco: [null,Validators.required,Validators.min(0)],
-            estoque: [null,Validators.required,Validators.min(0)],
-            paginas: [null,Validators.required,Validators.min(0)],
+            color: [null,[Validators.required,Validators.minLength(2),Validators.maxLength(12)]],
+            preco: [null,[Validators.required,Validators.min(0)]],
+            estoque: [null,[Validators.required,Validators.min(0)]],
+            paginas: [null,[Validators.required,Validators.min(0)]],
             imageUrl: [null]
         });
     }
 
     ngOnInit(): void {
-        
-        const manga: Manga = this.activatedRoute.snapshot.data['manga'];
         this.autorService.findAll().subscribe((data) => {
             this.autores = data;
         });
-        this.mangaService.findGeneros().subscribe((data) => {
-            this.generos = data;
-        });
+
         this.activatedRoute.params.subscribe(params => {
             this.mangaId = params['id'] ? +params['id'] : null;
-            console.log("id manga"+this.mangaId);
-            if(this.mangaId) {
-                this.loadManga(this.mangaId);
-            }
+            if(this.mangaId) this.loadManga(this.mangaId);
         });
         this.initializeForm();
-
     }
 
     initializeForm(): void {
         const manga = this.activatedRoute.snapshot.data['manga'];
-        if (manga && manga.imageUrl) {
+        if(manga && manga.imageUrl) {
             this.imagePreview = this.mangaService.toImageUrl(manga.imageUrl);
             this.fileName = manga.imageUrl;
         }
-        this.formGroup = this.formBuilder.group({
-            id: [(manga && manga.id)? manga.id : null],
-            nome: [(manga && manga.nome)? manga.nome:null],
-            sinopse: [(manga && manga.sinopse)? manga.sinopse:null],
-            genero: [(manga && manga.genero)? manga.genero:null],
-            idAutor: [(manga && manga.idAutor)? manga.idAutor:null],
-            lancamento: [(manga && manga.lancamento)? manga.lancamento:null],
-            color: [(manga && manga.color)? manga.color:null],
-            preco: [(manga && manga.preco)? manga.preco:null],
-            estoque: [(manga && manga.estoque)? manga.estoque:null],
-            paginas: [(manga && manga.paginas)? manga.paginas:null],
-            imageUrl: [(manga && manga.imageUrl)? manga.imageUrl:null]
-        });
     }
 
     private uploadImage(mangaId: number) {
-        if (this.selectedFile) {
-          this.mangaService.uploadImage(mangaId, this.selectedFile.name, this.selectedFile)
-          .subscribe({
-            next: () => {
-              this.voltarPagina();
-            },
-            error: err => {
-              console.log('Erro ao fazer o upload da imagem');
-              // tratar o erro
-            }
-          })
-        } 
-      }
+        if(this.selectedFile) {
+            this.mangaService.uploadImage(mangaId,this.selectedFile.name,this.selectedFile)
+                .subscribe({
+                    next: () => {
+                        this.voltarPagina();
+                    },
+                    error: err => {
+                    }
+                })
+        }
+    }
 
     voltarPagina(): void {
         this.router.navigateByUrl('/admin/manga');
     }
+
     loadManga(id: number): void {
         if(id != null && id > 0) {
             this.mangaService.findById(id).subscribe(manga => {
                 this.formGroup.patchValue(manga);
-                if (manga.imageUrl) {
+                this.formGroup.patchValue({ idAutor: manga.idAutor.id });
+                // this.formGroup.patchValue({ genero: manga.genero.id });
+                if(manga.imageUrl) {
                     this.imagePreview = this.mangaService.toImageUrl(manga.imageUrl);
                     this.fileName = manga.imageUrl;
                 }
@@ -131,45 +105,42 @@ export class MangaFormComponent implements OnInit {
 
     carregarImagemSelecionada(event: any) {
         this.selectedFile = event.target.files[0];
-    
-        if (this.selectedFile) {
-          this.fileName = this.selectedFile.name;
-          
-          const reader = new FileReader();
-          reader.onload = e => this.imagePreview = reader.result;
-          reader.readAsDataURL(this.selectedFile);
-        }
-    
-      }
 
-      salvar() {
-        this.formGroup.markAllAsTouched();
-        if (this.formGroup.valid) {
-          const manga = this.formGroup.value;
-            
-          
-          const operacao = manga.id == null
-          ? this.mangaService.insert(manga)
-          : this.mangaService.update(manga);
-          
-          // executando a operacao
-          operacao.subscribe({
-            next: (mangaCadastrada) => {
-              
-                if (this.mangaId !== null) {
-                    this.uploadImage(this.mangaId);
-                }
-              
-              this.uploadImage(mangaCadastrada.id);
-            },
-            error: (error) => {
-              console.log('Erro ao Salvar' + JSON.stringify(error));
-              this.tratarErros(error);
-            }
-          });
+        if(this.selectedFile) {
+            this.fileName = this.selectedFile.name;
+
+            const reader = new FileReader();
+            reader.onload = e => this.imagePreview = reader.result;
+            reader.readAsDataURL(this.selectedFile);
         }
-      }
-    
+    }
+
+    salvar() {
+        this.formGroup.markAllAsTouched();
+        if(this.formGroup.valid) {
+            const manga = this.formGroup.value;
+
+
+            const operacao = manga.id == null
+                ? this.mangaService.insert(manga)
+                : this.mangaService.update(manga);
+
+            operacao.subscribe({
+                next: (mangaCadastrada) => {
+
+                    if(this.mangaId !== null) {
+                        this.uploadImage(this.mangaId);
+                    }
+
+                    this.uploadImage(mangaCadastrada.id);
+                },
+                error: (error) => {
+                    this.tratarErros(error);
+                }
+            });
+        }
+    }
+
 
     excluir(): void {
         const id = this.formGroup.get('id')?.value;
@@ -189,7 +160,7 @@ export class MangaFormComponent implements OnInit {
                 return this.errorMessages[controlName][errorName];
             }
         }
-        return "parâmetro inválido";
+        return "Parâmetro inválido.";
     }
 
     tratarErros(errorResponse: HttpErrorResponse) {
@@ -210,13 +181,14 @@ export class MangaFormComponent implements OnInit {
     errorMessages: { [controlName: string]: { [errorName: string]: string } } = {
         nome: {
             required: 'Nome é obrigatório.',
-            minlength: 'Nome deve conter ao menos 3 letras.',
-            maxlength: 'Nome deve conter no máximo 40 letras.',
+            minlength: 'Nome deve conter ao menos 3 caracteres.',
+            maxlength: 'Nome deve conter no máximo 40 caracteres.',
             apiError: 'API_ERROR'
         },
         sinopse: {
             required: 'Sinopse é obrigatório.',
-            minlength: 'Sinopse deve conter ao menos 30 letras.',
+            minlength: 'Sinopse deve conter ao menos 10 caracteres.',
+            maxlength: 'Sinopse deve conter no máximo 1000 caracteres.',
             apiError: 'API_ERROR'
         },
         genero: {
@@ -236,8 +208,8 @@ export class MangaFormComponent implements OnInit {
         },
         color: {
             required: 'Color é obrigatório.',
-            minlength: 'Color deve conter ao menos 1 letras.',
-            maxlength: 'Color deve conter no máximo 12 letras.',
+            minlength: 'Color deve conter ao menos 1 caracteres.',
+            maxlength: 'Color deve conter no máximo 12 caracteres.',
             apiError: 'API_ERROR'
         },
         preco: {

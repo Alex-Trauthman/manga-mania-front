@@ -24,7 +24,7 @@ export class NovelListComponent implements OnInit {
     displayedColumns: string[] = ['id','nome','genero','lancamento','preco','estoque','actions'];
     novels: Novel[] = [];
     totalRecords = 0;
-    pageSize = 2;
+    pageSize = 10;
     page = 0;
 
     constructor(private novelService: NovelService,private router: Router,private snackBar: MatSnackBar) { }

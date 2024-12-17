@@ -14,38 +14,31 @@ export class AuthService {
     private usuarioLogadoKey = 'usuario_logado';
     private usuarioLogadoSubject = new BehaviorSubject<Usuario | null>(null);
 
-    constructor(private httpClient: HttpClient,
-        private localStorageService: LocalStorageService,
-        private jwtHelper: JwtHelperService
-    ) {
-        this.initUsuarioLogado();
+    constructor(private httpClient: HttpClient,private localStorageService: LocalStorageService,private jwtHelper: JwtHelperService) {
+        this.init();
     }
 
-    private initUsuarioLogado(): void {
+    private init(): void {
         const usuario = this.localStorageService.getItem(this.usuarioLogadoKey);
         if(usuario) {
             this.usuarioLogadoSubject.next(usuario);
         }
     }
 
-
     public getUserRole(): string {
         const token = this.getToken();
-        if (!token) {
-            return ''; // Se não houver token, retorna vazio
+        if(!token) {
+            return '';
         }
-
-        const decodedToken = this.jwtHelper.decodeToken(token);
-        return decodedToken?.groups?.includes('Administrador') ? 'admin' : 'user';
+        return this.jwtHelper.decodeToken(token)?.groups?.some((e: string) => e.toLowerCase().startsWith('admin')) ? 'admin' : 'user';
     }
 
-    
+
     public login(username: string,senha: string): Observable<any> {
         return this.httpClient.post(`${this.baseUrl}`,{ username,senha },{ observe: 'response' }).pipe(
             tap((res: any) => {
-                const authToken = res.headers.get('Authorization') ?? '';
-                if(authToken) {
-                    this.setToken(authToken);
+                if(res.headers.get('Authorization')) {
+                    this.setToken(res.headers.get('Authorization'));
                     const usuarioLogado = res.body;
                     console.log(usuarioLogado);
                     if(usuarioLogado) {
@@ -54,7 +47,7 @@ export class AuthService {
                     }
                 }
             })
-        );
+        )
     }
 
     setUsuarioLogado(usuario: Usuario): void {
@@ -77,7 +70,7 @@ export class AuthService {
         this.localStorageService.removeItem(this.tokenKey);
     }
 
-    removeUsuarioLogado(): void {
+    removeUser(): void {
         this.localStorageService.removeItem(this.usuarioLogadoKey);
         this.usuarioLogadoSubject.next(null);
     }
@@ -90,7 +83,6 @@ export class AuthService {
         try {
             return this.jwtHelper.isTokenExpired(token);
         } catch(error) {
-            console.error('Token invalido',error);
             return true;
         }
     }

@@ -24,7 +24,7 @@ export class AutorMangaListComponent implements OnInit {
     displayedColumns: string[] = ['id','nome','anoNascimento','nacionalidade','sexo','actions'];
     autores: AutorManga[] = [];
     totalRecords = 0;
-    pageSize = 2;
+    pageSize = 10;
     page = 0;
 
     constructor(private autorService: AutorService,private router: Router) { }

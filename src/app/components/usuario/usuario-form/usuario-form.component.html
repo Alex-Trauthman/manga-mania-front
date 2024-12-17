@@ -55,10 +55,9 @@
                         }
                     </mat-error>
                 </mat-form-field>
-                <!-- listaTelefone -->
                 <mat-form-field appearance="fill">
                     <mat-label>Sexo:</mat-label>
-                    <mat-select formControlName="sexo">
+                    <mat-select formControlName="sexo" required>
                         <mat-option *ngFor="let sexo of sexoIds" [value]="sexo.id">{{sexo.descricao}}</mat-option>
                     </mat-select>
                     <mat-error *ngIf="formGroup.get('sexo')?.invalid && formGroup.get('sexo')?.touched">

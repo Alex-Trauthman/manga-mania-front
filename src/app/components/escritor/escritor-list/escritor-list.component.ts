@@ -22,7 +22,7 @@ export class EscritorNovelListComponent implements OnInit {
     displayedColumns: string[] = ['id','nome','anoNascimento','nacionalidade','sexo','actions'];
     escritores: EscritorNovel[] = [];
     totalRecords = 0;
-    pageSize = 2;
+    pageSize = 10;
     page = 0;
 
     constructor(private escritorService: EscritorNovelService,private router: Router) { }

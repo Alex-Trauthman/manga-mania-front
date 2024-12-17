@@ -14,6 +14,7 @@ import { FooterAdminComponent } from "../../template/footer-admin/footer-admin.c
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { Sexo } from '../../../models/sexo.model';
 
 @Component({
     selector: 'app-autor-form',
@@ -26,6 +27,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 export class AutorFormComponent implements OnInit {
     formGroup: FormGroup;
     autorId: number | null = null;
+    sexoIds: Sexo[] = [];
 
     constructor(
         private formBuilder: FormBuilder,
@@ -36,13 +38,17 @@ export class AutorFormComponent implements OnInit {
         this.formGroup = this.formBuilder.group({
             id: [null],
             nome: [null,[Validators.required,Validators.minLength(3),Validators.maxLength(40)]],
-            anoNascimento: [null,[Validators.required,Validators.min(2),Validators.maxLength(30)]],
-            nacionalidade: [null,Validators.required],
-            sexo: [null,Validators.required]
+            anoNascimento: [null,[Validators.required,Validators.min(0),Validators.max(9999)]],
+            nacionalidade: [null,[Validators.required,Validators.min(2),Validators.maxLength(30)]],
+            sexo: [null,[Validators.required]]
         });
     }
 
     ngOnInit(): void {
+        this.sexoIds = [
+            { id: 1,descricao: 'Feminino' },
+            { id: 2,descricao: 'Masculino' }
+        ];
         this.activatedRoute.params.subscribe(params => {
             this.autorId = params['id'] ? +params['id'] : null;
             if(this.autorId) {
@@ -54,24 +60,24 @@ export class AutorFormComponent implements OnInit {
     loadAutor(id: number): void {
         this.autorService.findById(id).subscribe(autor => {
             this.formGroup.patchValue(autor);
+            // this.formGroup.patchValue({sexo: autor.sexo.id});
         });
     }
 
     salvar(): void {
-        if(this.formGroup.invalid) {
+        if(this.formGroup.invalid) { // remover?
             this.formGroup.markAllAsTouched();
             return;
         }
         if(this.formGroup.valid) {
-            const autor = this.formGroup.value;
             if(this.autorId) {
-                this.autorService.update(autor).subscribe(() => {
+                this.autorService.update(this.formGroup.value).subscribe(() => {
                     this.router.navigateByUrl('/admin/autor');
                 },error => {
                     this.tratarErros(error);
                 });
             } else {
-                this.autorService.insert(autor).subscribe(() => {
+                this.autorService.insert(this.formGroup.value).subscribe(() => {
                     this.router.navigateByUrl('/admin/autor');
                 },error => {
                     this.tratarErros(error);
@@ -81,9 +87,8 @@ export class AutorFormComponent implements OnInit {
     }
 
     excluir(): void {
-        const id = this.formGroup.get('id')?.value;
-        if(id) {
-            this.autorService.delete(id).subscribe(() => {
+        if(this.formGroup.get('id')?.value) {
+            this.autorService.delete(this.formGroup.get('id')?.value).subscribe(() => {
                 this.router.navigateByUrl('/admin/autor');
             },error => {
                 this.tratarErros(error);
@@ -119,19 +124,20 @@ export class AutorFormComponent implements OnInit {
     errorMessages: { [controlName: string]: { [errorName: string]: string } } = {
         nome: {
             required: 'Nome é obrigatório.',
-            minlength: 'Nome deve conter ao menos 3 letras.',
-            maxlength: 'Nome deve conter no máximo 40 letras.',
+            minlength: 'Nome deve conter ao menos 3 caracteres.',
+            maxlength: 'Nome deve conter no máximo 40 caracteres.',
             apiError: 'API_ERROR'
         },
         anoNascimento: {
             required: 'Ano de nascimento é obrigatório.',
-            min: 'Ano de nascimento deve ser maior do que 0.', 
+            min: 'Ano de nascimento deve ser maior do que 0.',
+            max: 'Ano de nascimento deve ser menor do que 9999.',
             apiError: 'API_ERROR'
         },
         nacionalidade: {
             required: 'Nacionalidade é obrigatório.',
-            minlength: 'Nacionalidade deve conter ao menos 2 letras.',
-            maxlength: 'Nacionalidade deve conter no máximo 30 letras.',
+            minlength: 'Nacionalidade deve conter ao menos 2 caracteres.',
+            maxlength: 'Nacionalidade deve conter no máximo 30 caracteres.',
             apiError: 'API_ERROR'
         },
         sexo: {

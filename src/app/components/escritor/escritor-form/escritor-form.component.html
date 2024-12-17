@@ -40,8 +40,8 @@
                 <mat-form-field appearance="fill">
                     <mat-label>Sexo:</mat-label>
                     <mat-select formControlName="sexo" required>
-                        <mat-option value="Masculino">Masculino</mat-option>
-                        <mat-option value="Feminino">Feminino</mat-option>
+                        <mat-option value="1">Feminino</mat-option>
+                        <mat-option value="2">Masculino</mat-option>
                     </mat-select>
                     <mat-error *ngIf="formGroup.get('sexo')?.invalid && formGroup.get('sexo')?.touched">
                         {{ getErrorMessage('sexo', formGroup.get('sexo')?.errors) }}

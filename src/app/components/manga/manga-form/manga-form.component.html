@@ -17,7 +17,6 @@
                     </mat-error>
                 </mat-form-field>
 
-
                 <mat-form-field appearance="fill" class="full-width-input">
                     <mat-label>Paginas:</mat-label>
                     <input matInput type="text" id="paginas" formControlName="paginas" required>
@@ -29,7 +28,6 @@
                     </mat-error>
                 </mat-form-field>
 
-
                 <mat-form-field appearance="fill" class="full-width-input">
                     <mat-label>Preço:</mat-label>
                     <input matInput type="number" id="preco" formControlName="preco" required>
@@ -39,7 +37,6 @@
                             *ngIf="formGroup.get('preco')?.hasError('apiError')">{{formGroup.get('preco')?.getError('apiError')}}</span>
                     </mat-error>
                 </mat-form-field>
-
 
                 <mat-form-field appearance="fill" class="full-width-input">
                     <mat-label>Sinopse:</mat-label>
@@ -52,7 +49,6 @@
                     </mat-error>
                 </mat-form-field>
 
-
                 <mat-form-field appearance="fill" class="full-width-input">
                     <mat-label>Ano de lançamento:</mat-label>
                     <input matInput type="number" id="lancamento" formControlName="lancamento" required>
@@ -63,7 +59,6 @@
                             *ngIf="formGroup.get('lancamento')?.hasError('apiError')">{{formGroup.get('lancamento')?.getError('apiError')}}</span>
                     </mat-error>
                 </mat-form-field>
-
 
                 <mat-form-field appearance="fill" class="full-width-input">
                     <mat-label>Estoque:</mat-label>
@@ -76,18 +71,18 @@
                     </mat-error>
                 </mat-form-field>
 
-
                 <mat-form-field appearance="fill" class="full-width-input">
                     <mat-label>Autor:</mat-label>
                     <mat-select id="idAutor" formControlName="idAutor" required>
                         <mat-option *ngFor="let autor of autores" [value]="autor.id">{{ autor.nome }}</mat-option>
                     </mat-select>
-                    <mat-error *ngIf="formGroup.get('idAutor')?.invalid && formGroup.get('idAutor')?.touched" class="error">
+                    <mat-error *ngIf="formGroup.get('idAutor')?.invalid && formGroup.get('idAutor')?.touched"
+                        class="error">
                         {{ getErrorMessage('idAutor', formGroup.get('idAutor')?.errors) }}
-                        <span *ngIf="formGroup.get('idAutor')?.hasError('apiError')">{{formGroup.get('idAutor')?.getError('apiError')}}</span>
+                        <span
+                            *ngIf="formGroup.get('idAutor')?.hasError('apiError')">{{formGroup.get('idAutor')?.getError('apiError')}}</span>
                     </mat-error>
                 </mat-form-field>
-
 
                 <mat-form-field appearance="fill" class="full-width-input">
                     <mat-label>Cor destaque:</mat-label>
@@ -99,13 +94,10 @@
                     </mat-error>
                 </mat-form-field>
 
-
                 <mat-form-field appearance="fill">
                     <mat-label>Gêneros:</mat-label>
                     <mat-select id="genero" formControlName="genero" required #selectGenero>
-                        <mat-option *ngFor="let genero of generos" [value]="genero.id">
-                            {{ genero.nome }}
-                        </mat-option>
+                        <mat-option *ngFor="let genero of generos" [value]="genero[0]">{{genero[1]}}</mat-option>
                     </mat-select>
                     <mat-error *ngIf="formGroup.get('genero')?.invalid && formGroup.get('genero')?.touched">
                         {{ getErrorMessage('genero', formGroup.get('genero')?.errors) }}
@@ -113,7 +105,6 @@
                             *ngIf="formGroup.get('genero')?.hasError('apiError')">{{formGroup.get('genero')?.getError('apiError')}}</span>
                     </mat-error>
                 </mat-form-field>
-
 
                 <mat-form-field appearance="outline" class="full-width-input">
                     <mat-label>Imagem do Manga</mat-label>
@@ -142,7 +133,8 @@
 
                 <mat-card-actions>
                     <button mat-raised-button routerLink="/admin/manga">Cancelar</button>
-                    <button mat-raised-button *ngIf="formGroup?.get('id')?.value" color="warn" (click)="excluir()" [disabled]="formGroup.invalid">
+                    <button mat-raised-button *ngIf="formGroup?.get('id')?.value" color="warn" (click)="excluir()"
+                        [disabled]="formGroup.invalid">
                         Excluir
                     </button>
                     <button mat-raised-button color="primary" type="submit">Salvar</button>

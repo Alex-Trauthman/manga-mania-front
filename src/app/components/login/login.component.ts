@@ -24,8 +24,8 @@ import { HeaderLoginComponent } from '../template/header-login/header-login.comp
 export class LoginComponent implements OnInit {
     formGroup: FormGroup;
     adminId: number | null = null;
-    identificador: string = 'adminadmin'; // Campo flexível para qualquer string
-    password: string = '123456789123456789';
+    username: string | null = null;
+    senha: string | null = null;
     errorMessage: string = '';
 
     constructor(
@@ -35,35 +35,33 @@ export class LoginComponent implements OnInit {
         private snackBar: MatSnackBar
     ) {
         this.formGroup = this.formBuilder.group({
-            identificador: [null, [Validators.required]], // Apenas obrigatório, sem restrições de formato
+            username: [null, [Validators.required, Validators.minLength(6), Validators.maxLength(60)]], 
             senha: [null, [Validators.required, Validators.minLength(6), Validators.maxLength(60)]],
         });
     }
 
     ngOnInit(): void {
-        this.formGroup = this.formBuilder.group({
-            identificador: [null, [Validators.required]], // Aceita qualquer string
-            senha: [null, [Validators.required, Validators.minLength(6), Validators.maxLength(60)]],
-        });
     }
 
     login() {
         if (this.formGroup.valid) {
-            // Obtém os valores do formulário
-            const identificador = this.formGroup.get('identificador')?.value;
-            const password = this.formGroup.get('senha')?.value;
-            const perfil = this.authService.getUserRole();
-            this.authService.login(identificador, password).subscribe({
+            this.authService.login(this.formGroup.get('username')?.value, this.formGroup.get('senha')?.value).subscribe({
                 next: () => {
                     this.router.navigateByUrl('/loja');
-                    
                 },
                 error: (err: any) => {
-                    console.log(err);
-                    this.showSnackbarTopPosition("Identificador ou senha inválido");
+                    this.showSnackbarTopPosition("username ou senha inválido");
                 }
             });
         }
+    }
+
+    showSnackbarTopPosition(content: any) {
+        this.snackBar.open(content, 'fechar', {
+            duration: 3000,
+            verticalPosition: "top",
+            horizontalPosition: "center"
+        });
     }
 
     getErrorMessage(controlName: string, errors: ValidationErrors | null | undefined): string {
@@ -73,7 +71,7 @@ export class LoginComponent implements OnInit {
                 return this.errorMessages[controlName][errorName];
             }
         }
-        return "Parâmetro inválido";
+        return "Parâmetro inválido.";
     }
 
     tratarErros(errorResponse: HttpErrorResponse) {
@@ -91,24 +89,18 @@ export class LoginComponent implements OnInit {
         }
     }
 
-    showSnackbarTopPosition(content: any) {
-        this.snackBar.open(content, 'fechar', {
-            duration: 3000,
-            verticalPosition: "top",
-            horizontalPosition: "center"
-        });
-    }
-
     errorMessages: { [controlName: string]: { [errorName: string]: string } } = {
-        identificador: {
+        username: {
             required: 'Este campo é obrigatório.',
+            minlength: 'Nome de usuário curto.',
+            maxlength: 'Nome de usuário longo demais.',
             apiError: 'API_ERROR'
         },
         senha: {
             required: 'Senha é obrigatória.',
-            minlength: 'Senha deve conter ao menos 6 caracteres.',
-            maxlength: 'Senha deve conter no máximo 60 caracteres.',
+            minlength: 'Senha curta.',
+            maxlength: 'Senha longa demais.',
             apiError: 'API_ERROR'
         }
-    };
+    }
 }

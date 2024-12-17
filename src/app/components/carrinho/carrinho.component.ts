@@ -17,7 +17,6 @@ import { MatCardModule,MatCardActions,MatCardContent,MatCardTitle,MatCardFooter 
 })
 export class CarrinhoComponent implements OnInit {
     carrinhoItens: ItemCarrinho[] = [];
-    private usuarioLogadoKey = 'usuario_logado';
 
     constructor(private carrinhoService: CarrinhoService,private localStorageService: LocalStorageService,private router: Router) {
     }
@@ -26,6 +25,14 @@ export class CarrinhoComponent implements OnInit {
         this.carrinhoService.carrinhos.subscribe((items: ItemCarrinho[]) => {
             this.carrinhoItens = items;
         });
+    }
+
+    removerTudo() {
+        this.carrinhoService.removerTudo();
+    }
+
+    diminuirItem(item: ItemCarrinho) {
+        this.carrinhoService.diminuirItem(item);
     }
 
     removeItem(item: ItemCarrinho) {
@@ -41,11 +48,11 @@ export class CarrinhoComponent implements OnInit {
     }
 
     finalizarCompra(): void {
-        const usuario = this.localStorageService.getItem(this.usuarioLogadoKey);
+        const usuario = this.localStorageService.getItem('usuario_logado');
         if(!usuario) {
             this.router.navigateByUrl("/login");
             return;
         };
-        this.router.navigateByUrl("/comprasfinalizadas");
+        this.router.navigateByUrl("/compras");
     }
 }

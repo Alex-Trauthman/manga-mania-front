@@ -1,15 +1,19 @@
 [x] Todos CRUDS (?)
-[x]Telas Principais (regras de negócio do sistema) 
-[x] Validações dos campos 
-[x]Perfil do usuário (Troca de senha, alterar dados, deslogar)
-[x] Imagens em produtos (upload e download) 
-[x]Segurança (Autenticação e Autorização)
-[x] Cadastro de Usuario (pelo usuario) 
-[ ] Conclusão da compra (com pagamento) 
-[ ]Visualização das compras por usuário (geralmente no perfil)
+[x] Telas Principais (regras de negócio do sistema)
+[x] Validações dos campos
+[x] Perfil do usuário (Troca de senha, alterar dados, deslogar)
+[x] Imagens em produtos (upload e download)
+[x] Segurança (Autenticação e Autorização)
+[x] Cadastro de Usuario (pelo usuario)
+[x] Conclusão da compra (com pagamento)
+[x] Visualização das compras por usuário (geralmente no perfil)
 [x] Interface (que nao seja de backend)
-[ ] Conteúdo extra não implementado em sala de aula
 [x] Carrinho de compras
 [x] Salvar pedido
-[ ] Página de erros
-[ ] Ao alterar o jwt_token, o sistema front ainda permanece funcionando
+[x] Página de erros (403 e 404)
+[?] Ao alterar o jwt_token, o sistema front ainda permanece funcionando
+[ ] Conteúdo extra não implementado em sala de aula
+[ ] Ao deletar algo do admin, pedir confirmação
+
+---- Não conseguiram ser resolvidos
+input type select não é selecionado previamente pelo banco de dados

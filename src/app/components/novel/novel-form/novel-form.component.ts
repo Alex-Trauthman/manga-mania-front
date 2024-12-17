@@ -28,24 +28,18 @@ export class NovelFormComponent implements OnInit {
     generos = Object.entries(GeneroNovelMap);
     novelId: number | null = null;
 
-    constructor(
-        private formBuilder: FormBuilder,
-        private novelService: NovelService,
-        private escritorService: EscritorNovelService,
-        private router: Router,
-        private activatedRoute: ActivatedRoute
-    ) {
+    constructor(private formBuilder: FormBuilder,private novelService: NovelService,private escritorService: EscritorNovelService,private router: Router,private activatedRoute: ActivatedRoute) {
         this.formGroup = this.formBuilder.group({
             id: [null],
             nome: [null,[Validators.required,Validators.minLength(3),Validators.maxLength(40)]],
-            sinopse: ['',[Validators.required,Validators.minLength(30)]],
-            genero: [null,Validators.required,Validators.min(0)],
-            idAutor: [null,Validators.required,Validators.min(0)],
+            sinopse: [null,[Validators.required,Validators.minLength(10),Validators.maxLength(1000)]],
+            genero: [null,[Validators.required,Validators.min(0)]],
+            idAutor: [null,[Validators.required,Validators.min(0)]],
             lancamento: [null,[Validators.required,Validators.min(0)]],
-            preco: [null,Validators.required,Validators.min(0)],
-            estoque: [null,Validators.required,Validators.min(0)],
-            paginas: [null,Validators.required,Validators.min(0)],
-            capitulos: [null,Validators.required,Validators.min(0)]
+            preco: [null,[Validators.required,Validators.min(0)]],
+            estoque: [null,[Validators.required,Validators.min(0)]],
+            paginas: [null,[Validators.required,Validators.min(0)]],
+            capitulos: [null,[Validators.required,Validators.min(0)]]
         });
     }
 
@@ -57,7 +51,6 @@ export class NovelFormComponent implements OnInit {
                 this.loadNovel(this.novelId);
             }
         });
-
     }
 
     initializeForm(): void {
@@ -66,9 +59,11 @@ export class NovelFormComponent implements OnInit {
             this.formGroup.patchValue(novel);
         }
     }
+
     loadNovel(id: number): void {
         this.novelService.findById(id).subscribe(novel => {
             this.formGroup.patchValue(novel);
+            this.formGroup.patchValue({ idAutor: novel.idAutor.id }); // arrumar
         });
         this.formGroup.markAllAsTouched();
     }
@@ -114,7 +109,7 @@ export class NovelFormComponent implements OnInit {
                 return this.errorMessages[controlName][errorName];
             }
         }
-        return "parâmetro inválido";
+        return "Parâmetro inválido.";
     }
 
     tratarErros(errorResponse: HttpErrorResponse) {
@@ -135,13 +130,14 @@ export class NovelFormComponent implements OnInit {
     errorMessages: { [controlName: string]: { [errorName: string]: string } } = {
         nome: {
             required: 'Nome é obrigatório.',
-            minlength: 'Nome deve conter ao menos 3 letras.',
-            maxlength: 'Nome deve conter no máximo 40 letras.',
+            minlength: 'Nome deve conter ao menos 3 caracteres.',
+            maxlength: 'Nome deve conter no máximo 40 caracteres.',
             apiError: 'API_ERROR'
         },
         sinopse: {
             required: 'Sinopse é obrigatório.',
-            minlength: 'Sinopse deve conter ao menos 30 letras.',
+            minlength: 'Sinopse deve conter ao menos 30 caracteres.',
+            maxlength: 'Sinopse deve conter ao menos 1000 caracteres.',
             apiError: 'API_ERROR'
         },
         genero: {
@@ -151,29 +147,29 @@ export class NovelFormComponent implements OnInit {
         },
         idAutor: {
             required: 'Id do autor é obrigatório.',
-            min: 'Id do autor deve ser maior do que 0.', 
+            min: 'Id do autor deve ser maior do que 0.',
             apiError: 'API_ERROR'
         },
         lancamento: {
             required: 'Ano de lançamento é obrigatório.',
-            min: 'Ano de lançamento deve ser maior do que 0.', 
+            min: 'Ano de lançamento deve ser maior do que 0.',
             apiError: 'API_ERROR'
         },
         preco: {
             required: 'Preço é obrigatório.',
-            min: 'Preço deve ser maior do que 0.', 
+            min: 'Preço deve ser maior do que 0.',
             apiError: 'API_ERROR'
         },
         estoque: {
             required: 'Estoque é obrigatório.',
-            min: 'Estoque deve ser maior do que 0.', 
+            min: 'Estoque deve ser maior do que 0.',
             apiError: 'API_ERROR'
         },
         paginas: {
             required: 'Páginas é obrigatório.',
-            min: 'Páginas deve ser maior do que 0.', 
+            min: 'Páginas deve ser maior do que 0.',
             apiError: 'API_ERROR'
-        }, 
+        },
         capitulos: {
             required: 'Páginas é obrigatório.',
             min: 'Capitulos deve ser maior do que 0.',

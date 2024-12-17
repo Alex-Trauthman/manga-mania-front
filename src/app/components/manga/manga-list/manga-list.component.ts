@@ -24,7 +24,7 @@ export class MangaListComponent implements OnInit {
     displayedColumns: string[] = ['id','nome','paginas','preco','sinopse','lancamento','estoque','color','idAutor','genero','actions'];
     mangas: Manga[] = [];
     totalRecords = 0;
-    pageSize = 2;
+    pageSize = 10;
     page = 0;
 
     constructor(private mangaService: MangaService,private router: Router,private carrinhoService: CarrinhoService, private snackBar: MatSnackBar) { }

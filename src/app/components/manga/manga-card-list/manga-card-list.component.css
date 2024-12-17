@@ -1,3 +1,7 @@
+body {
+    height: 100vh;
+}
+
 .manga-card {
     display: flex;
     flex-direction: row;

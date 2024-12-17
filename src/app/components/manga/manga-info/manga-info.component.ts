@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, signal } from '@angular/core';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { Component,OnInit,signal } from '@angular/core';
+import { ActivatedRoute,Router,RouterModule } from '@angular/router';
 import { Manga } from '../../../models/manga.model';
 import { MangaService } from '../../../services/manga.service';
 import { MatTableModule } from '@angular/material/table';
@@ -14,7 +14,7 @@ import { CarrinhoService } from '../../../services/carrinho.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MangaCardListComponent } from "../manga-card-list/manga-card-list.component";
 
-type Card= {
+type Card = {
     id: number;
     nome: string;
     preco: number;
@@ -54,8 +54,8 @@ export class MangaInfoComponent implements OnInit {
 
     ngOnInit(): void {
         this.route.paramMap.subscribe(params => {
-            const mangaId = parseInt(params.get('id') ?? '-1', 10);
-            if (mangaId !== -1) {
+            const mangaId = parseInt(params.get('id') ?? '-1',10);
+            if(mangaId !== -1) {
                 this.mangaService.findById(mangaId).subscribe((data: Manga) => {
                     this.manga = data;
                     this.manga.imageUrl = this.mangaService.toImageUrl(this.manga.imageUrl);
@@ -66,50 +66,31 @@ export class MangaInfoComponent implements OnInit {
     }
 
     loadOtherMangas(): void {
-        this.mangaService.findAll(0, 6).subscribe(data => {
+        this.mangaService.findAll(0,6).subscribe(data => {
             this.otherMangas = data.filter(m => m.id !== this.manga.id);
-        
-            // Aqui, garantimos que a URL da imagem esteja completa para cada manga
             this.otherMangas.forEach(manga => {
-                if (!manga.imageUrl.startsWith('http')) {
+                if(!manga.imageUrl.startsWith('http')) {
                     manga.imageUrl = 'http://localhost:8000/manga/image/download/' + manga.imageUrl;
                 }
             });
-        
-            console.log("Imagens processadas:", this.otherMangas);
             this.carregarCards();
         });
-        
-        
+
+
     }
 
     carregarCards() {
         const cards: Card[] = [];
         this.otherMangas.forEach(otherManga => {
-            if (otherManga.id === this.manga.id) return;
-            
-            // Log to debug the raw data
-            console.log("Raw otherManga:", otherManga);
-
-            
-
-            
-
+            if(otherManga.id === this.manga.id) return;
             cards.push({
                 id: otherManga.id,
                 nome: otherManga.nome,
                 preco: otherManga.preco,
                 imageUrl: this.mangaService.toImageUrl(otherManga.imageUrl)
             });
-
-            console.log("Processed card:", {
-                id: otherManga.id,
-                nome: otherManga.nome,
-                preco: otherManga.preco,
-                imageUrl: this.mangaService.toImageUrl(otherManga.imageUrl)
-            });
         });
-        this.cards.set(cards) ;
+        this.cards.set(cards);
 
     }
 
@@ -123,13 +104,14 @@ export class MangaInfoComponent implements OnInit {
             type: 1,
             id: manga.id,
             nome: manga.nome,
+            imageUrl: manga.imageUrl ?? "livro.jpg", 
             preco: manga.preco,
             quantidade: 1
         });
     }
 
     showSnackbarTopPosition(content: any): void {
-        this.snackBar.open(content, 'fechar', {
+        this.snackBar.open(content,'fechar',{
             duration: 3000,
             verticalPosition: "top",
             horizontalPosition: "center"

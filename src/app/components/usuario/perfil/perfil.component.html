@@ -1,41 +1,35 @@
 <div class="perfil-container">
     <h1>Perfil do Usuário</h1>
-  
-    <!-- Exibe as informações do usuário -->
+
     <div *ngIf="usuario" class="user-info">
-      <p><strong>Nome:</strong> {{ usuario.username }}</p>
-      <p><strong>Email:</strong> {{ usuario.email }}</p>
-      <p><strong>Endereço:</strong> {{ usuario.endereco }}</p>
-      <p><strong>CPF:</strong> {{ usuario.cpf }}</p>
-      <p><strong>Sexo:</strong> {{ usuario.sexo }}</p>
+        <p><strong>Nome:</strong> {{ usuario.username }}</p>
+        <p><strong>Email:</strong> {{ usuario.email }}</p>
+        <p><strong>Endereço:</strong> {{ usuario.endereco }}</p>
+        <p><strong>CPF:</strong> {{ usuario.cpf }}</p>
+        <p><strong>Sexo:</strong> {{ usuario.sexo }}</p>
     </div>
-  
-    <!-- Alterar Senha -->
+
     <div class="form-group">
-      <h2>Alterar Senha</h2>
-      <input type="password" placeholder="Senha Antiga" [(ngModel)]="senhaAntiga" required>
-      <input type="password" placeholder="Nova Senha" [(ngModel)]="novaSenha" required>
-      <input type="password" placeholder="Confirmação da Nova Senha" [(ngModel)]="confimacao" required>
-      <button (click)="changePassword()">Alterar Senha</button>
+        <h2>Alterar Senha</h2>
+        <input type="password" placeholder="Senha Antiga" [(ngModel)]="senhaAntiga" required>
+        <input type="password" placeholder="Nova Senha" [(ngModel)]="novaSenha" required>
+        <input type="password" placeholder="Confirmação da Nova Senha" [(ngModel)]="confimacao" required>
+        <button (click)="changePassword()">Alterar Senha</button>
     </div>
-  
-    <!-- Alterar Email -->
+
     <div class="form-group">
-      <h2>Alterar Email</h2>
-      <input type="email" placeholder="Novo Email" [(ngModel)]="newEmail" required>
-      <button (click)="changeEmail()">Alterar Email</button>
+        <h2>Alterar Email</h2>
+        <input type="email" placeholder="Novo Email" [(ngModel)]="newEmail" required>
+        <button (click)="changeEmail()">Alterar Email</button>
     </div>
-  
-    <!-- Alterar Endereço -->
+
     <div class="form-group">
-      <h2>Alterar Endereço</h2>
-      <input type="text" placeholder="Novo Endereço" [(ngModel)]="newAddress" required>
-      <button (click)="changeAddress()">Alterar Endereço</button>
+        <h2>Alterar Endereço</h2>
+        <input type="text" placeholder="Novo Endereço" [(ngModel)]="newAddress" required>
+        <button (click)="changeAddress()">Alterar Endereço</button>
     </div>
-  
-    <!-- Mensagens de Feedback -->
+
     <div *ngIf="message" class="feedback-message">
-      <p>{{ message }}</p>
+        <p>{{ message }}</p>
     </div>
-  </div>
-  
+</div>

@@ -25,7 +25,6 @@ export class HeaderLoginComponent implements OnInit, OnDestroy {
         });
     }
 
-
     ngOnInit(): void {
     }
 

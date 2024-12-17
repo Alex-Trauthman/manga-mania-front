@@ -11,15 +11,7 @@ export class Usuario {
     listaTelefone!: Telefone[];
     sexo!: Sexo;
 
-    constructor(
-        username: string,
-        email: string,
-        senha: string,
-        cpf: string,
-        endereco: string,
-        listaTelefone: Telefone[],
-        sexo: Sexo,
-    ) {
+    constructor(username: string,email: string,senha: string,cpf: string,endereco: string,listaTelefone: Telefone[],sexo: Sexo) {
         this.username = username;
         this.email = email;
         this.senha = senha;

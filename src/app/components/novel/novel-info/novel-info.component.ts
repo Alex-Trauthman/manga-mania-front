@@ -48,6 +48,7 @@ export class NovelInfoComponent implements OnInit {
             type: 2, 
             id: novel.id,
             nome: novel.nome,
+            imageUrl: novel.imageUrl ?? "livro.jpg", 
             preco: novel.preco,
             quantidade: 1
         })

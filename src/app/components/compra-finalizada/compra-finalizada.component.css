@@ -1,22 +1,18 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f0f8ff;
     margin: 0;
     display: flex;
     justify-content: center;
+    background: white;
     align-items: center;
-    height: 100vh;
     color: #333;
+    height: 100vh;
 }
 
 .container {
+    background-color: white;
     text-align: center;
-    padding: 30px;
-    background-color: #fff;
     border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    max-width: 100%;
-    width: 100%;
 }
 
 .container h1 {
