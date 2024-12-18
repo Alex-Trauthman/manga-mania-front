@@ -14,6 +14,8 @@
 [x] Ao deletar algo do admin, pedir confirmação
 [?] Ao alterar o jwt_token, o sistema front ainda permanece funcionando
 [?] Conteúdo extra não implementado em sala de aula
+[?] https://material.angular.io/components/sidenav/overview
+[?] https://material.angular.io/components/stepper/overview
 
 ---- Não conseguiram ser resolvidos
 input type select não é selecionado previamente pelo banco de dados
