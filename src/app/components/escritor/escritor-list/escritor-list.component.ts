@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component,OnInit } from '@angular/core';
+import { Component,OnInit, inject } from '@angular/core';
 import { Router,RouterModule } from '@angular/router';
 import { EscritorNovel } from '../../../models/escritorNovel.model';
 import { EscritorNovelService } from '../../../services/escritor.service';
@@ -9,7 +9,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { HeaderAdminComponent } from "../../template/header-admin/header-admin.component";
 import { FooterAdminComponent } from "../../template/footer-admin/footer-admin.component";
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatPaginatorModule,PageEvent } from '@angular/material/paginator';
+import { ExclusaoComponent } from '../../confirmacao/exclusao/exclusao.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
     selector: 'app-escritor-novel-list',
@@ -24,6 +26,7 @@ export class EscritorNovelListComponent implements OnInit {
     totalRecords = 0;
     pageSize = 10;
     page = 0;
+    readonly dialog = inject(MatDialog);
 
     constructor(private escritorService: EscritorNovelService,private router: Router) { }
 
@@ -38,10 +41,10 @@ export class EscritorNovelListComponent implements OnInit {
     }
 
     loadEscritores(): void {
-        this.escritorService.findAll(this.page, this.pageSize).subscribe((data: EscritorNovel[]) => {
+        this.escritorService.findAll(this.page,this.pageSize).subscribe((data: EscritorNovel[]) => {
             this.escritores = data;
         });
-        this.escritorService.count().subscribe(data => {this.totalRecords = data});
+        this.escritorService.count().subscribe(data => { this.totalRecords = data });
     }
 
     editEscritor(id: number): void {
@@ -49,8 +52,13 @@ export class EscritorNovelListComponent implements OnInit {
     }
 
     deleteEscritor(id: number): void {
-        this.escritorService.delete(id).subscribe(() => {
-            this.loadEscritores();
+        const dialogRef = this.dialog.open(ExclusaoComponent);
+        dialogRef.afterClosed().subscribe(result => {
+            if(result === true) {
+                this.escritorService.delete(id).subscribe(() => {
+                    this.loadEscritores();
+                });
+            }
         });
     }
 }

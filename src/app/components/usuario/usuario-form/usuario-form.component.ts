@@ -1,6 +1,6 @@
 import { CommonModule,NgIf } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component,OnInit } from '@angular/core';
+import { Component,OnInit, inject } from '@angular/core';
 import { FormBuilder,FormGroup,ReactiveFormsModule,ValidationErrors,Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -13,6 +13,8 @@ import { UsuarioService } from '../../../services/usuario.service';
 import { HeaderAdminComponent } from "../../template/header-admin/header-admin.component";
 import { FooterAdminComponent } from "../../template/footer-admin/footer-admin.component";
 import { Sexo } from '../../../models/sexo.model';
+import { ExclusaoComponent } from '../../confirmacao/exclusao/exclusao.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
     selector: 'app-usuario-form',
@@ -25,6 +27,7 @@ export class UsuarioFormComponent implements OnInit {
     formGroup: FormGroup;
     usuarioId: number | null = null;
     sexoIds: Sexo[] = [];
+    readonly dialog = inject(MatDialog);
 
     constructor(
         private formBuilder: FormBuilder,
@@ -96,14 +99,19 @@ export class UsuarioFormComponent implements OnInit {
     }
 
     excluir(): void {
-        const id = this.formGroup.get('id')?.value;
-        if(id) {
-            this.usuarioService.delete(id).subscribe(() => {
-                this.router.navigateByUrl('/admin/usuario');
-            },error => {
-                this.tratarErros(error);
-            });
-        }
+        const dialogRef = this.dialog.open(ExclusaoComponent);
+        dialogRef.afterClosed().subscribe(result => {
+            if(result === true) {
+                const id = this.formGroup.get('id')?.value;
+                if(id) {
+                    this.usuarioService.delete(id).subscribe(() => {
+                        this.router.navigateByUrl('/admin/usuario');
+                    },error => {
+                        this.tratarErros(error);
+                    });
+                }
+            }
+        });
     }
 
     getErrorMessage(controlName: string,errors: ValidationErrors | null | undefined): string {

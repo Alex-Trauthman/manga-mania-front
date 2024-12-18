@@ -48,8 +48,9 @@
                 </mat-form-field>
                 <mat-card-actions>
                     <button mat-raised-button routerLink="/admin/administrador">Cancelar</button>
-                    <button mat-raised-button color="warn" *ngIf="formGroup.get('id')?.value" (click)="excluir()">Excluir</button>
+                    <button mat-raised-button color="warn" (click)="preencher()">Preencher</button>
                     <button mat-raised-button color="primary" type="submit">Salvar</button>
+                    <button mat-raised-button color="warn" *ngIf="formGroup.get('id')?.value" (click)="excluir()">Excluir</button>
                 </mat-card-actions>
             </form>
         </mat-card-content>

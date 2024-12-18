@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component,OnInit } from '@angular/core';
+import { Component,OnInit, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatPaginatorModule,PageEvent } from '@angular/material/paginator';
@@ -12,6 +12,8 @@ import { CarrinhoService } from '../../../services/carrinho.service';
 import { MangaService } from '../../../services/manga.service';
 import { HeaderAdminComponent } from "../../template/header-admin/header-admin.component";
 import { FooterAdminComponent } from "../../template/footer-admin/footer-admin.component";
+import { ExclusaoComponent } from '../../confirmacao/exclusao/exclusao.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
     selector: 'app-manga-list',
@@ -26,8 +28,9 @@ export class MangaListComponent implements OnInit {
     totalRecords = 0;
     pageSize = 10;
     page = 0;
+    readonly dialog = inject(MatDialog);
 
-    constructor(private mangaService: MangaService,private router: Router,private carrinhoService: CarrinhoService, private snackBar: MatSnackBar) { }
+    constructor(private mangaService: MangaService,private router: Router,private carrinhoService: CarrinhoService,private snackBar: MatSnackBar) { }
 
     ngOnInit(): void {
         this.loadMangas();
@@ -59,8 +62,13 @@ export class MangaListComponent implements OnInit {
     }
 
     deleteManga(id: number): void {
-        this.mangaService.delete(id).subscribe(() => {
-            this.loadMangas();
+        const dialogRef = this.dialog.open(ExclusaoComponent);
+        dialogRef.afterClosed().subscribe(result => {
+            if(result === true) {
+                this.mangaService.delete(id).subscribe(() => {
+                    this.loadMangas();
+                });
+            }
         });
     }
 }

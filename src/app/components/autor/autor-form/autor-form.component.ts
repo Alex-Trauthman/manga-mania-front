@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component,OnInit } from '@angular/core';
+import { Component,OnInit,inject } from '@angular/core';
 import { FormBuilder,FormGroup,FormsModule,ReactiveFormsModule,ValidationErrors,Validators } from '@angular/forms';
 import { ActivatedRoute,Router,RouterModule } from '@angular/router';
 import { AutorService } from '../../../services/autorManga.service';
@@ -15,6 +15,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { Sexo } from '../../../models/sexo.model';
+import { ExclusaoComponent } from '../../confirmacao/exclusao/exclusao.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
     selector: 'app-autor-form',
@@ -28,13 +30,9 @@ export class AutorFormComponent implements OnInit {
     formGroup: FormGroup;
     autorId: number | null = null;
     sexoIds: Sexo[] = [];
+    readonly dialog = inject(MatDialog);
 
-    constructor(
-        private formBuilder: FormBuilder,
-        private autorService: AutorService,
-        private router: Router,
-        private activatedRoute: ActivatedRoute
-    ) {
+    constructor(private formBuilder: FormBuilder,private autorService: AutorService,private router: Router,private activatedRoute: ActivatedRoute) {
         this.formGroup = this.formBuilder.group({
             id: [null],
             nome: [null,[Validators.required,Validators.minLength(3),Validators.maxLength(40)]],
@@ -87,13 +85,18 @@ export class AutorFormComponent implements OnInit {
     }
 
     excluir(): void {
-        if(this.formGroup.get('id')?.value) {
-            this.autorService.delete(this.formGroup.get('id')?.value).subscribe(() => {
-                this.router.navigateByUrl('/admin/autor');
-            },error => {
-                this.tratarErros(error);
-            });
-        }
+        const dialogRef = this.dialog.open(ExclusaoComponent);
+        dialogRef.afterClosed().subscribe(result => {
+            if(result === true) {
+                if(this.formGroup.get('id')?.value) {
+                    this.autorService.delete(this.formGroup.get('id')?.value).subscribe(() => {
+                        this.router.navigateByUrl('/admin/autor');
+                    },error => {
+                        this.tratarErros(error);
+                    });
+                }
+            };
+        });
     }
 
     getErrorMessage(controlName: string,errors: ValidationErrors | null | undefined): string {

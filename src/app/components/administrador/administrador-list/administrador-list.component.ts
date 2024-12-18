@@ -1,15 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { Component,OnInit } from '@angular/core';
+import { Component,OnInit, inject } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatPaginatorModule,PageEvent } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router,RouterModule } from '@angular/router';
 import { Administrador } from '../../../models/administrador.model';
 import { AdministradorService } from '../../../services/administrador.service';
-import { MatTableModule } from '@angular/material/table';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatToolbarModule } from '@angular/material/toolbar';
+import { ExclusaoComponent } from '../../confirmacao/exclusao/exclusao.component';
 import { FooterComponent } from "../../template/footer/footer.component";
 import { HeaderComponent } from "../../template/header/header.component";
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
     selector: 'app-administrador-list',
@@ -24,6 +26,7 @@ export class AdministradorListComponent implements OnInit {
     totalRecords = 0;
     pageSize = 10;
     page = 0;
+    readonly dialog = inject(MatDialog);
 
     constructor(private administradorService: AdministradorService,private router: Router) { }
 
@@ -38,10 +41,10 @@ export class AdministradorListComponent implements OnInit {
     }
 
     loadAdministradores(): void {
-        this.administradorService.findAll(this.page, this.pageSize).subscribe((data: Administrador[]) => {
+        this.administradorService.findAll(this.page,this.pageSize).subscribe((data: Administrador[]) => {
             this.administradores = data;
         });
-        this.administradorService.count().subscribe(data => {this.totalRecords = data});
+        this.administradorService.count().subscribe(data => { this.totalRecords = data });
     }
 
     editAdministrador(id: number): void {
@@ -49,8 +52,13 @@ export class AdministradorListComponent implements OnInit {
     }
 
     deleteAdministrador(id: number): void {
-        this.administradorService.delete(id).subscribe(() => {
-            this.loadAdministradores();
+        const dialogRef = this.dialog.open(ExclusaoComponent);
+        dialogRef.afterClosed().subscribe(result => {
+            if(result === true) {
+                this.administradorService.delete(id).subscribe(() => {
+                    this.loadAdministradores();
+                });
+            };
         });
     }
 }

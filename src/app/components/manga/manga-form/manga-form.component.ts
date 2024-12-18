@@ -1,6 +1,6 @@
 import { CommonModule,NgIf } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component,OnInit } from '@angular/core';
+import { Component,OnInit, inject } from '@angular/core';
 import { FormBuilder,FormGroup,ReactiveFormsModule,ValidationErrors,Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -17,6 +17,8 @@ import { AutorManga } from '../../../models/autorManga.model';
 import { Manga } from '../../../models/manga.model';
 import { MatIcon } from '@angular/material/icon';
 import { GeneroManga,GeneroMangaMap } from '../../../models/generoManga.model';
+import { ExclusaoComponent } from '../../confirmacao/exclusao/exclusao.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
     selector: 'app-manga-form',
@@ -30,6 +32,7 @@ export class MangaFormComponent implements OnInit {
     autores: AutorManga[] = [];
     generos = Object.entries(GeneroMangaMap);
     mangaId: number | null = null;
+    readonly dialog = inject(MatDialog);
 
     fileName: string = '';
     selectedFile: File | null = null;
@@ -143,14 +146,19 @@ export class MangaFormComponent implements OnInit {
 
 
     excluir(): void {
-        const id = this.formGroup.get('id')?.value;
-        if(id) {
-            this.mangaService.delete(id).subscribe(() => {
-                this.router.navigateByUrl('/admin/manga');
-            },error => {
-                this.tratarErros(error);
-            });
-        }
+        const dialogRef = this.dialog.open(ExclusaoComponent);
+        dialogRef.afterClosed().subscribe(result => {
+            if(result === true) {
+                const id = this.formGroup.get('id')?.value;
+                if(id) {
+                    this.mangaService.delete(id).subscribe(() => {
+                        this.router.navigateByUrl('/admin/manga');
+                    },error => {
+                        this.tratarErros(error);
+                    });
+                }
+            }
+        });
     }
 
     getErrorMessage(controlName: string,errors: ValidationErrors | null | undefined): string {

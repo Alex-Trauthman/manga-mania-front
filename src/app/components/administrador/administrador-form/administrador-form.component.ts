@@ -1,5 +1,5 @@
 import { CommonModule,NgIf } from '@angular/common';
-import { Component,OnInit } from '@angular/core';
+import { ChangeDetectionStrategy,Component,OnInit,inject } from '@angular/core';
 import { FormBuilder,FormGroup,ReactiveFormsModule,ValidationErrors,Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -12,17 +12,21 @@ import { AdministradorService } from '../../../services/administrador.service';
 import { FooterComponent } from '../../template/footer/footer.component';
 import { HeaderComponent } from '../../template/header/header.component';
 import { HttpErrorResponse } from '@angular/common/http';
+import { MatDialog,MatDialogModule } from '@angular/material/dialog';
+import { ExclusaoComponent } from '../../confirmacao/exclusao/exclusao.component';
 
 @Component({
     selector: 'app-administrador-form',
     standalone: true,
     templateUrl: './administrador-form.component.html',
     styleUrls: ['./administrador-form.component.css'],
-    imports: [NgIf,ReactiveFormsModule,MatFormFieldModule,MatInputModule,MatButtonModule,MatCardModule,MatToolbarModule,RouterModule,MatSelectModule,CommonModule,HeaderComponent,FooterComponent]
+    imports: [NgIf,ReactiveFormsModule,MatFormFieldModule,MatInputModule,MatButtonModule,MatCardModule,MatToolbarModule,RouterModule,MatSelectModule,CommonModule,HeaderComponent,FooterComponent,MatDialogModule],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdministradorFormComponent implements OnInit {
     formGroup: FormGroup;
     adminId: number | null = null;
+    readonly dialog = inject(MatDialog);
 
     constructor(private formBuilder: FormBuilder,private administradorService: AdministradorService,private router: Router,private activatedRoute: ActivatedRoute) {
         this.formGroup = this.formBuilder.group({
@@ -61,38 +65,46 @@ export class AdministradorFormComponent implements OnInit {
     }
 
     salvar(): void {
-        if(this.formGroup.invalid) {
-            this.formGroup.markAllAsTouched();
-            return;
-        }
-        if(this.formGroup.valid) {
-            const administrador = this.formGroup.value;
-            if(administrador.id) {
-                this.administradorService.update(administrador).subscribe(() => {
-                    this.router.navigateByUrl('/admin/administrador');
-                },error => {
-                    this.tratarErros(error);
-                });
-            } else {
-                this.administradorService.insert(administrador).subscribe(() => {
-                    this.router.navigateByUrl('/admin/administrador');
-                },error => {
-                    this.tratarErros(error);
-                });
-            }
-        }
-    }
-
-    excluir(): void {
-        const id = this.formGroup.get('id')?.value;
-        if(id) {
-            this.administradorService.delete(id).subscribe(() => {
+        const administrador = this.formGroup.value;
+        if(administrador.id) {
+            this.administradorService.update(administrador).subscribe(() => {
+                this.router.navigateByUrl('/admin/administrador');
+            },error => {
+                this.tratarErros(error);
+            });
+        } else {
+            this.administradorService.insert(administrador).subscribe(() => {
                 this.router.navigateByUrl('/admin/administrador');
             },error => {
                 this.tratarErros(error);
             });
         }
     }
+
+    excluir(): void {
+        const id = this.formGroup.get('id')?.value;
+        if(id) {
+            const dialogRef = this.dialog.open(ExclusaoComponent);
+            dialogRef.afterClosed().subscribe(result => {
+                if(result === true) {
+                    this.administradorService.delete(id).subscribe(() => {
+                        this.router.navigateByUrl('/admin/administrador');
+                    },error => {
+                        this.tratarErros(error);
+                    });
+                }
+            });
+        }
+    }
+
+    preencher(): void {
+        this.formGroup.patchValue({
+            username: "adminadmin",
+            email: "admin@admin.com",
+            senha: "123456789123456789",
+            cpf: "1234567890",
+        });
+    };
 
     getErrorMessage(controlName: string,errors: ValidationErrors | null | undefined): string {
         if(!errors) return "";

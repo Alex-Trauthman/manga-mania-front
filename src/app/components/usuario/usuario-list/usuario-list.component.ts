@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component,OnInit } from '@angular/core';
+import { Component,OnInit, inject } from '@angular/core';
 import { Router,RouterModule } from '@angular/router';
 import { Usuario } from '../../../models/usuario.model';
 import { UsuarioService } from '../../../services/usuario.service';
@@ -11,7 +11,9 @@ import { HeaderAdminComponent } from "../../template/header-admin/header-admin.c
 import { FooterAdminComponent } from "../../template/footer-admin/footer-admin.component";
 import { MatIconModule } from '@angular/material/icon';
 import { Novel } from '../../../models/novel.model';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatPaginatorModule,PageEvent } from '@angular/material/paginator';
+import { ExclusaoComponent } from '../../confirmacao/exclusao/exclusao.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
     selector: 'app-usuario-list',
@@ -26,6 +28,7 @@ export class UsuarioListComponent implements OnInit {
     totalRecords = 0;
     pageSize = 10;
     page = 0;
+    readonly dialog = inject(MatDialog);
 
     constructor(private usuarioService: UsuarioService,private router: Router) { }
 
@@ -40,10 +43,10 @@ export class UsuarioListComponent implements OnInit {
     }
 
     loadUsuarios(): void {
-        this.usuarioService.findAll(this.page, this.pageSize).subscribe((data: Usuario[]) => {
+        this.usuarioService.findAll(this.page,this.pageSize).subscribe((data: Usuario[]) => {
             this.usuarios = data;
         });
-        this.usuarioService.count().subscribe(data => {this.totalRecords = data});
+        this.usuarioService.count().subscribe(data => { this.totalRecords = data });
     }
 
     editUsuario(id: number): void {
@@ -51,8 +54,13 @@ export class UsuarioListComponent implements OnInit {
     }
 
     deleteUsuario(id: number): void {
-        this.usuarioService.delete(id).subscribe(() => {
-            this.loadUsuarios();
+        const dialogRef = this.dialog.open(ExclusaoComponent);
+        dialogRef.afterClosed().subscribe(result => {
+            if(result === true) {
+                this.usuarioService.delete(id).subscribe(() => {
+                    this.loadUsuarios();
+                });
+            }
         });
     }
 }

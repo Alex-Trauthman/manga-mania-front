@@ -11,9 +11,10 @@
 [x] Carrinho de compras
 [x] Salvar pedido
 [x] Página de erros (403 e 404)
+[x] Ao deletar algo do admin, pedir confirmação
 [?] Ao alterar o jwt_token, o sistema front ainda permanece funcionando
-[ ] Conteúdo extra não implementado em sala de aula
-[ ] Ao deletar algo do admin, pedir confirmação
+[?] Conteúdo extra não implementado em sala de aula
 
 ---- Não conseguiram ser resolvidos
 input type select não é selecionado previamente pelo banco de dados
+botões dos formulários de administração bugados

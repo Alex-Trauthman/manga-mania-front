@@ -5,7 +5,7 @@
             <div class="manga-details">
                 <mat-card-title class="centered-text">{{ manga.nome }}</mat-card-title>
                 <mat-card-content class="centered-text" style="background-color: #c5c5c5;">{{ manga.sinopse.length > 20 ? (manga.sinopse | slice: 0: 20) + '...' : manga.sinopse }}<br></mat-card-content>
-                <mat-card-content class="centered-text"> {{ manga.genero.nome }}</mat-card-content>
+                <!-- <mat-card-content class="centered-text"> {{ manga.genero }}</mat-card-content> -->
                 <mat-card-content class="centered-text"> {{ manga.lancamento }}</mat-card-content><br>
                 <mat-card-content class="centered-text"> {{ manga.preco }}</mat-card-content>
                 <mat-card-actions class="centered-text">

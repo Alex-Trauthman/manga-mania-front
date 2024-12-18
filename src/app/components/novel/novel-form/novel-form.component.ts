@@ -1,9 +1,10 @@
 import { CommonModule,NgIf } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component,OnInit } from '@angular/core';
+import { Component,OnInit, inject } from '@angular/core';
 import { FormBuilder,FormGroup,ReactiveFormsModule,ValidationErrors,Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -12,8 +13,9 @@ import { ActivatedRoute,Router,RouterModule } from '@angular/router';
 import { GeneroNovelMap } from '../../../models/generoNovel.model';
 import { EscritorNovelService } from '../../../services/escritor.service';
 import { NovelService } from '../../../services/novel.service';
-import { HeaderAdminComponent } from "../../template/header-admin/header-admin.component";
+import { ExclusaoComponent } from '../../confirmacao/exclusao/exclusao.component';
 import { FooterAdminComponent } from "../../template/footer-admin/footer-admin.component";
+import { HeaderAdminComponent } from "../../template/header-admin/header-admin.component";
 
 @Component({
     selector: 'app-novel-form',
@@ -27,6 +29,7 @@ export class NovelFormComponent implements OnInit {
     autores: any[] = [];
     generos = Object.entries(GeneroNovelMap);
     novelId: number | null = null;
+    readonly dialog = inject(MatDialog);
 
     constructor(private formBuilder: FormBuilder,private novelService: NovelService,private escritorService: EscritorNovelService,private router: Router,private activatedRoute: ActivatedRoute) {
         this.formGroup = this.formBuilder.group({
@@ -92,14 +95,19 @@ export class NovelFormComponent implements OnInit {
     }
 
     excluir(): void {
-        const id = this.formGroup.get('id')?.value;
-        if(id) {
-            this.novelService.delete(id).subscribe(() => {
-                this.router.navigateByUrl('/admin/novel');
-            },error => {
-                this.tratarErros(error);
-            });
-        }
+        const dialogRef = this.dialog.open(ExclusaoComponent);
+        dialogRef.afterClosed().subscribe(result => {
+            if(result === true) {
+                const id = this.formGroup.get('id')?.value;
+                if(id) {
+                    this.novelService.delete(id).subscribe(() => {
+                        this.router.navigateByUrl('/admin/novel');
+                    },error => {
+                        this.tratarErros(error);
+                    });
+                }
+            }
+        });
     }
 
     getErrorMessage(controlName: string,errors: ValidationErrors | null | undefined): string {

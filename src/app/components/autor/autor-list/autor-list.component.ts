@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component,OnInit } from '@angular/core';
+import { Component,OnInit, inject } from '@angular/core';
 import { Router,RouterModule } from '@angular/router';
 import { AutorManga } from '../../../models/autorManga.model';
 import { AutorService } from '../../../services/autorManga.service';
@@ -11,7 +11,9 @@ import { HeaderAdminComponent } from "../../template/header-admin/header-admin.c
 import { FooterAdminComponent } from "../../template/footer-admin/footer-admin.component";
 import { MatIconModule } from '@angular/material/icon';
 import { Novel } from '../../../models/novel.model';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatPaginatorModule,PageEvent } from '@angular/material/paginator';
+import { ExclusaoComponent } from '../../confirmacao/exclusao/exclusao.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
     selector: 'app-autor-manga-list',
@@ -26,6 +28,7 @@ export class AutorMangaListComponent implements OnInit {
     totalRecords = 0;
     pageSize = 10;
     page = 0;
+    readonly dialog = inject(MatDialog);
 
     constructor(private autorService: AutorService,private router: Router) { }
 
@@ -40,10 +43,10 @@ export class AutorMangaListComponent implements OnInit {
     }
 
     loadAutores(): void {
-        this.autorService.findAll(this.page, this.pageSize).subscribe((data: AutorManga[]) => {
+        this.autorService.findAll(this.page,this.pageSize).subscribe((data: AutorManga[]) => {
             this.autores = data;
         });
-        this.autorService.count().subscribe(data => {this.totalRecords = data});
+        this.autorService.count().subscribe(data => { this.totalRecords = data });
     }
 
     editAutor(id: number): void {
@@ -51,8 +54,13 @@ export class AutorMangaListComponent implements OnInit {
     }
 
     deleteAutor(id: number): void {
-        this.autorService.delete(id).subscribe(() => {
-            this.loadAutores();
+        const dialogRef = this.dialog.open(ExclusaoComponent);
+        dialogRef.afterClosed().subscribe(result => {
+            if(result === true) {
+                this.autorService.delete(id).subscribe(() => {
+                    this.loadAutores();
+                });
+            }
         });
     }
 }
