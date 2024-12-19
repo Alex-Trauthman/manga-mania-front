@@ -4,7 +4,7 @@
     <div *ngIf="usuario" class="user-info">
         <p><strong>Nome:</strong> {{ usuario.username }}</p>
         <p><strong>Email:</strong> {{ usuario.email }}</p>
-        <p><strong>Endereço:</strong> {{ usuario.endereco?.rua }}, {{ usuario.endereco?.numero }}, {{ usuario.endereco?.cep }}, {{ usuario.endereco?.cidade }}, {{ usuario.endereco?.estado }}</p>
+        <p><strong>Endereço:</strong> {{ usuario.endereco.rua }}, {{ usuario.endereco.numero }}, {{ usuario.endereco.cep }}, {{ usuario.endereco.cidade }}, {{ usuario.endereco.estado }}</p>
         <p><strong>CPF:</strong> {{ usuario.cpf }}</p>
         <p><strong>Sexo:</strong> {{ usuario.sexo }}</p>
     </div>

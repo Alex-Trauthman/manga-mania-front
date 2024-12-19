@@ -1,8 +1,26 @@
 /* Container principal */
 .container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     padding: 20px;
     max-width: 1200px;
     margin: 0 auto;
+}
+
+/* Coluna esquerda (mangás) */
+.left-column {
+    flex: 2;
+    margin-right: 20px;
+}
+
+/* Coluna direita (detalhes do pedido) */
+.right-column {
+    flex: 1;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* Título total */
@@ -26,7 +44,7 @@ button {
     border-radius: 10px;
     padding: 10px;
     margin-top: 20px;
-    max-width: 600px;
+    max-width: 100%;
     overflow: hidden;
 }
 
@@ -65,7 +83,6 @@ button {
 .action {
     margin: 5px;
 }
-
 
 /* Estilo para o carrinho vazio */
 .vazio {
