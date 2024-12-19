@@ -19,6 +19,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Endereco } from '../../models/endereco.model';
 import { PagamentoEstado } from '../../models/pagamentoEstado.model';
 import { PagamentoTipo } from '../../models/pagamentoTipo.model';
+import { ItemPedido } from '../../models/itemPedido.model';
+import { MangaService } from '../../services/manga.service';
+import { Manga } from '../../models/manga.model';
 
 @Component({
     selector: 'app-compra',
@@ -28,11 +31,12 @@ import { PagamentoTipo } from '../../models/pagamentoTipo.model';
     imports: [NgIf,ReactiveFormsModule,CommonModule,MatCardModule,MatButtonModule,NgFor,MatCardActions,MatCardContent,MatCardTitle,MatCardFooter,HeaderComponent,FooterComponent]
 })
 export class ConfirmarCompraComponent implements OnInit,OnDestroy {
+    private subscription = new Subscription();
     carrinhoItens: ItemCarrinho[] = [];
     userRole: string | null = null;
     usuarioLogado: Usuario | null = null;
     enderecoForm: FormGroup;
-    private subscription = new Subscription();
+    mangas: Manga[] = [];
 
     constructor(
         private router: Router,
@@ -41,6 +45,7 @@ export class ConfirmarCompraComponent implements OnInit,OnDestroy {
         private authService: AuthService,
         private carrinhoService: CarrinhoService,
         private pedidoService: PedidoService,
+        private mangaService: MangaService,
         private localStorageService: LocalStorageService
     ) {
         this.enderecoForm = this.formBuilder.group({
@@ -58,8 +63,7 @@ export class ConfirmarCompraComponent implements OnInit,OnDestroy {
         this.carrinhoService.carrinhos.subscribe((items: ItemCarrinho[]) => {
             this.carrinhoItens = items;
         });
-        this.subscription.add(this.authService.getUsuarioLogado().subscribe(usuario => {
-            this.usuarioLogado = usuario;
+        this.subscription.add(this.mangaService.findAll().subscribe(usuario => {
             this.userRole = this.authService.getUserRole();
             if(this.usuarioLogado) {
                 this.enderecoForm.patchValue({
@@ -72,6 +76,9 @@ export class ConfirmarCompraComponent implements OnInit,OnDestroy {
                 });
             }
         }));
+        this.mangaService.findAll().subscribe((data: Manga[]) => {
+            this.mangas = data;
+        });
     }
 
     ngOnDestroy() {
@@ -88,7 +95,7 @@ export class ConfirmarCompraComponent implements OnInit,OnDestroy {
             itens: this.carrinhoItens, 
             preco: this.carrinhoItens.reduce((total,item) => total + item.quantidade * item.preco,0),
             endereco: this.enderecoForm.value,
-            tipoPagamento: this.enderecoForm.value.payment, 
+            tipoPagamento: this.enderecoForm.value.payment,
             estadoPagamento: PagamentoEstado.PENDENTE
         }).subscribe(() => {
             this.router.navigateByUrl('/meuspedidos');
