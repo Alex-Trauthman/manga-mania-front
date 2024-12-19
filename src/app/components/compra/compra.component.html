@@ -26,22 +26,58 @@
 
         <form [formGroup]="enderecoForm">
             <label for="email">Email</label>
-            <input type="email" id="email" formControlName="email" >
+            <input type="email" id="email" formControlName="email">
+            <mat-error *ngIf="formGroup.get('email')?.invalid && formGroup.get('email')?.touched">
+                {{getErrorMessage('email', formGroup.get('email')?.errors)}}
+                @if(formGroup.get('email')?.hasError('apiError')) {
+                <span>{{formGroup.get('email')?.getError('apiError')}}</span>
+                }
+            </mat-error>
 
             <label for="rua">Rua</label>
             <input type="text" id="rua" formControlName="rua" required>
+            <mat-error *ngIf="formGroup.get('email')?.invalid && formGroup.get('email')?.touched">
+                {{getErrorMessage('email', formGroup.get('email')?.errors)}}
+                @if(formGroup.get('email')?.hasError('apiError')) {
+                <span>{{formGroup.get('email')?.getError('apiError')}}</span>
+                }
+            </mat-error>
 
             <label for="numero">Número</label>
             <input type="text" id="numero" formControlName="numero" required>
+            <mat-error *ngIf="formGroup.get('email')?.invalid && formGroup.get('email')?.touched">
+                {{getErrorMessage('email', formGroup.get('email')?.errors)}}
+                @if(formGroup.get('email')?.hasError('apiError')) {
+                <span>{{formGroup.get('email')?.getError('apiError')}}</span>
+                }
+            </mat-error>
 
             <label for="cep">CEP</label>
             <input type="text" id="cep" formControlName="cep" required>
+            <mat-error *ngIf="formGroup.get('email')?.invalid && formGroup.get('email')?.touched">
+                {{getErrorMessage('email', formGroup.get('email')?.errors)}}
+                @if(formGroup.get('email')?.hasError('apiError')) {
+                <span>{{formGroup.get('email')?.getError('apiError')}}</span>
+                }
+            </mat-error>
 
             <label for="cidade">Cidade</label>
             <input type="text" id="cidade" formControlName="cidade" required>
+            <mat-error *ngIf="formGroup.get('email')?.invalid && formGroup.get('email')?.touched">
+                {{getErrorMessage('email', formGroup.get('email')?.errors)}}
+                @if(formGroup.get('email')?.hasError('apiError')) {
+                <span>{{formGroup.get('email')?.getError('apiError')}}</span>
+                }
+            </mat-error>
 
             <label for="estado">Estado</label>
             <input type="text" id="estado" formControlName="estado" required>
+            <mat-error *ngIf="formGroup.get('email')?.invalid && formGroup.get('email')?.touched">
+                {{getErrorMessage('email', formGroup.get('email')?.errors)}}
+                @if(formGroup.get('email')?.hasError('apiError')) {
+                <span>{{formGroup.get('email')?.getError('apiError')}}</span>
+                }
+            </mat-error>
 
             <button class="confirm-button" (click)="comprasfinalizadas()">Confirmar Pagamento</button>
         </form>
