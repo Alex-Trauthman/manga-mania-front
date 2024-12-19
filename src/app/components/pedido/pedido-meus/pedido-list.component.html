@@ -19,5 +19,10 @@
                 </li>
             </ul>
         </div>
+        <div class="payment-options">
+            <button (click)="pagarPix(pedido.id)">Pagar com Pix</button>
+            <button (click)="pagarCredito(pedido.id)">Pagar com Cartão de Crédito</button>
+            <button (click)="pagarDebito(pedido.id)">Pagar com Cartão de Débito</button>
+        </div>
     </div>
 </div>

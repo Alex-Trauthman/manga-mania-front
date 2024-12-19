@@ -17,8 +17,6 @@ import { PedidoService } from '../../services/pedido.service';
 import { Pedido } from '../../models/pedido.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Endereco } from '../../models/endereco.model';
-import { PagamentoEstado } from '../../models/pagamentoEstado.model';
-import { PagamentoTipo } from '../../models/pagamentoTipo.model';
 import { ItemPedido } from '../../models/itemPedido.model';
 import { MangaService } from '../../services/manga.service';
 import { Manga } from '../../models/manga.model';

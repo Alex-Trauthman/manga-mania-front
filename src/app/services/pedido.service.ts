@@ -34,27 +34,39 @@ export class PedidoService {
         const data = {
             itens: itens.map(e => Object.assign({idManga: e.id, desconto: 0}, e)), endereco
         };
-console.log(data);
+    console.log(data);
 
         return this.httpClient.post<Pedido>(this.baseUrl, data);
     }
 
-    update(pedido: Pedido): Observable<Pedido> {
+    pagarPeloPix(id: number, cpf: string, valor: number): Observable<any> {
         const data = {
-            endereco: {
-                rua: pedido.endereco.rua,
-                numero: pedido.endereco.numero,
-                cep: pedido.endereco.cep,
-                cidade: pedido.endereco.cidade,
-                estado: pedido.endereco.estado
-            },
-            itens: pedido.itens.map(item => ({
-                idManga: item.manga.id,
-                preco: item.preco,
-                desconto: item.desconto,
-                quantidade: item.quantidade
-            }))
-        };
-        return this.httpClient.put<Pedido>(`${this.baseUrl}/${pedido.id}`, data);
+            idPedido: id,
+            cpf,
+            valor
+        }
+        return this.httpClient.patch(`${this.baseUrl}/pagar/pix`, data);
+    }
+
+    pagarPeloCredito(id: number,numero: number, nome: string,cvv:string,limite: number, parcelas: number): Observable<any> {
+        const data ={
+            idPedido: id,
+            numero,
+            nome,
+            cvv,
+            limite
+        }
+        return this.httpClient.patch(`${this.baseUrl}/pagar/credito/${parcelas}`, data);
+    }
+
+    pagarPeloDebito(id: number,numero: number, nome: string,cvv:string,limite: number): Observable<any> {
+        const cartao = {
+            idPedido: id,
+            numero,
+            nome,
+            cvv,
+            limite
+        }
+        return this.httpClient.patch(`${this.baseUrl}/pagar/debito`, cartao);
     }
 }

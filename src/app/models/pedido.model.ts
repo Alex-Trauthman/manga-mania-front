@@ -1,5 +1,5 @@
-import { PagamentoEstado } from "./pagamentoEstado.model";
-import { PagamentoTipo } from "./pagamentoTipo.model";
+import { PagamentoEstado } from "./PagamentoEstado.model";
+import { PagamentoTipo } from "./PagamentoTipo.model";
 import { Endereco } from "./endereco.model";
 import { ItemPedido } from "./itemPedido.model";
 import { Usuario } from "./usuario.model";

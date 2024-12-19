@@ -28,6 +28,8 @@ import { authGuard } from './guard/auth.guard';
 import { NovelCardListComponent } from './components/novel/novel-card-list/novel-card-list.component';
 import { PedidoListComponent } from './components/pedido/pedido-list/pedido-list.component';
 import { PedidosMeusComponent } from './components/pedido/pedido-meus/pedido-list.component';
+import { PagarPixComponent } from './components/pedido/pagar-pix/pagar-pix.component';
+import { PagarCartaoComponent } from './components/pedido/pagar-cartao/pagar-cartao.component';
 
 export const routes: Routes = [
     {
@@ -43,7 +45,10 @@ export const routes: Routes = [
             { path: 'cadastro',component: CadastroComponent,title: 'Cadastro' },
             { path: 'perfil',component: PerfilComponent,title: 'Perfil',canActivate: [authGuard] },
             { path: 'compras', component: ConfirmarCompraComponent, title: 'Confirma Compra', canActivate: [authGuard],data: {role: "user"}},
-            { path: 'meuspedidos',component: PedidosMeusComponent, title: 'Meus Pedidos', canActivate:[authGuard],data: {role: "user"}}
+            { path: 'meuspedidos',component: PedidosMeusComponent, title: 'Meus Pedidos', canActivate:[authGuard],data: {role: "user"}},
+            { path: 'meuspedidos/pagarpix/:id', component: PagarPixComponent, title: 'Pagar com Pix', canActivate: [authGuard],data: {role: "user"}},
+            { path: 'meuspedidos/pagarcredito/:id', component: PagarCartaoComponent, title: 'Pagar com Cartão de Crédito', canActivate: [authGuard],data: {role: "user"}},
+            { path: 'meuspedidos/pagardebito/:id', component: PagarCartaoComponent, title: 'Pagar com Cartão de Débito', canActivate: [authGuard],data: {role: "user"}},
         ]
     },
     {

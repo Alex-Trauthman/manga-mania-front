@@ -4,10 +4,10 @@ import { Pedido } from '../../../models/pedido.model';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PedidoService } from '../../../services/pedido.service';
-import { DecimalPipe, NgFor } from '@angular/common';
+import { DecimalPipe, NgFor, NgIf } from '@angular/common';
 
 @Component({
-    imports:[NgFor,DecimalPipe],
+    imports:[NgFor,DecimalPipe, NgIf],
     standalone: true,
     selector: 'app-pedido-list',
     templateUrl: './pedido-list.component.html',
