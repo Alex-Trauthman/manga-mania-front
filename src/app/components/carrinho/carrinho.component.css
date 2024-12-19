@@ -1,12 +1,33 @@
-body {
-    height: 100vh;
+/* Container principal */
+.container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
+/* Título total */
+.total {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+/* Botões principais */
+button {
+    margin: 10px 5px;
+}
+
+/* Estilo do card do mangá */
 .manga-card {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    background-color: #cfcfcf;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 20px;
+    max-width: 600px;
+    overflow: hidden;
 }
 
 .manga-card-content {
@@ -24,60 +45,9 @@ body {
 }
 
 .manga-details {
+    display: flex;
+    flex-direction: column;
     flex: 1;
-}
-
-.mat-mdc-paginator {
-    bottom: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
-    margin-top: 20px;
-    background-color: #cfcfcf;
-    border-radius: 10px;
-}
-
-.mat-paginator-page-size-label,
-.mat-paginator-range-actions {
-    font-size: 14px;
-    color: #333;
-}
-
-.mat-paginator-navigation-previous,
-.mat-paginator-navigation-next {
-    background-color: #3f51b5;
-    color: white;
-    border-radius: 50%;
-    padding: 5px;
-}
-
-.mat-paginator-navigation-previous:hover,
-.mat-paginator-navigation-next:hover {
-    background-color: #303f9f;
-}
-
-.mat-paginator-controls {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-img {
-    width: 100%;
-    max-height: 100%;
-    object-fit: cover;
-}
-
-.container {
-    padding: 20px;
-}
-
-.responsive-grid {
-    border-radius: 10px;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(370px, 1fr));
-    gap: 20px;
 }
 
 .centered-text {
@@ -87,62 +57,38 @@ img {
     justify-content: center;
 }
 
-.action {
-    width: 1rem;    
-}
-
-
-.total {
-    color: wheat;
-    font-size: 6rem;
-    margin: 0;
-    font-weight: bold;
-    animation: fadeIn 1s ease-in-out;
-}
-
-.vazio {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.centro {
     text-align: center;
+    margin: 5px 0;
 }
 
-h2 {
-    color: wheat;
-    font-size: 1.8rem;
-    margin: 10px 0;
-    animation: fadeIn 1.5s ease-in-out;
+.action {
+    margin: 5px;
 }
 
-p {
-    color: wheat;
-    font-size: 1.2rem;
-    margin: 20px 0;
-    animation: fadeIn 2s ease-in-out;
+
+/* Estilo para o carrinho vazio */
+.vazio {
+    text-align: center;
+    margin-top: 50px;
 }
 
-a {
-    color: wheat;
+.vazio .mensagem {
+    font-size: 18px;
+    color: #666;
 }
 
-.back-button {
+.vazio .back-button {
     display: inline-block;
     margin-top: 20px;
     padding: 10px 20px;
-    font-size: 1rem;
+    background-color: #007bff;
     color: #fff;
     text-decoration: none;
-    background: #4a90e2;
     border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    transition: background 0.3s ease, transform 0.2s ease;
+    transition: background-color 0.3s ease;
 }
 
-.back-button:hover {
-    background: #0066cc;
-    transform: scale(1.05);
+.vazio .back-button:hover {
+    background-color: #0056b3;
 }
