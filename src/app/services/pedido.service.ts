@@ -15,6 +15,10 @@ export class PedidoService {
         return this.httpClient.get<Pedido[]>(this.baseUrl);
     }
 
+    findMyPedidos(): Observable<Pedido[]>{
+        return this.httpClient.get<Pedido[]>(`${this.baseUrl}/meus`)
+    }
+
     count(): Observable<number> {
         return this.httpClient.get<number>(`${this.baseUrl}/count`);
     }

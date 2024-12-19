@@ -27,6 +27,7 @@ import { UsuarioListComponent } from './components/usuario/usuario-list/usuario-
 import { authGuard } from './guard/auth.guard';
 import { NovelCardListComponent } from './components/novel/novel-card-list/novel-card-list.component';
 import { PedidoListComponent } from './components/pedido/pedido-list/pedido-list.component';
+import { PedidosMeusComponent } from './components/pedido/pedido-meus/pedido-list.component';
 
 export const routes: Routes = [
     {
@@ -42,7 +43,8 @@ export const routes: Routes = [
             { path: 'loja/novel/:id',component: NovelInfoComponent,title: 'Novel' },
             { path: 'cadastro',component: CadastroComponent,title: 'Cadastro' },
             { path: 'perfil',component: PerfilComponent,title: 'Perfil',canActivate: [authGuard] },
-            { path: 'compras', component: ConfirmarCompraComponent, title: 'Confirma Compra', canActivate: [authGuard],data: {role: "user"}}
+            { path: 'compras', component: ConfirmarCompraComponent, title: 'Confirma Compra', canActivate: [authGuard],data: {role: "user"}},
+            { path: 'meuspedidos',component: PedidosMeusComponent, title: 'Meus Pedidos', canActivate:[authGuard],data: {role: "user"}}
         ]
     },
     {

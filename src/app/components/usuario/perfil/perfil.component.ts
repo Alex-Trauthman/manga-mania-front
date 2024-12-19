@@ -6,6 +6,7 @@ import { Usuario } from '../../../models/usuario.model';
 import { CommonModule } from '@angular/common';
 import { Endereco } from '../../../models/endereco.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-perfil',
@@ -31,7 +32,8 @@ export class PerfilComponent implements OnInit {
     constructor(
         private usuarioService: UsuarioService,
         private authService: AuthService,
-        private snackBar: MatSnackBar
+        private snackBar: MatSnackBar,
+        private router: Router
     ) { }
 
     ngOnInit(): void {
@@ -46,6 +48,10 @@ export class PerfilComponent implements OnInit {
                 this.showMessage('Erro ao carregar os dados do usuário.');
             }
         });
+    }
+
+    pedidos(){
+        this.router.navigateByUrl('/meuspedidos');
     }
 
     changePassword() {
