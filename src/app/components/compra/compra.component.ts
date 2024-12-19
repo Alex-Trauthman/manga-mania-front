@@ -52,8 +52,7 @@ export class ConfirmarCompraComponent implements OnInit,OnDestroy {
             numero: [''],
             cep: [''],
             cidade: [''],
-            estado: [''],
-            payment: ['']
+            estado: ['']
         });
     }
 
