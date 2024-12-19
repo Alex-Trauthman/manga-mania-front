@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { Administrador } from "../models/administrador.model";
+import { Pedido } from "../models/pedido.model";
 import { HttpClient } from "@angular/common/http";
 
 @Injectable({ providedIn: "root" })
@@ -10,7 +10,7 @@ export class AdministradorService {
 
     constructor(private httpClient: HttpClient) { }
 
-    findAll(page?: number,pageSize?: number): Observable<Administrador[]> {
+    findAll(page?: number,pageSize?: number): Observable<Pedido[]> {
         let params = {};
         if(page !== undefined && pageSize !== undefined) {
             params = {
@@ -18,18 +18,18 @@ export class AdministradorService {
                 pageSize: pageSize.toString()
             }
         }
-        return this.httpClient.get<Administrador[]>(this.baseUrl,{ params });
+        return this.httpClient.get<Pedido[]>(this.baseUrl,{ params });
     }
 
-    searchByUser(id: number): Observable<Administrador[]> {
-        return this.httpClient.get<Administrador[]>(`${this.baseUrl}/search/user/${id}`);
+    searchByUser(id: number): Observable<Pedido[]> {
+        return this.httpClient.get<Pedido[]>(`${this.baseUrl}/search/user/${id}`);
     }
 
-    searchByEndereco(content: string): Observable<Administrador[]> {
-        return this.httpClient.get<Administrador[]>(`${this.baseUrl}/search/endereco/${content}`);
+    searchByEndereco(content: string): Observable<Pedido[]> {
+        return this.httpClient.get<Pedido[]>(`${this.baseUrl}/search/endereco/${content}`);
     }
 
-    minhasCompras(page?: number,pageSize?: number): Observable<Administrador[]> {
+    minhasCompras(page?: number,pageSize?: number): Observable<Pedido[]> {
         let params = {};
         if(page !== undefined && pageSize !== undefined) {
             params = {
@@ -37,7 +37,7 @@ export class AdministradorService {
                 pageSize: pageSize.toString()
             }
         }
-        return this.httpClient.get<Administrador[]>(this.baseUrl,{ params });
+        return this.httpClient.get<Pedido[]>(this.baseUrl,{ params });
     }
 
     pagarPix(): void {
@@ -56,28 +56,20 @@ export class AdministradorService {
         return this.httpClient.get<number>(`${this.baseUrl}/count`);
     }
 
-    findById(id: number): Observable<Administrador> {
-        return this.httpClient.get<Administrador>(`${this.baseUrl}/${id}`);
+    findById(id: number): Observable<Pedido> {
+        return this.httpClient.get<Pedido>(`${this.baseUrl}/${id}`);
     }
 
-    insert(administrador: Administrador): Observable<Administrador> {
+    insert(pedido: Pedido): Observable<Pedido> {
         const data = {
-            username: administrador.username,
-            email: administrador.email,
-            senha: administrador.senha,
-            cpf: administrador.cpf
         };
-        return this.httpClient.post<Administrador>(this.baseUrl,data);
+        return this.httpClient.post<Pedido>(this.baseUrl,data);
     }
 
-    update(administrador: Administrador): Observable<Administrador> {
+    update(pedido: Pedido): Observable<Pedido> {
         const data = {
-            username: administrador.username,
-            email: administrador.email,
-            senha: administrador.senha,
-            cpf: administrador.cpf
         };
-        return this.httpClient.put<Administrador>(`${this.baseUrl}/${administrador.id}`,data);
+        return this.httpClient.put<Pedido>(`${this.baseUrl}/${pedido.id}`,data);
     }
 
     delete(id: number): Observable<void> {
