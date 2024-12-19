@@ -11,15 +11,15 @@ export class Pedido {
     preco!: number;
     endereco!: Endereco;
     tipoPagamento!: PagamentoTipo;
-    estado!: PagamentoEstado;
+    estadoPagamento!: PagamentoEstado;
 
-    constructor(id: number, usuario: Usuario, itens: ItemPedido[], preco: number, endereco: Endereco, tipoPagamento: PagamentoTipo, estado: PagamentoEstado) {
+    constructor(id: number, usuario: Usuario, itens: ItemPedido[], preco: number, endereco: Endereco, tipoPagamento: PagamentoTipo, estadoPagamento: PagamentoEstado) {
         this.id = id;
         this.usuario = usuario;
         this.itens = itens;
         this.preco = preco;
         this.endereco = endereco;
         this.tipoPagamento = tipoPagamento;
-        this.estado = estado;
+        this.estadoPagamento = estadoPagamento;
     }
 }
