@@ -81,6 +81,7 @@ select {
 }
 
 .vazio {
+    color: wheat !important;
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
@@ -92,19 +93,31 @@ select {
 }
 
 h2 {
-    color: wheat;
     font-size: 1.8rem;
     margin: 10px 0;
     animation: fadeIn 1.5s ease-in-out;
 }
 
 p {
-    color: wheat;
     font-size: 1.2rem;
     margin: 20px 0;
     animation: fadeIn 2s ease-in-out;
 }
 
-a {
-    color: wheat;
+.back-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: #fff;
+    text-decoration: none;
+    background: #4a90e2;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.back-button:hover {
+    background: #0066cc;
+    transform: scale(1.05);
 }
