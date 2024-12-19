@@ -25,6 +25,7 @@ import { PerfilComponent } from './components/usuario/perfil/perfil.component';
 import { UsuarioFormComponent } from './components/usuario/usuario-form/usuario-form.component';
 import { UsuarioListComponent } from './components/usuario/usuario-list/usuario-list.component';
 import { authGuard } from './guard/auth.guard';
+import { NovelCardListComponent } from './components/novel/novel-card-list/novel-card-list.component';
 
 export const routes: Routes = [
     {
@@ -63,6 +64,11 @@ export const routes: Routes = [
         path: 'search/manga',
         title: 'Barra de pesquisa de mangás',
         component: UserTemplateComponent,
+    },
+    {
+        path:'novels',
+        title: 'Novels',
+        component: NovelCardListComponent,
     },
     {
         path: 'search/manga/:term',

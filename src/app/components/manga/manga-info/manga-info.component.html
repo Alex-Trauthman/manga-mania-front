@@ -14,7 +14,7 @@
             <h5>Páginas: {{manga.paginas}}</h5>
             <h5>Estoque: {{manga.estoque}}</h5>
             <h5>Ano: {{manga.lancamento}}</h5>
-            <!-- <h5>Gênero: {{manga.genero.nome}}</h5> -->
+            <h5>Gênero: {{manga.genero.nome}}</h5> 
             <h5>Autor: {{manga.idAutor.nome}}</h5>
             <p>{{manga.sinopse}}</p>
             <div class="quantity">
@@ -25,7 +25,7 @@
 </div>
 
 <section class="other-mangas-container">
-    <h2>Mangás Relacionados</h2>
+    <h2>Mangás Do Gênero</h2>
     <div class="other-mangas-grid">
         <mat-card *ngFor="let otherManga of otherMangas" class="manga-card">
             <div class="img-other">
@@ -36,6 +36,7 @@
             <mat-card-content>
                 <p>{{otherManga.sinopse.length > 30 ? (otherManga.sinopse | slice:0:30) + '...' : otherManga.sinopse}}</p>
                 <p>R$ {{otherManga.preco}}</p>
+                <p>{{otherManga.genero.nome}}</p>
             </mat-card-content>
             <mat-card-actions>
                 <button mat-button color="primary" (click)="verManga(otherManga.id)">Ver mais</button>

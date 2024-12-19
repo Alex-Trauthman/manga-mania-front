@@ -18,5 +18,4 @@
 [?] https://material.angular.io/components/stepper/overview
 
 ---- Não conseguiram ser resolvidos
-input type select não é selecionado previamente pelo banco de dados
-botões dos formulários de administração bugados
+botões dos formulários de administração bugados ???

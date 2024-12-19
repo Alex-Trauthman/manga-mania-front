@@ -25,25 +25,19 @@ img {
     padding: 20px;
 }
 
-.responsive-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
-}
 
-.centered-text {
+.manga-card .centered-text {
     text-align: center;
-    display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.manga-form-container form {
+.manga-form-container .container {
     display: flex;
     flex-direction: column;
 }
 
-.manga-form-container .form-group {
+.manga-form-container .container {
     margin-bottom: 35px;
 }
 
@@ -62,7 +56,7 @@ img {
     box-sizing: border-box;
 }
 
-.manga-form-container button {
+.manga-form-container .container button {
     padding: 10px;
     background-color: #007bff;
     color: #fff;
@@ -74,11 +68,11 @@ img {
     margin-bottom: 100px;
 }
 
-.manga-form-container button:hover {
+.manga-form-container .container button:hover {
     background-color: #0056b3;
 }
 
-.manga-form-container textarea {
+.manga-form-container .container textarea {
     width: 100%;
     padding: 10px 10px;
     box-sizing: border-box;
@@ -88,7 +82,7 @@ img {
     font-size: 16px;
 }
 
-.manga-form-container mat-select {
+.manga-form-container .container mat-select {
     width: 100%;
     box-sizing: border-box;
     border: 2px solid #ccc;
@@ -101,23 +95,35 @@ img {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    margin-top: 20px;
-    padding: 20px;
+    background-color: #cfcfcf;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
+    padding: 10px;
+    margin-top: 20px;
+    max-width: 600px; /* Limitação de largura */
+    max-height: 300px; /* Limitação de altura */
+    overflow: hidden; /* Esconder conteúdo que ultrapassa o tamanho */
+}
+.manga-card-content {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
 }
 
 .manga-image {
-    max-width: 180px;
+    width: 180px;
     height: auto;
     object-fit: cover;
-    margin-right: 20px;
+    margin-right: 10px;
     border-radius: 10px;
 }
 
 .manga-details {
     flex: 1;
+}
+
+.mat-card-footer {
+    width: 100%;
+    text-align: center;
 }
 
 img {
@@ -135,11 +141,4 @@ img {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(370px, 1fr));
     gap: 20px;
-}
-
-.centered-text {
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }

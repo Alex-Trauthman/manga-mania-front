@@ -12,6 +12,17 @@ export class MangaService {
 
     constructor(private httpClient: HttpClient) { }
 
+    findByAuthor(id: number): Observable<Manga[]> {
+        return this.httpClient.get<Manga[]>(`${this.baseUrl}/autor/${id}`);
+    }
+
+    findByPrice(price: number, price2: number): Observable<Manga[]> {
+        return this.httpClient.get<Manga[]>(`${this.baseUrl}/price/${price}/${price2}` );
+    }
+    findGeneros():Observable<GeneroManga[]>{
+        return this.httpClient.get<GeneroManga[]>(`${this.baseUrl}/generos`);
+    }
+
     uploadImage(id: number, imageUrl: string, imagem: File): Observable<any> {
         const formData: FormData = new FormData();
         formData.append('imageUrl', imageUrl);
@@ -43,17 +54,22 @@ export class MangaService {
         return this.httpClient.get<Manga[]>(`${this.baseUrl}/name/${term}`);
     }
 
+    findByGenre(id: number): Observable<Manga[]>{
+        return this.httpClient.get<Manga[]>(`${this.baseUrl}/genero/${id}`);
+    }
+
     insert(manga: Manga): Observable<Manga> {
         const data = {
             nome: manga.nome,
             idAutor: manga.idAutor,
-            genero: manga.genero,
+            genero: manga.genero.id,
             sinopse: manga.sinopse,
-            anoPublicacao: manga.lancamento,
+            lancamento: manga.lancamento,
             estoque: manga.estoque,
             preco: manga.preco,
-            colorido: manga.color,
-            paginas: manga.paginas
+            color: manga.color,
+            paginas: manga.paginas,
+            imageUrl: manga.imageUrl
         };
         return this.httpClient.post<Manga>(this.baseUrl,data);
     }
@@ -62,13 +78,14 @@ export class MangaService {
         const data = {
             nome: manga.nome,
             idAutor: manga.idAutor,
-            genero: manga.genero,
+            genero: manga.genero.id,
             sinopse: manga.sinopse,
-            anoPublicacao: manga.lancamento,
+            lancamento: manga.lancamento,
             estoque: manga.estoque,
-            colorido: manga.color,
+            color: manga.color,
             preco: manga.preco,
-            paginas: manga.paginas
+            paginas: manga.paginas,
+            imageUrl: manga.imageUrl 
         };
         return this.httpClient.put<Manga>(`${this.baseUrl}/${manga.id}`,data);
     }
@@ -85,6 +102,13 @@ export class MangaService {
         if (!imagem) {
             return 'semimagem.png'; 
         }
-        return `${this.baseUrl}/image/download/${imagem}`;
+           
+        const imageUrl = `${this.baseUrl}/image/download/${imagem}`;
+        console.log('Constructed image URL:', imageUrl); // Log the final image URL
+    
+        return imageUrl;
     }
+    
 }
+
+    

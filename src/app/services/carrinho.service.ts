@@ -41,6 +41,9 @@ export class CarrinhoService {
         const itemExistente = this.carrinhoSubject.value.find(item => item.id === itemCarrinho.id);
         if(itemExistente){
             itemExistente.quantidade -= 1;
+            if(itemExistente.quantidade <=0){
+                this.removerItem(itemCarrinho);
+            }
             if(itemExistente.quantidade <= 0) this.carrinhoSubject.value.filter(item => item.id !== itemCarrinho.id);
         };
         this.carrinhoSubject.next(this.carrinhoSubject.value);

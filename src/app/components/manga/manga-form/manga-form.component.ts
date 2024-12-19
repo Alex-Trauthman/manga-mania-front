@@ -16,7 +16,7 @@ import { FooterAdminComponent } from "../../template/footer-admin/footer-admin.c
 import { AutorManga } from '../../../models/autorManga.model';
 import { Manga } from '../../../models/manga.model';
 import { MatIcon } from '@angular/material/icon';
-import { GeneroManga,GeneroMangaMap } from '../../../models/generoManga.model';
+import { GeneroManga} from '../../../models/generoManga.model';
 import { ExclusaoComponent } from '../../confirmacao/exclusao/exclusao.component';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -30,9 +30,9 @@ import { MatDialog } from '@angular/material/dialog';
 export class MangaFormComponent implements OnInit {
     formGroup: FormGroup;
     autores: AutorManga[] = [];
-    generos = Object.entries(GeneroMangaMap);
+    generos: GeneroManga[] = [];
     mangaId: number | null = null;
-    readonly dialog = inject(MatDialog);
+    dialog = inject(MatDialog);
 
     fileName: string = '';
     selectedFile: File | null = null;
@@ -41,10 +41,10 @@ export class MangaFormComponent implements OnInit {
     constructor(private formBuilder: FormBuilder,private mangaService: MangaService,private autorService: AutorService,private router: Router,private activatedRoute: ActivatedRoute) {
         this.formGroup = this.formBuilder.group({
             id: [null],
-            nome: [null,[Validators.required,Validators.minLength(3),Validators.maxLength(40)]],
-            sinopse: [null,[Validators.required,Validators.minLength(10),Validators.maxLength(1000)]],
-            genero: [null,[Validators.required,Validators.min(0)]],
-            idAutor: [null,[Validators.required,Validators.min(0)]],
+            nome: [null,[Validators.required,Validators.minLength(3),Validators.maxLength(80)]],
+            sinopse: ['',[Validators.required,Validators.minLength(10),Validators.maxLength(1000)]],
+            genero: [null],
+            idAutor: [null],
             lancamento: [null,[Validators.required,Validators.min(0)]],
             color: [null,[Validators.required,Validators.minLength(2),Validators.maxLength(12)]],
             preco: [null,[Validators.required,Validators.min(0)]],
@@ -55,35 +55,68 @@ export class MangaFormComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        const manga: Manga = this.activatedRoute.snapshot.data['manga'];
         this.autorService.findAll().subscribe((data) => {
             this.autores = data;
         });
-
+        this.mangaService.findGeneros().subscribe((data) => {
+            this.generos = data;
+        });
         this.activatedRoute.params.subscribe(params => {
             this.mangaId = params['id'] ? +params['id'] : null;
-            if(this.mangaId) this.loadManga(this.mangaId);
+            console.log("id manga"+this.mangaId);
+            if(this.mangaId) {
+                this.loadManga(this.mangaId);
+                
+            }
+            
         });
         this.initializeForm();
+
     }
 
     initializeForm(): void {
         const manga = this.activatedRoute.snapshot.data['manga'];
+        const genero = this.generos.find(m => m.id === (manga?.genero?.id || null));
+        console.log("manga" + manga);
         if(manga && manga.imageUrl) {
             this.imagePreview = this.mangaService.toImageUrl(manga.imageUrl);
             this.fileName = manga.imageUrl;
         }
+        
+        console.log("manga"+manga);
+        this.formGroup = this.formBuilder.group({
+            id: [(manga && manga.id)? manga.id : null],
+            nome: [(manga && manga.nome)? manga.nome:null],
+            sinopse: [(manga && manga.sinopse)? manga.sinopse:null],
+            genero: [genero],
+            idAutor: [(manga && manga.idAutor)? manga.idAutor:null],
+            lancamento: [(manga && manga.lancamento)? manga.lancamento:null],
+            color: [(manga && manga.color)? manga.color:null],
+            preco: [(manga && manga.preco)? manga.preco:null],
+            estoque: [(manga && manga.estoque)? manga.estoque:null],
+            paginas: [(manga && manga.paginas)? manga.paginas:null],
+            imageUrl: [(manga && manga.imageUrl)? manga.imageUrl:null]
+        });
     }
 
     private uploadImage(mangaId: number) {
-        if(this.selectedFile) {
-            this.mangaService.uploadImage(mangaId,this.selectedFile.name,this.selectedFile)
-                .subscribe({
-                    next: () => {
-                        this.voltarPagina();
-                    },
-                    error: err => {
-                    }
-                })
+        
+        if (this.selectedFile) {
+          this.mangaService.uploadImage(mangaId, this.selectedFile.name, this.selectedFile)
+          
+          .subscribe({
+            next: () => {
+              this.voltarPagina();
+            },
+            error: err => {
+              console.log('Erro ao fazer o upload da imagem');
+              
+            }
+          })
+        } 
+        else {
+            this.voltarPagina();
         }
     }
 
@@ -95,12 +128,18 @@ export class MangaFormComponent implements OnInit {
         if(id != null && id > 0) {
             this.mangaService.findById(id).subscribe(manga => {
                 this.formGroup.patchValue(manga);
-                this.formGroup.patchValue({ idAutor: manga.idAutor.id });
-                // this.formGroup.patchValue({ genero: manga.genero.id });
-                if(manga.imageUrl) {
+                if (manga.imageUrl) {
                     this.imagePreview = this.mangaService.toImageUrl(manga.imageUrl);
                     this.fileName = manga.imageUrl;
                 }
+                if(manga.idAutor) {
+                    this.formGroup.get('idAutor')?.setValue(manga.idAutor.id);
+                }
+                if(manga.genero) {
+                    const generoSelecionado = this.generos.find(m => m.id === (manga?.genero?.id || null));
+                    this.formGroup.get('genero')?.setValue(generoSelecionado);
+                }
+                
             });
             this.formGroup.markAllAsTouched();
         }
@@ -108,7 +147,7 @@ export class MangaFormComponent implements OnInit {
 
     carregarImagemSelecionada(event: any) {
         this.selectedFile = event.target.files[0];
-
+        
         if(this.selectedFile) {
             this.fileName = this.selectedFile.name;
 
@@ -123,21 +162,24 @@ export class MangaFormComponent implements OnInit {
         if(this.formGroup.valid) {
             const manga = this.formGroup.value;
 
-
+            if (!this.selectedFile && this.imagePreview) {
+                manga.imageUrl = this.fileName;
+            }
             const operacao = manga.id == null
                 ? this.mangaService.insert(manga)
                 : this.mangaService.update(manga);
 
             operacao.subscribe({
                 next: (mangaCadastrada) => {
-
-                    if(this.mangaId !== null) {
+                    this.mangaService.findAll();
+                    if (this.mangaId !== null) {
                         this.uploadImage(this.mangaId);
                     }
-
-                    this.uploadImage(mangaCadastrada.id);
+                  
+                  this.uploadImage(mangaCadastrada.id);
                 },
                 error: (error) => {
+                    console.log('Erro ao Salvar' + JSON.stringify(error));
                     this.tratarErros(error);
                 }
             });

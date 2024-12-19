@@ -39,13 +39,6 @@
                     </mat-error>
                 </div>
                 <div class="field">
-                    <span class="material-symbols-outlined">Endereço</span>
-                    <input matInput type="text" formControlName="endereco" placeholder="Digite seu endereço" required />
-                    <mat-error *ngIf="formGroup.get('endereco')?.invalid && formGroup.get('endereco')?.touched">
-                        {{ getErrorMessage('endereco', formGroup.get('endereco')?.errors) }}
-                    </mat-error>
-                </div>
-                <div class="field">
                     <span class="material-symbols-outlined">Sexo</span>
                     <mat-select formControlName="sexo" required>
                         <mat-option value="1">Feminino</mat-option>

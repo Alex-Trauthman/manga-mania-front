@@ -1,15 +1,17 @@
-import { Component,OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UsuarioService } from '../../../services/usuario.service';
 import { AuthService } from '../../../services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { Usuario } from '../../../models/usuario.model';
 import { CommonModule } from '@angular/common';
+import { Endereco } from '../../../models/endereco.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'app-perfil',
     templateUrl: './perfil.component.html',
     styleUrls: ['./perfil.component.css'],
-    imports: [FormsModule,CommonModule],
+    imports: [FormsModule, CommonModule],
     standalone: true
 })
 export class PerfilComponent implements OnInit {
@@ -18,72 +20,86 @@ export class PerfilComponent implements OnInit {
     confimacao: string = '';
     senhaAntiga: string = '';
     newEmail: string = '';
-    newAddress: string = '';
-    message: string | null = null; constructor(
+    rua: string = '';
+    numero: string = '';
+    cep: string = '';
+    cidade: string = '';
+    estado: string = '';
+    message: string | null = null;
+    endereco: Endereco | null = null;
+
+    constructor(
         private usuarioService: UsuarioService,
-        private authService: AuthService
+        private authService: AuthService,
+        private snackBar: MatSnackBar
     ) { }
 
     ngOnInit(): void {
         this.authService.getUsuarioLogado().subscribe({
             next: (usuario) => {
-                if(usuario) {
+                if (usuario) {
                     this.usuario = usuario;
                 }
             },
             error: (err) => {
-                console.error('Erro ao carregar usuário:',err);
-                this.message = 'Erro ao carregar os dados do usuário.';
+                console.error('Erro ao carregar usuário:', err);
+                this.showMessage('Erro ao carregar os dados do usuário.');
             }
         });
     }
 
     changePassword() {
-        if(this.novaSenha !== this.confimacao) {
-            this.message = 'As senhas não coincidem!';
+        if (this.novaSenha !== this.confimacao) {
+            this.showMessage('As senhas não coincidem!');
             return;
         }
 
-        this.usuarioService.updateSenha(this.senhaAntiga,this.novaSenha,this.confimacao,).subscribe({
+        this.usuarioService.updateSenha(this.senhaAntiga, this.novaSenha, this.confimacao).subscribe({
             next: (response) => {
-                this.message = 'Senha alterada com sucesso!';
+                this.showMessage('Senha alterada com sucesso!');
             },
             error: (err) => {
-                this.message = 'Erro ao alterar a senha.';
-                console.error('Erro ao alterar senha',err);
+                this.showMessage('Erro ao alterar a senha.');
+                console.error('Erro ao alterar senha', err);
             }
         });
     }
 
     changeEmail() {
-        if(!this.newEmail) {
-            this.message = 'Por favor, insira um email válido.';
+        if (!this.newEmail) {
+            this.showMessage('Por favor, insira um email válido.');
             return;
         }
 
         this.usuarioService.updateEmail(this.newEmail).subscribe({
             next: (response) => {
-                this.message = 'Email alterado com sucesso!';
+                this.showMessage('Email alterado com sucesso!');
             },
             error: (err) => {
-                this.message = 'Erro ao alterar o email.';
+                this.showMessage('Erro ao alterar o email.');
             }
         });
     }
 
     changeAddress() {
-        if(!this.newAddress) {
-            this.message = 'Por favor, insira um endereço válido.';
+        if (!this.rua || !this.numero || !this.cep || !this.cidade || !this.estado) {
+            this.showMessage('Por favor, preencha todos os campos do endereço.');
             return;
         }
 
-        this.usuarioService.updateEndereco(this.newAddress).subscribe({
+        this.usuarioService.updateEndereco(this.rua, this.numero, this.cep, this.cidade, this.estado).subscribe({
             next: (response) => {
-                this.message = 'Endereço alterado com sucesso!';
+                this.showMessage('Endereço alterado com sucesso!');
             },
             error: (err) => {
-                this.message = 'Erro ao alterar o endereço.';
+                this.showMessage('Erro ao alterar o endereço.');
             }
+        });
+    }
+
+    private showMessage(message: string) {
+        this.snackBar.open(message, 'Fechar', {
+            duration: 3000,
         });
     }
 }

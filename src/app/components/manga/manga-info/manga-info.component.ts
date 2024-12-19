@@ -66,7 +66,7 @@ export class MangaInfoComponent implements OnInit {
     }
 
     loadOtherMangas(): void {
-        this.mangaService.findAll(0,6).subscribe(data => {
+        this.mangaService.findByGenre(this.manga.genero.id).subscribe(data => {
             this.otherMangas = data.filter(m => m.id !== this.manga.id);
             this.otherMangas.forEach(manga => {
                 if(!manga.imageUrl.startsWith('http')) {

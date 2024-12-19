@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
         private snackBar: MatSnackBar
     ) {
         this.formGroup = this.formBuilder.group({
-            username: [null, [Validators.required, Validators.minLength(6), Validators.maxLength(60)]], 
+            username: [null, [Validators.required, Validators.minLength(4), Validators.maxLength(60)]], 
             senha: [null, [Validators.required, Validators.minLength(6), Validators.maxLength(60)]],
         });
     }

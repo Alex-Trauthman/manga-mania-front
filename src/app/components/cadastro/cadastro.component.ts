@@ -26,11 +26,10 @@ export class CadastroComponent implements OnInit {
     constructor(
         private usuarioService: UsuarioService,private router: Router,private formBuilder: FormBuilder,private snackBar: MatSnackBar) {
         this.formGroup = this.formBuilder.group({
-            username: [null,[Validators.required,Validators.minLength(6),Validators.maxLength(80)]],
+            username: [null,[Validators.required,Validators.minLength(4),Validators.maxLength(80)]],
             email: [null,[Validators.required,Validators.email,Validators.minLength(6),Validators.maxLength(60)]],
-            password: [null,[Validators.required,Validators.minLength(6),Validators.maxLength(60)]],
+            senha: [null,[Validators.required,Validators.minLength(6),Validators.maxLength(60)]],
             cpf: [null,[Validators.required,Validators.minLength(10),Validators.maxLength(12)]],
-            endereco: [null,[Validators.required,Validators.minLength(4),Validators.maxLength(80)]],
             sexo: [null,[Validators.required]],
         });
     }
@@ -108,12 +107,6 @@ export class CadastroComponent implements OnInit {
             required: 'CPF é obrigatório.',
             minlength: 'CPF deve conter ao menos 10 caracteres.',
             maxlength: 'CPF deve conter no máximo 12 caracteres.',
-            apiError: 'API_ERROR'
-        },
-        endereco: {
-            required: 'Endereço é obrigatório.',
-            minlength: 'Endereço deve conter ao menos 4 caracteres.',
-            maxlength: 'Endereço deve conter no máximo 80 caracteres.',
             apiError: 'API_ERROR'
         },
         sexo: {

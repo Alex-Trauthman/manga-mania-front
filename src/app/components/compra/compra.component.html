@@ -25,50 +25,27 @@
     <div class="address">
         <h2>Endereço de Entrega</h2>
 
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" value="{{usuarioLogado?.email}}" disabled>
+        <form [formGroup]="enderecoForm">
+            <label for="email">Email</label>
+            <input type="email" id="email" formControlName="email" >
 
-        <label for="address">Endereço</label>
-        <input type="text" id="address" name="address" required>
+            <label for="rua">Rua</label>
+            <input type="text" id="rua" formControlName="rua" required>
 
-        <label for="city">Cidade</label>
-        <input type="text" id="city" name="city" required>
+            <label for="numero">Número</label>
+            <input type="text" id="numero" formControlName="numero" required>
 
-        <label for="state">Estado</label>
-        <select id="state" name="state" required>
-            <option value="">Selecione</option>
-            <option value="AC">Acre</option>
-            <option value="AL">Alagoas</option>
-            <option value="AM">Amazonas</option>
-            <option value="AP">Amapá</option>
-            <option value="BA">Bahia</option>
-            <option value="CE">Ceará</option>
-            <option value="DF">Distrito Federal</option>
-            <option value="ES">Espírito Santo</option>
-            <option value="GO">Goiás</option>
-            <option value="MA">Maranhão</option>
-            <option value="MG">Minas Gerais</option>
-            <option value="MS">Mato Grosso do Sul</option>
-            <option value="MT">Mato Grosso</option>
-            <option value="PA">Pará</option>
-            <option value="PB">Paraíba</option>
-            <option value="PE">Pernambuco</option>
-            <option value="PI">Piauí</option>
-            <option value="PR">Paraná</option>
-            <option value="RJ">Rio de Janeiro</option>
-            <option value="RN">Rio Grande do Norte</option>
-            <option value="RO">Rondônia</option>
-            <option value="RR">Roraima</option>
-            <option value="RS">Rio Grande do Sul</option>
-            <option value="SC">Santa Catarina</option>
-            <option value="SE">Sergipe</option>
-            <option value="SP">São Paulo</option>
-            <option value="TO">Tocantins</option>
-        </select>
+            <label for="cep">CEP</label>
+            <input type="text" id="cep" formControlName="cep" required>
 
-        <label for="zip">CEP</label>
-        <input type="text" id="zip" name="zip" required>
-        <button class="confirm-button" (click)="comprasfinalizadas()">Confirmar Pagamento</button>
+            <label for="cidade">Cidade</label>
+            <input type="text" id="cidade" formControlName="cidade" required>
+
+            <label for="estado">Estado</label>
+            <input type="text" id="estado" formControlName="estado" required>
+
+            <button class="confirm-button" (click)="comprasfinalizadas()">Confirmar Pagamento</button>
+        </form>
     </div>
 </div>
 <app-footer></app-footer>

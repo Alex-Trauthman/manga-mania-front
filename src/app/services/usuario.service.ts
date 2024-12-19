@@ -36,7 +36,6 @@ export class UsuarioService {
             email: usuario.email, 
             senha: usuario.senha, 
             cpf: usuario.cpf, 
-            endereco: usuario.endereco, 
             sexo: usuario.sexo
         };
         return this.httpClient.post<Usuario>(this.baseUrl,data);
@@ -51,13 +50,19 @@ export class UsuarioService {
         return this.httpClient.patch(`${this.baseUrl}/updateSenha`, senhaDTO);
     }    
     
-      updateEmail(email: string): Observable<any> {
-        return this.httpClient.patch(`${this.baseUrl}/updateEmail`, {email})
+    updateEmail(email: string): Observable<any> {
+        return this.httpClient.patch(`${this.baseUrl}/updateEmail`, { email });
     }
-    
-    
-    updateEndereco(endereco: string): Observable<any> {
-        return this.httpClient.patch(`${this.baseUrl}/updateEndereco`, { endereco });
+
+    updateEndereco(rua: string, numero: string, cep: string, cidade: string, estado: string): Observable<any> {
+        const enderecoDTO = {
+            rua: rua,
+            numero: numero,
+            cep: cep,
+            cidade: cidade,
+            estado: estado
+        };
+        return this.httpClient.patch(`${this.baseUrl}/updateEndereco`, enderecoDTO);
     }
     
 
@@ -68,7 +73,6 @@ export class UsuarioService {
             senha: usuario.senha, 
             cpf: usuario.cpf, 
             endereco: usuario.endereco, 
-            listaTelefone: usuario.listaTelefone, 
             sexo: usuario.sexo
         };
         return this.httpClient.put<Usuario>(`${this.baseUrl}/${usuario.id}`,data);

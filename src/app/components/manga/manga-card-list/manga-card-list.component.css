@@ -1,14 +1,33 @@
 body {
     height: 100vh;
 }
+.filtros-toggle {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.filtros {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.filtros mat-form-field {
+    width: 30%;
+}
 
 .manga-card {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
     background-color: #cfcfcf;
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 20px;
+    max-width: 600px; /* Limitação de largura */
+    max-height: 300px; /* Limitação de altura */
+    overflow: hidden; /* Esconder conteúdo que ultrapassa o tamanho */
 }
-
 .manga-card-content {
     display: flex;
     flex-direction: row;

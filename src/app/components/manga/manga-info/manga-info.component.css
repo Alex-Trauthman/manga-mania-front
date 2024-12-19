@@ -43,6 +43,7 @@ header {
 .img-card img {
     width: 100%;
     min-width: 350px;
+    max-width: 350px;
     border-radius: 8px;
     height: 100%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -115,7 +116,7 @@ header {
     font-size: 28px;
     font-weight: 600;
     margin-bottom: 20px;
-    color: #000000;
+    color: #c1c1c1;
 }
 
 .other-mangas-grid {
