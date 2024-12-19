@@ -19,7 +19,7 @@ export class PedidoListComponent implements OnInit {
     constructor(private pedidoService: PedidoService,private router: Router,private snackBar: MatSnackBar) { }
 
     ngOnInit(): void {
-        this.pedidoService.findAll().subscribe((data: Pedido[]) => {
+        this.pedidoService.findMyPedidos().subscribe((data: Pedido[]) => {
             this.pedidos = data;
         });
     }

@@ -75,6 +75,6 @@ export class ConfirmarCompraComponent implements OnInit, OnDestroy {
     }
 
     comprasfinalizadas(): void {
-        this.router.navigate(['comprasfinalizadas']);
+        this.router.navigate(['meuspedidos']);
     }
 }

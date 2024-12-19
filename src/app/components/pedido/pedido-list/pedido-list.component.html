@@ -1,4 +1,4 @@
-<div class="pedido-list-container">
+<div class="pedido-list-container" *ngIf="pedidos.length > 0; else pedidosVazios">
     <h1>Lista de Pedidos</h1>
     <div *ngFor="let pedido of pedidos" class="pedido-card">
         <h2>Pedido #{{ pedido.id }} - Usuário: {{ pedido.usuario.username }}</h2>
@@ -21,3 +21,15 @@
         </div>
     </div>
 </div>
+<ng-template #pedidosVazios>
+
+    <body>
+        <div class="vazio">
+            <div class="mensagem vazia">
+                <h1>Seu carrinho de compras</h1>
+                <h2>Nenhum produto ainda :/</h2>
+                <a href="/" class="back-button">Voltar para a Página Inicial</a>
+            </div>
+        </div>
+    </body>
+</ng-template>
