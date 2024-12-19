@@ -5,14 +5,14 @@
             Usuário {{pedido.usuario.username}}
         </h2>
         <div>
-            {{pedido.preco}}
+            R$ {{pedido.preco | number:'1.2-2'}} 
         </div>
         <p><strong>Endereço:</strong> {{ pedido.endereco.rua }}, {{ pedido.endereco.numero }}, {{ pedido.endereco.cep }}, {{ pedido.endereco.cidade }}, {{ pedido.endereco.estado }}</p>
         <div class="pedido-itens">
             <h3>Itens:</h3>
             <ul>
                 <li *ngFor="let item of pedido.itens">
-                    {{ item.manga.nome }} - Quantidade: {{ item.quantidade }} - Preço: R$ {{ item.preco }}
+                    Manga ID:{{ item.manga.id }}  Nome: {{item.manga.nome}}  Quantidade: {{ item.quantidade }} - Preço: R$ {{ item.preco | number:'1.2-2' }}
                 </li>
             </ul>
         </div>
