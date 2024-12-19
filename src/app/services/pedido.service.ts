@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Pedido } from '../models/pedido.model';
+import { ItemCarrinho } from '../models/item-carrinho';
+import { Usuario } from '../models/usuario.model';
+import { Endereco } from '../models/endereco.model';
 
 @Injectable({
     providedIn: 'root'
@@ -27,22 +30,12 @@ export class PedidoService {
         return this.httpClient.get<Pedido>(`${this.baseUrl}/${id}`);
     }
 
-    insert(pedido: Pedido): Observable<Pedido> {
+    insert(itens: ItemCarrinho[], endereco: Endereco): Observable<Pedido> {
         const data = {
-            endereco: {
-                rua: pedido.endereco.rua,
-                numero: pedido.endereco.numero,
-                cep: pedido.endereco.cep,
-                cidade: pedido.endereco.cidade,
-                estado: pedido.endereco.estado
-            },
-            itens: pedido.itens.map(item => ({
-                idManga: item.manga.id,
-                preco: item.preco,
-                desconto: item.desconto,
-                quantidade: item.quantidade
-            }))
+            itens: itens.map(e => Object.assign({idManga: e.id, desconto: 0}, e)), endereco
         };
+console.log(data);
+
         return this.httpClient.post<Pedido>(this.baseUrl, data);
     }
 

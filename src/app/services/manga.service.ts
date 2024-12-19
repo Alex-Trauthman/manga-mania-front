@@ -102,13 +102,6 @@ export class MangaService {
         if (!imagem) {
             return 'semimagem.png'; 
         }
-           
-        const imageUrl = `${this.baseUrl}/image/download/${imagem}`;
-        console.log('Constructed image URL:', imageUrl); // Log the final image URL
-    
-        return imageUrl;
+        return `${this.baseUrl}/image/download/${imagem}`;
     }
-    
 }
-
-    

@@ -1,6 +1,6 @@
 import { CommonModule,NgIf } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component,OnInit, inject } from '@angular/core';
+import { Component,OnInit,inject } from '@angular/core';
 import { FormBuilder,FormGroup,ReactiveFormsModule,ValidationErrors,Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -16,7 +16,7 @@ import { FooterAdminComponent } from "../../template/footer-admin/footer-admin.c
 import { AutorManga } from '../../../models/autorManga.model';
 import { Manga } from '../../../models/manga.model';
 import { MatIcon } from '@angular/material/icon';
-import { GeneroManga} from '../../../models/generoManga.model';
+import { GeneroManga } from '../../../models/generoManga.model';
 import { ExclusaoComponent } from '../../confirmacao/exclusao/exclusao.component';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -64,12 +64,11 @@ export class MangaFormComponent implements OnInit {
         });
         this.activatedRoute.params.subscribe(params => {
             this.mangaId = params['id'] ? +params['id'] : null;
-            console.log("id manga"+this.mangaId);
             if(this.mangaId) {
                 this.loadManga(this.mangaId);
-                
+
             }
-            
+
         });
         this.initializeForm();
 
@@ -78,43 +77,39 @@ export class MangaFormComponent implements OnInit {
     initializeForm(): void {
         const manga = this.activatedRoute.snapshot.data['manga'];
         const genero = this.generos.find(m => m.id === (manga?.genero?.id || null));
-        console.log("manga" + manga);
         if(manga && manga.imageUrl) {
             this.imagePreview = this.mangaService.toImageUrl(manga.imageUrl);
             this.fileName = manga.imageUrl;
         }
-        
-        console.log("manga"+manga);
+
         this.formGroup = this.formBuilder.group({
-            id: [(manga && manga.id)? manga.id : null],
-            nome: [(manga && manga.nome)? manga.nome:null],
-            sinopse: [(manga && manga.sinopse)? manga.sinopse:null],
+            id: [(manga && manga.id) ? manga.id : null],
+            nome: [(manga && manga.nome) ? manga.nome : null],
+            sinopse: [(manga && manga.sinopse) ? manga.sinopse : null],
             genero: [genero],
-            idAutor: [(manga && manga.idAutor)? manga.idAutor:null],
-            lancamento: [(manga && manga.lancamento)? manga.lancamento:null],
-            color: [(manga && manga.color)? manga.color:null],
-            preco: [(manga && manga.preco)? manga.preco:null],
-            estoque: [(manga && manga.estoque)? manga.estoque:null],
-            paginas: [(manga && manga.paginas)? manga.paginas:null],
-            imageUrl: [(manga && manga.imageUrl)? manga.imageUrl:null]
+            idAutor: [(manga && manga.idAutor) ? manga.idAutor : null],
+            lancamento: [(manga && manga.lancamento) ? manga.lancamento : null],
+            color: [(manga && manga.color) ? manga.color : null],
+            preco: [(manga && manga.preco) ? manga.preco : null],
+            estoque: [(manga && manga.estoque) ? manga.estoque : null],
+            paginas: [(manga && manga.paginas) ? manga.paginas : null],
+            imageUrl: [(manga && manga.imageUrl) ? manga.imageUrl : null]
         });
     }
 
     private uploadImage(mangaId: number) {
-        
-        if (this.selectedFile) {
-          this.mangaService.uploadImage(mangaId, this.selectedFile.name, this.selectedFile)
-          
-          .subscribe({
-            next: () => {
-              this.voltarPagina();
-            },
-            error: err => {
-              console.log('Erro ao fazer o upload da imagem');
-              
-            }
-          })
-        } 
+
+        if(this.selectedFile) {
+            this.mangaService.uploadImage(mangaId,this.selectedFile.name,this.selectedFile)
+
+                .subscribe({
+                    next: () => {
+                        this.voltarPagina();
+                    },
+                    error: err => {
+                    }
+                })
+        }
         else {
             this.voltarPagina();
         }
@@ -128,7 +123,7 @@ export class MangaFormComponent implements OnInit {
         if(id != null && id > 0) {
             this.mangaService.findById(id).subscribe(manga => {
                 this.formGroup.patchValue(manga);
-                if (manga.imageUrl) {
+                if(manga.imageUrl) {
                     this.imagePreview = this.mangaService.toImageUrl(manga.imageUrl);
                     this.fileName = manga.imageUrl;
                 }
@@ -139,7 +134,7 @@ export class MangaFormComponent implements OnInit {
                     const generoSelecionado = this.generos.find(m => m.id === (manga?.genero?.id || null));
                     this.formGroup.get('genero')?.setValue(generoSelecionado);
                 }
-                
+
             });
             this.formGroup.markAllAsTouched();
         }
@@ -147,7 +142,7 @@ export class MangaFormComponent implements OnInit {
 
     carregarImagemSelecionada(event: any) {
         this.selectedFile = event.target.files[0];
-        
+
         if(this.selectedFile) {
             this.fileName = this.selectedFile.name;
 
@@ -162,7 +157,7 @@ export class MangaFormComponent implements OnInit {
         if(this.formGroup.valid) {
             const manga = this.formGroup.value;
 
-            if (!this.selectedFile && this.imagePreview) {
+            if(!this.selectedFile && this.imagePreview) {
                 manga.imageUrl = this.fileName;
             }
             const operacao = manga.id == null
@@ -172,14 +167,13 @@ export class MangaFormComponent implements OnInit {
             operacao.subscribe({
                 next: (mangaCadastrada) => {
                     this.mangaService.findAll();
-                    if (this.mangaId !== null) {
+                    if(this.mangaId !== null) {
                         this.uploadImage(this.mangaId);
                     }
-                  
-                  this.uploadImage(mangaCadastrada.id);
+
+                    this.uploadImage(mangaCadastrada.id);
                 },
                 error: (error) => {
-                    console.log('Erro ao Salvar' + JSON.stringify(error));
                     this.tratarErros(error);
                 }
             });

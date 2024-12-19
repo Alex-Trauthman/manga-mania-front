@@ -62,7 +62,6 @@ export class EscritorFormComponent implements OnInit {
 
     loadEscritor(id: number): void {
         this.escritorService.findById(id).subscribe(escritor => {
-            console.log(escritor);
             this.formGroup.patchValue(escritor);
         });
         this.formGroup.markAllAsTouched();

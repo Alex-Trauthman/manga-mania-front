@@ -63,7 +63,8 @@ export class ConfirmarCompraComponent implements OnInit,OnDestroy {
         this.carrinhoService.carrinhos.subscribe((items: ItemCarrinho[]) => {
             this.carrinhoItens = items;
         });
-        this.subscription.add(this.mangaService.findAll().subscribe(usuario => {
+        this.subscription.add(this.authService.getUsuarioLogado().subscribe(usuario => {
+            this.usuarioLogado = usuario;
             this.userRole = this.authService.getUserRole();
             if(this.usuarioLogado) {
                 this.enderecoForm.patchValue({
@@ -75,6 +76,9 @@ export class ConfirmarCompraComponent implements OnInit,OnDestroy {
                     estado: this.usuarioLogado.endereco?.estado || ''
                 });
             }
+        }));
+        this.subscription.add(this.mangaService.findAll().subscribe(mangas => {
+            this.mangas = mangas;
         }));
         this.mangaService.findAll().subscribe((data: Manga[]) => {
             this.mangas = data;
@@ -90,18 +94,30 @@ export class ConfirmarCompraComponent implements OnInit,OnDestroy {
     }
 
     salvar(): void {
-        this.pedidoService.insert({
-            usuario: this.usuarioLogado,
-            itens: this.carrinhoItens, 
-            preco: this.carrinhoItens.reduce((total,item) => total + item.quantidade * item.preco,0),
-            endereco: this.enderecoForm.value,
-            tipoPagamento: this.enderecoForm.value.payment,
-            estadoPagamento: PagamentoEstado.PENDENTE
-        }).subscribe(() => {
+        this.pedidoService.insert(
+            this.carrinhoService.obter(),
+            this.enderecoForm.value
+        ).subscribe(() => {
             this.router.navigateByUrl('/meuspedidos');
         },error => {
+console.log(error);
+
             this.tratarErros(error);
         });
+        /*
+                this.pedidoService.insert({
+                    usuario: this.usuarioLogado,
+                    itens: this.carrinhoService.obter(), 
+                    preco: this.carrinhoItens.reduce((total,item) => total + item.quantidade * item.preco,0),
+                    endereco: this.enderecoForm.value,
+                    tipoPagamento: this.enderecoForm.value.payment,
+                    estadoPagamento: PagamentoEstado.PENDENTE
+                }).subscribe(() => {
+                    this.router.navigateByUrl('/meuspedidos');
+                },error => {
+                    this.tratarErros(error);
+                });
+        */
     }
 
     getErrorMessage(controlName: string,errors: ValidationErrors | null | undefined): string {
@@ -118,7 +134,7 @@ export class ConfirmarCompraComponent implements OnInit,OnDestroy {
         if(errorResponse.status === 400) {
             if(errorResponse.error?.errors) {
                 errorResponse.error.errors.forEach((validationError: any) => {
-                    const formControl = this.formBuilder.get(validationError.fieldName);
+                    const formControl = this.enderecoForm.get(validationError.fieldName);
                     if(formControl) {
                         formControl.setErrors({ apiError: validationError.message })
                     }

@@ -40,7 +40,6 @@ export class AuthService {
                 if(res.headers.get('Authorization')) {
                     this.setToken(res.headers.get('Authorization'));
                     const usuarioLogado = res.body;
-                    console.log(usuarioLogado);
                     if(usuarioLogado) {
                         this.setUsuarioLogado(usuarioLogado);
                         this.usuarioLogadoSubject.next(usuarioLogado);
