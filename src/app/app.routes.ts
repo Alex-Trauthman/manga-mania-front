@@ -49,12 +49,6 @@ export const routes: Routes = [
         component: LoginComponent,
     },
     {
-        path: 'compras',
-        component: ConfirmarCompraComponent,
-        title: 'Confirmação de compras',
-        canActivate: [authGuard],data: { role: "user" },
-    },
-    {
         path: 'comprasfinalizadas',
         component: CompraFinalizadaComponent,
         title: 'Compras finalizadas',

@@ -1,5 +1,4 @@
-<app-header></app-header>
-<div class="container">
+<div class="container" *ngIf="carrinhoItens.length > 0; else carrinhoVazio">
     <h1>Confirmação de Pagamento</h1>
     <div class="products">
         <h2>Produtos</h2>
@@ -48,4 +47,15 @@
         </form>
     </div>
 </div>
-<app-footer></app-footer>
+<ng-template #carrinhoVazio>
+
+    <body>
+        <div class="vazio">
+            <div class="mensagem vazia">
+                <h1>Seu carrinho de compras</h1>
+                <h2>Nenhum produto ainda :/</h2>
+                <a href="/" class="back-button">Voltar para a Página Inicial</a>
+            </div>
+        </div>
+    </body>
+</ng-template>
