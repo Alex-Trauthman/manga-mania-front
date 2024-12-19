@@ -1,3 +1,5 @@
+import { PagamentoEstado } from "./PagamentoEstado.model";
+import { PagamentoTipo } from "./PagamentoTipo.model";
 import { Usuario } from "./usuario.model";
 
 export class Pedido {
@@ -5,17 +7,17 @@ export class Pedido {
     usuario!: Usuario;
     // itens!:
     preco!: number;
-    // endereco!:
-    // tipoPagamento!:
-    // estado!:
+    endereco!: string;
+    tipoPagamento!: PagamentoTipo;
+    estado!: PagamentoEstado;
 
-    constructor(id: number, usuario: Usuario, preco: number) {
+    constructor(id: number, usuario: Usuario, preco: number, endereco: string, tipoPagamento: PagamentoTipo, estado: PagamentoEstado) {
         this.id = id;
         this.usuario = usuario;
         // this.itens = itens;
         this.preco = preco;
-        // this.endereco = endereco;
-        // this.tipoPagamento = tipoPagamento;
-        // this.estado = estado;
+        this.endereco = endereco;
+        this.tipoPagamento = tipoPagamento;
+        this.estado = estado;
     }
 }
