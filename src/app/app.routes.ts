@@ -35,7 +35,7 @@ export const routes: Routes = [
         children: [
             { path: '',pathMatch: 'full',redirectTo: 'loja' },
             { path: 'loja',component: MangaCardListComponent,title: 'Listagem de produtos' },
-            { path: 'carrinho',component: CarrinhoComponent,title: 'Carrinho de compras',canActivate: [authGuard],data: { role: "user" } },
+            { path: 'carrinho',component: ConfirmarCompraComponent,title: 'Carrinho de compras',canActivate: [authGuard],data: { role: "user" } },
             { path: 'login',component: LoginComponent,title: 'Login' },
             { path: 'loja/manga/:id',component: MangaInfoComponent,title: 'Mangá' },
             { path: 'loja/novel/:id',component: NovelInfoComponent,title: 'Novel' },
