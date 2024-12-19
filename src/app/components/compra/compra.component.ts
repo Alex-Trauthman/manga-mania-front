@@ -1,8 +1,8 @@
-import { CommonModule, NgFor, NgIf } from '@angular/common';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, FormGroup } from '@angular/forms';
+import { CommonModule,NgFor,NgIf } from '@angular/common';
+import { Component,OnInit,OnDestroy } from '@angular/core';
+import { FormBuilder,ReactiveFormsModule,FormGroup,ValidationErrors } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCardActions, MatCardContent, MatCardFooter, MatCardModule, MatCardTitle } from '@angular/material/card';
+import { MatCardActions,MatCardContent,MatCardFooter,MatCardModule,MatCardTitle } from '@angular/material/card';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { ItemCarrinho } from '../../models/item-carrinho';
@@ -13,15 +13,21 @@ import { LocalStorageService } from '../../services/local-storage.service';
 import { SidebarService } from '../../services/sidebar.service';
 import { FooterComponent } from '../template/footer/footer.component';
 import { HeaderComponent } from '../template/header/header.component';
+import { PedidoService } from '../../services/pedido.service';
+import { Pedido } from '../../models/pedido.model';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Endereco } from '../../models/endereco.model';
+import { PagamentoEstado } from '../../models/pagamentoEstado.model';
+import { PagamentoTipo } from '../../models/pagamentoTipo.model';
 
 @Component({
     selector: 'app-compra',
     standalone: true,
     templateUrl: './compra.component.html',
     styleUrls: ['./compra.component.css'],
-    imports: [NgIf, ReactiveFormsModule, CommonModule, MatCardModule, MatButtonModule, NgFor, MatCardActions, MatCardContent, MatCardTitle, MatCardFooter, HeaderComponent, FooterComponent]
+    imports: [NgIf,ReactiveFormsModule,CommonModule,MatCardModule,MatButtonModule,NgFor,MatCardActions,MatCardContent,MatCardTitle,MatCardFooter,HeaderComponent,FooterComponent]
 })
-export class ConfirmarCompraComponent implements OnInit, OnDestroy {
+export class ConfirmarCompraComponent implements OnInit,OnDestroy {
     carrinhoItens: ItemCarrinho[] = [];
     userRole: string | null = null;
     usuarioLogado: Usuario | null = null;
@@ -34,15 +40,17 @@ export class ConfirmarCompraComponent implements OnInit, OnDestroy {
         private sidebarService: SidebarService,
         private authService: AuthService,
         private carrinhoService: CarrinhoService,
+        private pedidoService: PedidoService,
         private localStorageService: LocalStorageService
     ) {
         this.enderecoForm = this.formBuilder.group({
-            email: [{ value: '', disabled: true }],
+            email: [{ value: '',disabled: true }],
             rua: [''],
             numero: [''],
             cep: [''],
             cidade: [''],
-            estado: ['']
+            estado: [''],
+            payment: ['']
         });
     }
 
@@ -53,7 +61,7 @@ export class ConfirmarCompraComponent implements OnInit, OnDestroy {
         this.subscription.add(this.authService.getUsuarioLogado().subscribe(usuario => {
             this.usuarioLogado = usuario;
             this.userRole = this.authService.getUserRole();
-            if (this.usuarioLogado) {
+            if(this.usuarioLogado) {
                 this.enderecoForm.patchValue({
                     email: this.usuarioLogado.email,
                     rua: this.usuarioLogado.endereco?.rua || '',
@@ -71,10 +79,73 @@ export class ConfirmarCompraComponent implements OnInit, OnDestroy {
     }
 
     calcularTotal(): number {
-        return this.carrinhoItens.reduce((total, item) => total + item.quantidade * item.preco, 0);
+        return this.carrinhoItens.reduce((total,item) => total + item.quantidade * item.preco,0);
     }
 
-    comprasfinalizadas(): void {
-        this.router.navigate(['meuspedidos']);
+    salvar(): void {
+        this.pedidoService.insert({
+            usuario: this.usuarioLogado,
+            itens: this.carrinhoItens, 
+            preco: this.carrinhoItens.reduce((total,item) => total + item.quantidade * item.preco,0),
+            endereco: this.enderecoForm.value,
+            tipoPagamento: this.enderecoForm.value.payment, 
+            estadoPagamento: PagamentoEstado.PENDENTE
+        }).subscribe(() => {
+            this.router.navigateByUrl('/meuspedidos');
+        },error => {
+            this.tratarErros(error);
+        });
+    }
+
+    getErrorMessage(controlName: string,errors: ValidationErrors | null | undefined): string {
+        if(!errors) return "";
+        for(const errorName in errors) {
+            if(errors.hasOwnProperty(errorName) && this.errorMessages[controlName][errorName]) {
+                return this.errorMessages[controlName][errorName];
+            }
+        }
+        return "Parâmetro inválido.";
+    }
+
+    tratarErros(errorResponse: HttpErrorResponse) {
+        if(errorResponse.status === 400) {
+            if(errorResponse.error?.errors) {
+                errorResponse.error.errors.forEach((validationError: any) => {
+                    const formControl = this.formBuilder.get(validationError.fieldName);
+                    if(formControl) {
+                        formControl.setErrors({ apiError: validationError.message })
+                    }
+                });
+            }
+        } else if(errorResponse.status < 400) {
+        } else if(errorResponse.status >= 500) {
+        }
+    }
+
+    errorMessages: { [controlName: string]: { [errorName: string]: string } } = {
+        username: {
+            required: 'Nome de usuário é obrigatório.',
+            minlength: 'Nome deve conter ao menos 4 caracteres.',
+            maxlength: 'Nome deve conter no máximo 80 caracteres.',
+            apiError: 'API_ERROR'
+        },
+        email: {
+            required: 'Email é obrigatório.',
+            minlength: 'Email deve conter ao menos 6 caracteres.',
+            maxlength: 'Email deve conter no máximo 60 caracteres.',
+            apiError: 'API_ERROR'
+        },
+        senha: {
+            required: 'Senha é obrigatória.',
+            minlength: 'Senha deve conter ao menos 6 caracteres.',
+            maxlength: 'Senha deve conter no máximo 60 caracteres.',
+            apiError: 'API_ERROR'
+        },
+        cpf: {
+            required: 'CPF é obrigatório.',
+            minlength: 'CPF deve conter ao menos 10 caracteres.',
+            maxlength: 'CPF deve conter no máximo 12 caracteres.',
+            apiError: 'API_ERROR'
+        },
     }
 }

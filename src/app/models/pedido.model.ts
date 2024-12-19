@@ -6,7 +6,7 @@ import { Usuario } from "./usuario.model";
 
 export class Pedido {
     id!: number;
-    usuario!: Usuario;
+    usuario!: Usuario | null;
     itens!: ItemPedido[];
     preco!: number;
     endereco!: Endereco;
