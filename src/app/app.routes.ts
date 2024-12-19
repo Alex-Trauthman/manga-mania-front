@@ -26,6 +26,7 @@ import { UsuarioFormComponent } from './components/usuario/usuario-form/usuario-
 import { UsuarioListComponent } from './components/usuario/usuario-list/usuario-list.component';
 import { authGuard } from './guard/auth.guard';
 import { NovelCardListComponent } from './components/novel/novel-card-list/novel-card-list.component';
+import { PedidoListComponent } from './components/pedido/pedido-list/pedido-list.component';
 
 export const routes: Routes = [
     {
@@ -93,6 +94,7 @@ export const routes: Routes = [
         children: [
             { path: '',pathMatch: 'full',redirectTo: 'administrador' },
             { path: 'admin/loja',component: MangaCardListComponent,title: 'Listagem' },
+            { path: 'pedido', component: PedidoListComponent, title: 'Listagem de Pedidos'},
             { path: 'administrador',component: AdministradorListComponent,data: { title: "AdministradorListComponent" } },
             { path: 'administrador/new',component: AdministradorFormComponent,data: { title: "AdministradorFormComponent" } },
             { path: 'administrador/edit/:id',component: AdministradorFormComponent,data: { title: "AdministradorFormComponent" } },

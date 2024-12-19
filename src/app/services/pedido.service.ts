@@ -1,55 +1,18 @@
-import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
-import { Pedido } from "../models/pedido.model";
-import { HttpClient } from "@angular/common/http";
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Pedido } from '../models/pedido.model';
 
-@Injectable({ providedIn: "root" })
-
-export class AdministradorService {
-    private baseUrl = "http://localhost:8000/pedidos";
+@Injectable({
+    providedIn: 'root'
+})
+export class PedidoService {
+    private baseUrl = 'http://localhost:8000/pedidos';
 
     constructor(private httpClient: HttpClient) { }
 
-    findAll(page?: number,pageSize?: number): Observable<Pedido[]> {
-        let params = {};
-        if(page !== undefined && pageSize !== undefined) {
-            params = {
-                page: page.toString(),
-                pageSize: pageSize.toString()
-            }
-        }
-        return this.httpClient.get<Pedido[]>(this.baseUrl,{ params });
-    }
-
-    searchByUser(id: number): Observable<Pedido[]> {
-        return this.httpClient.get<Pedido[]>(`${this.baseUrl}/search/user/${id}`);
-    }
-
-    searchByEndereco(content: string): Observable<Pedido[]> {
-        return this.httpClient.get<Pedido[]>(`${this.baseUrl}/search/endereco/${content}`);
-    }
-
-    minhasCompras(page?: number,pageSize?: number): Observable<Pedido[]> {
-        let params = {};
-        if(page !== undefined && pageSize !== undefined) {
-            params = {
-                page: page.toString(),
-                pageSize: pageSize.toString()
-            }
-        }
-        return this.httpClient.get<Pedido[]>(this.baseUrl,{ params });
-    }
-
-    pagarPix(): void {
-        this.httpClient.patch(`${this.baseUrl}/pagar/pix`, {});
-    }
-
-    pagarCredito(parcelas: number): void {
-        this.httpClient.patch(`${this.baseUrl}/pagar/credito/${parcelas}`, {});
-    }
-
-    pagarDebito(): void {
-        this.httpClient.patch(`${this.baseUrl}/pagar/debito`, {});
+    findAll(): Observable<Pedido[]> {
+        return this.httpClient.get<Pedido[]>(this.baseUrl);
     }
 
     count(): Observable<number> {
@@ -62,17 +25,39 @@ export class AdministradorService {
 
     insert(pedido: Pedido): Observable<Pedido> {
         const data = {
+            endereco: {
+                rua: pedido.endereco.rua,
+                numero: pedido.endereco.numero,
+                cep: pedido.endereco.cep,
+                cidade: pedido.endereco.cidade,
+                estado: pedido.endereco.estado
+            },
+            itens: pedido.itens.map(item => ({
+                idManga: item.manga.id,
+                preco: item.preco,
+                desconto: item.desconto,
+                quantidade: item.quantidade
+            }))
         };
-        return this.httpClient.post<Pedido>(this.baseUrl,data);
+        return this.httpClient.post<Pedido>(this.baseUrl, data);
     }
 
     update(pedido: Pedido): Observable<Pedido> {
         const data = {
+            endereco: {
+                rua: pedido.endereco.rua,
+                numero: pedido.endereco.numero,
+                cep: pedido.endereco.cep,
+                cidade: pedido.endereco.cidade,
+                estado: pedido.endereco.estado
+            },
+            itens: pedido.itens.map(item => ({
+                idManga: item.manga.id,
+                preco: item.preco,
+                desconto: item.desconto,
+                quantidade: item.quantidade
+            }))
         };
-        return this.httpClient.put<Pedido>(`${this.baseUrl}/${pedido.id}`,data);
-    }
-
-    delete(id: number): Observable<void> {
-        return this.httpClient.delete<void>(`${this.baseUrl}/${id}`);
+        return this.httpClient.put<Pedido>(`${this.baseUrl}/${pedido.id}`, data);
     }
 }

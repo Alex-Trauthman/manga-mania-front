@@ -1,0 +1,15 @@
+<div class="pedido-list-container">
+    <h1>Lista de Pedidos</h1>
+    <div *ngFor="let pedido of pedidos" class="pedido-card">
+        <h2>Pedido #{{ pedido.id }}</h2>
+        <p><strong>Endereço:</strong> {{ pedido.endereco.rua }}, {{ pedido.endereco.numero }}, {{ pedido.endereco.cep }}, {{ pedido.endereco.cidade }}, {{ pedido.endereco.estado }}</p>
+        <div class="pedido-itens">
+            <h3>Itens:</h3>
+            <ul>
+                <li *ngFor="let item of pedido.itens">
+                    {{ item.manga.nome }} - Quantidade: {{ item.quantidade }} - Preço: R$ {{ item.preco }}
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
