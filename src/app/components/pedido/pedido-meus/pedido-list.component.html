@@ -16,10 +16,13 @@
                     <strong>Nome:</strong> {{ item.manga.nome }}<br>
                     <strong>Quantidade:</strong> {{ item.quantidade }}<br>
                     <strong>Preço:</strong> R$ {{ item.preco | number:'1.2-2' }}
+                    
+
                 </li>
             </ul>
         </div>
-        <div class="payment-options">
+        
+        <div class="payment-options" *ngIf="pedido.estadoPagamento === PagamentoEstado.PENDENTE">
             <button (click)="pagarPix(pedido.id)">Pagar com Pix</button>
             <button (click)="pagarCredito(pedido.id)">Pagar com Cartão de Crédito</button>
             <button (click)="pagarDebito(pedido.id)">Pagar com Cartão de Débito</button>

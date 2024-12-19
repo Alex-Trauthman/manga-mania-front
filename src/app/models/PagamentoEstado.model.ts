@@ -1,10 +1,10 @@
 export enum PagamentoEstado {
-    PENDENTE = "Pendente", 
-    APROVADO = "Aprovado", 
-    RECUSADO = "Recusado", 
-    REEMBOLSADO = "Reembolsado", 
-    CANCELADO = "Cancelado", 
-    PARCELAS = "Parcelas"
+    PENDENTE = "PENDENTE", 
+    APROVADO = "APROVADO", 
+    RECUSADO = "RECUSADO", 
+    REEMBOLSADO = "REEMBOLSADO", 
+    CANCELADO = "CANCELADO", 
+    PARCELAS = "PARCELAS"
 }
 
 export const PagamentoEstadoMap: Record<number,PagamentoEstado> = {
